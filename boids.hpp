@@ -2,9 +2,6 @@
 
 #define BOIDS_HPP
 
-// Convenience type for vectors
-typedef sf::Vector2i vect;
-
 class Boid {
     public:
         vect velocity;

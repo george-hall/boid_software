@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "vector_misc.hpp"
 #include "boids.hpp"
 
 Boid **initialise_boids(unsigned int num_boids) {

@@ -2,7 +2,7 @@ CC=gcc
 CXX=g++
 CPP_FLAGS=-std=c++11 -lsfml-graphics -lsfml-window -lsfml-system
 
-SRCS=boids.cpp main.cpp
+SRCS=boids.cpp vector_misc.cpp main.cpp
 OBJS=$(SRCS:.cpp=.o)
 
 PROG_NAME="boids"

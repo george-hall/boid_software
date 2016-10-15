@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "vector_misc.hpp"
 #include "boids.hpp"
 
 Boid::Boid(unsigned int new_boid_ID) {

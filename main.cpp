@@ -5,12 +5,6 @@
 
 #include "boids.hpp"
 
-std::string vtos(sf::Vector2i v) {
-    std::string to_return;
-    to_return = std::to_string(v.x) + "i + " + std::to_string(v.y) + "j";
-    return to_return;
-}
-
 Boid **initialise_boids(unsigned int num_boids) {
     // Set up all boids with random starting positions and velocities
     // Returns a pointer to an array of pointers to boids, indexed by boid_ID
@@ -40,4 +34,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-

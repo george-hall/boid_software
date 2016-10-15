@@ -1,6 +1,8 @@
 #include <string>
 
-#include "vector_misc.cpp"
+#include <SFML/Graphics.hpp>
+
+#include "vector_misc.hpp"
 
 std::string vtos(vect v) {
     // Convert a vect to a string, expressed as the sum of the vector's i

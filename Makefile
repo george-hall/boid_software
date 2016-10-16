@@ -5,7 +5,7 @@ CPP_FLAGS=-std=c++11 -lsfml-graphics -lsfml-window -lsfml-system
 SRCS=boids.cpp vector_misc.cpp main.cpp
 OBJS=$(SRCS:.cpp=.o)
 
-PROG_NAME="boids"
+PROG_NAME=boids
 
 all: $(PROG_NAME)
 

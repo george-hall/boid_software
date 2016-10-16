@@ -16,5 +16,8 @@ Boid::Boid(unsigned int new_boid_ID) {
 
     boid_ID = new_boid_ID;
 
-    std::cout << "Initialising boid with BID " << new_boid_ID << std::endl;
+    std::cout << "Created new boid:" << std::endl;
+    std::cout << "\t* boid_ID: " << boid_ID << std::endl;
+    std::cout << "\t* velocity: " << vtos(velocity) << std::endl;
+    std::cout << "\t* position: " << vtos(position) << std::endl;
 }

@@ -8,8 +8,8 @@ class Boid {
         vect position;
 
         Boid(unsigned int boid_ID);
-        void set_velocity(vect new_velocity);
-        void set_position(vect new_coords);
+        void set_position(unsigned int new_x, unsigned int new_y);
+        void set_velocity(unsigned int new_i, unsigned int new_j);
 
         unsigned int get_boid_ID();
         vect get_velocity();

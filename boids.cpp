@@ -21,3 +21,13 @@ Boid::Boid(unsigned int new_boid_ID) {
     std::cout << "\t* velocity: " << vtos(velocity) << std::endl;
     std::cout << "\t* position: " << vtos(position) << std::endl;
 }
+
+void Boid::set_position(unsigned int new_x, unsigned int new_y) {
+    position.x = new_x;
+    position.y = new_y;
+}
+
+void Boid::set_velocity(unsigned int new_i, unsigned int new_j) {
+    velocity.x = new_i;
+    velocity.y = new_j;
+}

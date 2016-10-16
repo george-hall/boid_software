@@ -28,7 +28,7 @@ void calculate_distance_matrix(distance_info *boid_list) {
 }
 
 int main(int argc, char **argv) {
-    
+
     unsigned int num_boids = 5;
 
     initialise_boids(num_boids);

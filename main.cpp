@@ -12,7 +12,7 @@ Boid **initialise_boids(unsigned int num_boids) {
 
     Boid **boid_array = new Boid*[num_boids];
 
-    for (unsigned int i = 0; i < num_boids - 1; i++) {
+    for (unsigned int i = 0; i < num_boids; i++) {
         Boid new_boid = Boid(i);
         boid_array[i] = &new_boid;
     }

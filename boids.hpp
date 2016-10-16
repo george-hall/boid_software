@@ -29,6 +29,8 @@ class Boid {
         vect compute_cohesion_vector();
         vect compute_velocity_matching_vector();
 
+        void print();
+
     private:
         unsigned int boid_ID;
 };

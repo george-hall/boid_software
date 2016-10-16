@@ -7,8 +7,6 @@ OBJS=$(SRCS:.cpp=.o)
 
 PROG_NAME=boids
 
-all: $(PROG_NAME)
-
 $(PROG_NAME): $(OBJS)
 	$(CXX) $(CPP_FLAGS) -o boids $(OBJS)
 

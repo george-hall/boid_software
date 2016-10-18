@@ -6,13 +6,8 @@
 #include "boids.hpp"
 
 Boid::Boid(unsigned int new_boid_ID) {
-    vect velocity;
-    velocity.x = 0;
-    velocity.y = 0;
-
-    vect position;
-    position.x = 0;
-    position.y = 0;
+    vect velocity(0,0);
+    vect position(0,0);
 
     boid_ID = new_boid_ID;
 
@@ -21,13 +16,13 @@ Boid::Boid(unsigned int new_boid_ID) {
 }
 
 void Boid::set_position(unsigned int new_x, unsigned int new_y) {
-    position.x = new_x;
-    position.y = new_y;
+    vect new_position(new_x, new_y);
+    position = new_position;
 }
 
 void Boid::set_velocity(unsigned int new_i, unsigned int new_j) {
-    velocity.x = new_i;
-    velocity.y = new_j;
+    vect new_velocity(new_i, new_j);
+    velocity = new_velocity;
 }
 
 void Boid::print() {

@@ -8,7 +8,18 @@ std::string velocity_to_str(vect v) {
     // Convert a velocity (of type vect) to a string, expressed as
     // the sum of the vector's i and j components
     std::string to_return;
-    to_return = std::to_string(v.x) + "i + " + std::to_string(v.y) + "j";
+
+    // Deal with negative j to avoid stuff like "6i + -9j"
+    std::string j_component_str;
+    j_component_str = std::to_string(v.y);
+    if (v.y < 0) {
+        j_component_str = " - " + j_component_str.erase(0, 1) + "j";
+    }
+    else {
+        j_component_str = " + " + j_component_str + "j";
+    }
+
+    to_return = std::to_string(v.x) + "i" + j_component_str;
     return to_return;
 }
 

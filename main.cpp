@@ -45,6 +45,13 @@ void calculate_distance_matrix(distance_info *boid_list) {
     // boids, indexed by their boid_ID
 }
 
+void free_boid_instance_memory(Boid **boid_array, unsigned int num_boids) {
+    // Free memory allocated for individual instances of boids
+    for (unsigned int i = 0; i < num_boids; i++) {
+        delete boid_array[i];
+    }
+}
+
 int main(int argc, char **argv) {
 
     unsigned int num_boids = 5;
@@ -58,6 +65,7 @@ int main(int argc, char **argv) {
     initialise_boids(num_boids, boid_array);
     set_random_attributes(num_boids, boid_array, board_width, board_height);
 
+    free_boid_instance_memory(boid_array, num_boids);
     delete[] boid_array;
 
     return 0;

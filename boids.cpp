@@ -28,5 +28,5 @@ void Boid::set_velocity(unsigned int new_i, unsigned int new_j) {
 void Boid::print() {
     std::cout << "\t* boid_ID: " << boid_ID << std::endl;
     std::cout << "\t* velocity: " << velocity_to_str(velocity) << std::endl;
-    std::cout << "\t* position: " << vtos(position) << std::endl;
+    std::cout << "\t* position: " << position_to_str(position) << std::endl;
 }

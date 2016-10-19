@@ -6,5 +6,6 @@
 typedef sf::Vector2i vect;
 
 std::string velocity_to_str(vect v);
+std::string position_to_str(vect v);
 
 #endif // VECTOR_MISC_HPP

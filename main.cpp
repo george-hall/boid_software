@@ -60,6 +60,12 @@ int main(int argc, char **argv) {
     unsigned int board_width = 300;
     unsigned int board_height = 300;
 
+    if (argc != 1) {
+        std::cerr << "usage: " << argv[0] << std::endl;
+        std::cerr << "note: Takes no command line arguments!" << std::endl;
+        return 1;
+    }
+
     Boid **boid_array = new Boid*[num_boids];
 
     initialise_boids(num_boids, boid_array);

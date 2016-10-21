@@ -49,6 +49,32 @@ void free_boid_instance_memory(Boid **boid_array, unsigned int num_boids) {
     }
 }
 
+void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
+                 unsigned int max_y) {
+    bool board[max_x][max_y];
+    for (unsigned int i = 0; i < max_x; i++) {
+        for (unsigned int j = 0; j < max_y; j++) {
+            board[i][j] = false;
+        }
+    }
+
+    for (unsigned int i = 0; i < num_boids; i++) {
+        vect boid_position = boid_array[i]->get_position();
+        board[boid_position.x][boid_position.y] = true;
+    }
+
+    for (unsigned int i = 0; i < max_y; i++) {
+        for (unsigned int j = 0; j < max_x; j++) {
+            if (board[i][j] == true) {
+                std::cout << "-";
+            } else {
+                std::cout << "@";
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+
 int main(int argc, char **argv) {
 
     unsigned int num_boids = 5;

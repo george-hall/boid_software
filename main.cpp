@@ -77,11 +77,11 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
 
 int main(int argc, char **argv) {
 
-    unsigned int num_boids = 5;
+    unsigned int num_boids = 50;
 
     /* Both in px */
-    unsigned int board_width = 300;
-    unsigned int board_height = 300;
+    unsigned int board_width = 100;
+    unsigned int board_height = 34;
 
     if (argc != 1) {
         std::cerr << "usage: " << argv[0] << std::endl;

@@ -28,6 +28,10 @@ void Boid::set_velocity(unsigned int new_i, unsigned int new_j) {
 
 // Getters
 
+unsigned int Boid::get_boid_ID() {
+    return boid_ID;
+}
+
 vect Boid::get_position() {
     return position;
 }

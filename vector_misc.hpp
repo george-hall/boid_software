@@ -3,7 +3,7 @@
 #define VECTOR_MISC_HPP
 
 // Convenience type for vectors
-typedef sf::Vector2i vect;
+typedef sf::Vector2f vect;
 
 std::string velocity_to_str(vect v);
 std::string position_to_str(vect v);

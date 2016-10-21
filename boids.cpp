@@ -27,3 +27,11 @@ void Boid::print() {
     std::cout << "\t* velocity: " << velocity_to_str(velocity) << std::endl;
     std::cout << "\t* position: " << position_to_str(position) << std::endl;
 }
+
+vect Boid::get_position() {
+    return position;
+}
+
+vect Boid::get_velocity() {
+    return velocity;
+}

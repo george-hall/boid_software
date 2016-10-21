@@ -14,8 +14,6 @@ void initialise_boids(unsigned int num_boids, Boid **boid_array) {
         Boid *new_boid_ptr = new Boid(i);
         boid_array[i] = new_boid_ptr;
     }
-
-    std::cout << "Returning pointer to boid_array\n";
 }
 
 void set_random_attributes(unsigned int num_boids, Boid **boid_array,
@@ -36,7 +34,6 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
         Boid *boid_ptr = boid_array[i];
         boid_ptr->set_position(rand_x_coord(rng), rand_y_coord(rng));
         boid_ptr->set_velocity(rand_velocity(rng), rand_velocity(rng));
-        boid_array[i]->print();
     }
 }
 

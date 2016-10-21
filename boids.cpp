@@ -10,9 +10,6 @@ Boid::Boid(unsigned int new_boid_ID) {
     vect position(0,0);
 
     boid_ID = new_boid_ID;
-
-    std::cout << "Created new boid:" << std::endl;
-    print();
 }
 
 void Boid::set_position(unsigned int new_x, unsigned int new_y) {

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <cmath>
 
 #include <SFML/Graphics.hpp>
 
@@ -40,6 +41,25 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
 void calculate_distance_matrix(distance_info *boid_list) {
     // Return an array containing the distance for all pairs of
     // boids, indexed by their boid_ID
+}
+float distance_between_boids(Boid *boid_1, Boid *boid_2, double max_x, double max_y) {
+    // Let the minimum of (+/-) (x0 - x1) mod (max_x) be the x-distance, where
+    // x0 and x1 are the x co-ordinates of the two boids, and max_x is the
+    // maximum value x can take before looping back to 0. There is an analogous
+    // method to compute the difference in y co-ordinates (the 'y-difference').
+    // These two distances can then be added together an returned to give the
+    // squared distance between the two boids
+
+    vect boid_1_pos = boid_1->get_position();
+    vect boid_2_pos = boid_2->get_position();
+
+    float x_difference = std::min(std::fmod(boid_1_pos.x - boid_2_pos.x, max_x),
+                                  std::fmod(boid_2_pos.x - boid_1_pos.x, max_x));
+
+    float y_difference = std::min(std::fmod(boid_1_pos.y - boid_2_pos.y, max_y),
+                                  std::fmod(boid_2_pos.y - boid_1_pos.y, max_y));
+
+    return x_difference + y_difference;
 }
 
 void free_boid_instance_memory(Boid **boid_array, unsigned int num_boids) {
@@ -82,6 +102,11 @@ int main(int argc, char **argv) {
     /* Both in px */
     unsigned int board_width = 100;
     unsigned int board_height = 34;
+    // Maximum values x and y can take before looping back to 0
+    // Currently, they are just the same as the board height and width in order
+    // to keep things simple
+    double max_x = (double) board_width;
+    double max_y = (double) board_height;
 
     if (argc != 1) {
         std::cerr << "usage: " << argv[0] << std::endl;

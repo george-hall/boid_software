@@ -97,7 +97,7 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
 
     for (unsigned int i = 0; i < max_y; i++) {
         for (unsigned int j = 0; j < max_x; j++) {
-            if (board[i][j] == true) {
+            if (board[j][i] == true) {
                 std::cout << "@";
             } else {
                 std::cout << ".";

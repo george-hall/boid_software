@@ -47,3 +47,10 @@ void Boid::print() {
     std::cout << "\t* velocity: " << velocity_to_str(velocity) << std::endl;
     std::cout << "\t* position: " << position_to_str(position) << std::endl;
 }
+
+void Boid::compute_new_position(double max_x, double max_y) {
+    vect old_position = get_position();
+    vect velocity = get_velocity();
+    vect new_position = old_position + velocity;
+    set_position(fmod(new_position.x, max_x), fmod(new_position.y, max_y));
+}

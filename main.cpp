@@ -107,6 +107,12 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
     }
 }
 
+void print_all_boids(Boid **boid_array, unsigned int num_boids) {
+    for (unsigned int i = 0; i < num_boids; i++) {
+        boid_array[i]->print();
+    }
+}
+
 int main(int argc, char **argv) {
 
     unsigned int num_boids = 5;
@@ -135,6 +141,7 @@ int main(int argc, char **argv) {
 
     initialise_boids(num_boids, boid_array);
     set_random_attributes(num_boids, boid_array, board_width, board_height);
+    print_all_boids(boid_array, num_boids);
 
     print_board(boid_array, num_boids, board_width, board_height);
     calculate_distance_matrix(boid_array, distance_matrix, num_boids, max_x, max_y);

@@ -113,6 +113,12 @@ void print_all_boids(Boid **boid_array, unsigned int num_boids) {
     }
 }
 
+void update_all_positions(Boid **boid_array, unsigned int num_boids, double max_x, double max_y) {
+    for (unsigned int i = 0; i < num_boids; i++) {
+        boid_array[i]->compute_new_position(max_x, max_y);
+    }
+}
+
 int main(int argc, char **argv) {
 
     unsigned int num_boids = 5;

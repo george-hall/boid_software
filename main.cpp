@@ -38,10 +38,6 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
     }
 }
 
-void calculate_distance_matrix(distance_info *boid_list) {
-    // Return an array containing the distance for all pairs of
-    // boids, indexed by their boid_ID
-}
 float distance_between_boids(Boid *boid_1, Boid *boid_2, double max_x, double max_y) {
     // Let the minimum of (+/-) (x0 - x1) mod (max_x) be the x-distance, where
     // x0 and x1 are the x co-ordinates of the two boids, and max_x is the
@@ -60,6 +56,22 @@ float distance_between_boids(Boid *boid_1, Boid *boid_2, double max_x, double ma
                                   std::fmod(boid_2_pos.y - boid_1_pos.y, max_y));
 
     return x_difference + y_difference;
+}
+
+void calculate_distance_matrix(Boid **boid_array, float **distance_matrix,
+                               unsigned int num_boids, double max_x, double max_y) {
+    // Recieves an array from main into which it inserts the distance for all
+    // pairs of boids, indexed by their boid_ID. That is, distance_matrix[i][j]
+    // contains the distance between the boid with boid_ID i and the boid with
+    // boid_ID j.
+
+    for (unsigned int i = 0; i < num_boids; i++) {
+        for (unsigned int j = 0; j < num_boids; j++) {
+            double distance;
+            distance = distance_between_boids(boid_array[i], boid_array[j], max_x, max_y);
+            distance_matrix[i][j] = distance;
+        }
+    }
 }
 
 void free_boid_instance_memory(Boid **boid_array, unsigned int num_boids) {
@@ -115,11 +127,16 @@ int main(int argc, char **argv) {
     }
 
     Boid **boid_array = new Boid*[num_boids];
+    float **distance_matrix = new float*[num_boids];
+    for (unsigned int i = 0; i < num_boids; i++) {
+        distance_matrix[i] = new float[num_boids];
+    }
 
     initialise_boids(num_boids, boid_array);
     set_random_attributes(num_boids, boid_array, board_width, board_height);
 
     print_board(boid_array, num_boids, board_width, board_height);
+    calculate_distance_matrix(boid_array, distance_matrix, num_boids, max_x, max_y);
 
     free_boid_instance_memory(boid_array, num_boids);
     delete[] boid_array;

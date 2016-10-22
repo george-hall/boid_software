@@ -109,11 +109,12 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
 
 int main(int argc, char **argv) {
 
-    unsigned int num_boids = 50;
+    unsigned int num_boids = 5;
 
     /* Both in px */
-    unsigned int board_width = 100;
-    unsigned int board_height = 34;
+    unsigned int board_width = 10;
+    unsigned int board_height = 10;
+
     // Maximum values x and y can take before looping back to 0
     // Currently, they are just the same as the board height and width in order
     // to keep things simple

@@ -26,8 +26,8 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
     // Set up random number generators
     std::random_device rd; // Seed engine
     std::mt19937 rng(rd()); // Use Mersenne Twister
-    std::uniform_int_distribution<int> rand_x_coord(0, board_width);
-    std::uniform_int_distribution<int> rand_y_coord(0, board_height);
+    std::uniform_int_distribution<int> rand_x_coord(0, board_width - 1);
+    std::uniform_int_distribution<int> rand_y_coord(0, board_height - 1);
 
     std::uniform_int_distribution<int> rand_velocity(-5, 5);
 

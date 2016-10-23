@@ -29,7 +29,7 @@ class Boid {
         vect compute_cohesion_vector();
         vect compute_velocity_matching_vector();
 
-        void compute_new_position(double max_x, double max_y);
+        void compute_new_position(float max_x, float max_y);
 
         void print();
 

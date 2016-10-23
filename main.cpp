@@ -94,8 +94,8 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
     }
 
     for (unsigned int i = 0; i < num_boids; i++) {
-        vect boid_position = boid_array[i]->get_position();
-        board[(int) round(boid_position.x)][(int) round(boid_position.y)] = true;
+        vect boid_pos = boid_array[i]->get_position();
+        board[(int) round(boid_pos.x)][(int) round(boid_pos.y)] = true;
     }
 
     for (unsigned int i = 0; i < max_y; i++) {

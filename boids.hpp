@@ -37,9 +37,4 @@ class Boid {
         unsigned int boid_ID;
 };
 
-typedef struct {
-    unsigned int boid_ID;
-    Boid *ptr_to_boid;
-} distance_info;
-
 #endif // BOIDS_HPP

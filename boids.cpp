@@ -16,12 +16,12 @@ Boid::Boid(unsigned int new_boid_ID) {
 
 // Setters
 
-void Boid::set_position(unsigned int new_x, unsigned int new_y) {
+void Boid::set_position(float new_x, float new_y) {
     vect new_position(new_x, new_y);
     position = new_position;
 }
 
-void Boid::set_velocity(unsigned int new_i, unsigned int new_j) {
+void Boid::set_velocity(float new_i, float new_j) {
     vect new_velocity(new_i, new_j);
     velocity = new_velocity;
 }

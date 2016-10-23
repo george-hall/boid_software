@@ -38,7 +38,8 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
     }
 }
 
-float distance_between_boids(Boid *boid_1, Boid *boid_2, double max_x, double max_y) {
+float distance_between_boids(Boid *boid_1, Boid *boid_2, double max_x,
+                             double max_y) {
     // Let the minimum of (+/-) (x0 - x1) mod (max_x) be the x-distance, where
     // x0 and x1 are the x co-ordinates of the two boids, and max_x is the
     // maximum value x can take before looping back to 0. There is an analogous
@@ -59,7 +60,8 @@ float distance_between_boids(Boid *boid_1, Boid *boid_2, double max_x, double ma
 }
 
 void calculate_distance_matrix(Boid **boid_array, float **distance_matrix,
-                               unsigned int num_boids, double max_x, double max_y) {
+                               unsigned int num_boids, double max_x,
+                               double max_y) {
     // Recieves an array from main into which it inserts the distance for all
     // pairs of boids, indexed by their boid_ID. That is, distance_matrix[i][j]
     // contains the distance between the boid with boid_ID i and the boid with
@@ -113,7 +115,8 @@ void print_all_boids(Boid **boid_array, unsigned int num_boids) {
     }
 }
 
-void update_all_positions(Boid **boid_array, unsigned int num_boids, double max_x, double max_y) {
+void update_all_positions(Boid **boid_array, unsigned int num_boids,
+                          double max_x, double max_y) {
     for (unsigned int i = 0; i < num_boids; i++) {
         boid_array[i]->compute_new_position(max_x, max_y);
     }

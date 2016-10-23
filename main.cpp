@@ -70,7 +70,8 @@ void calculate_distance_matrix(Boid **boid_array, float **distance_matrix,
     for (unsigned int i = 0; i < num_boids; i++) {
         for (unsigned int j = 0; j < num_boids; j++) {
             double distance;
-            distance = distance_between_boids(boid_array[i], boid_array[j], max_x, max_y);
+            distance = distance_between_boids(boid_array[i], boid_array[j],
+                                              max_x, max_y);
             distance_matrix[i][j] = distance;
         }
     }

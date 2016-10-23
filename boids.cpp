@@ -52,5 +52,18 @@ void Boid::compute_new_position(double max_x, double max_y) {
     vect old_position = get_position();
     vect velocity = get_velocity();
     vect new_position = old_position + velocity;
-    set_position(fmod(new_position.x, max_x), fmod(new_position.y, max_y));
+
+    float fmodded_x = fmod(new_position.x, max_x);
+    float fmodded_y = fmod(new_position.y, max_y);
+
+    // Required so that the new position is not negative
+    // Effective makes fmod behave like the regular modulo function
+    while (fmodded_x < 0) {
+        fmodded_x += max_x;
+    }
+    while (fmodded_y < 0) {
+        fmodded_y += max_y;
+    }
+
+    set_position(fmodded_x, fmodded_y);
 }

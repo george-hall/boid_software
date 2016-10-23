@@ -119,25 +119,8 @@ void update_all_positions(Boid **boid_array, unsigned int num_boids, double max_
     }
 }
 
-int main(int argc, char **argv) {
-
-    unsigned int num_boids = 5;
-
-    /* Both in px */
-    unsigned int board_width = 10;
-    unsigned int board_height = 10;
-
-    // Maximum values x and y can take before looping back to 0
-    // Currently, they are just the same as the board height and width in order
-    // to keep things simple
-    double max_x = (double) board_width;
-    double max_y = (double) board_height;
-
-    if (argc != 1) {
-        std::cerr << "usage: " << argv[0] << std::endl;
-        std::cerr << "note: Takes no command line arguments!" << std::endl;
-        return 1;
-    }
+int main_program(unsigned int num_boids, unsigned int board_width,
+                 unsigned int board_height, double max_x, double max_y) {
 
     Boid **boid_array = new Boid*[num_boids];
     float **distance_matrix = new float*[num_boids];
@@ -163,6 +146,31 @@ int main(int argc, char **argv) {
 
     free_boid_instance_memory(boid_array, num_boids);
     delete[] boid_array;
+
+    return 0;
+}
+
+int main(int argc, char **argv) {
+
+    unsigned int num_boids = 5;
+
+    /* Both in px */
+    unsigned int board_width = 30;
+    unsigned int board_height = 10;
+
+    // Maximum values x and y can take before looping back to 0
+    // Currently, they are just the same as the board height and width in order
+    // to keep things simple
+    double max_x = (double) board_width;
+    double max_y = (double) board_height;
+
+    if (argc != 1) {
+        std::cerr << "usage: " << argv[0] << std::endl;
+        std::cerr << "note: Takes no command line arguments!" << std::endl;
+        return 1;
+    }
+
+    main_program(num_boids, board_width, board_height, max_x, max_y);
 
     return 0;
 }

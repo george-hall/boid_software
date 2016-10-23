@@ -29,7 +29,7 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
     std::uniform_int_distribution<int> rand_x_coord(0, board_width - 1);
     std::uniform_int_distribution<int> rand_y_coord(0, board_height - 1);
 
-    std::uniform_int_distribution<int> rand_velocity(-5, 5);
+    std::uniform_int_distribution<int> rand_velocity(-3, 3);
 
     for (unsigned int i = 0; i < num_boids; i++) {
         Boid *boid_ptr = boid_array[i];

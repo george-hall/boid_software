@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "vector_misc.hpp"
+#include "other_misc.hpp"
 #include "boids.hpp"
 
 // Initialiser
@@ -53,17 +54,6 @@ void Boid::compute_new_position(float max_x, float max_y) {
     vect velocity = get_velocity();
     vect new_position = old_position + velocity;
 
-    float fmodded_x = fmod(new_position.x, max_x);
-    float fmodded_y = fmod(new_position.y, max_y);
-
-    // Required so that the new position is not negative
-    // Effective makes fmod behave like the regular modulo function
-    while (fmodded_x < 0) {
-        fmodded_x += max_x;
-    }
-    while (fmodded_y < 0) {
-        fmodded_y += max_y;
-    }
-
-    set_position(fmodded_x, fmodded_y);
+    set_position(positive_fmod(new_position.x, max_x),
+                 positive_fmod(new_position.y, max_y));
 }

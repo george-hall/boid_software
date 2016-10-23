@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "vector_misc.hpp"
+#include "other_misc.hpp"
 #include "boids.hpp"
 
 void initialise_boids(unsigned int num_boids, Boid **boid_array) {

@@ -50,13 +50,13 @@ float distance_between_boids(Boid *boid_1, Boid *boid_2, double max_x,
     vect boid_1_pos = boid_1->get_position();
     vect boid_2_pos = boid_2->get_position();
 
-    float x_difference = std::min(std::fmod(boid_1_pos.x - boid_2_pos.x, max_x),
-                                  std::fmod(boid_2_pos.x - boid_1_pos.x, max_x));
+    float x_diff = std::min(std::fmod(boid_1_pos.x - boid_2_pos.x, max_x),
+                            std::fmod(boid_2_pos.x - boid_1_pos.x, max_x));
 
-    float y_difference = std::min(std::fmod(boid_1_pos.y - boid_2_pos.y, max_y),
-                                  std::fmod(boid_2_pos.y - boid_1_pos.y, max_y));
+    float y_diff = std::min(std::fmod(boid_1_pos.y - boid_2_pos.y, max_y),
+                            std::fmod(boid_2_pos.y - boid_1_pos.y, max_y));
 
-    return x_difference + y_difference;
+    return x_diff + y_diff;
 }
 
 void calculate_distance_matrix(Boid **boid_array, float **distance_matrix,

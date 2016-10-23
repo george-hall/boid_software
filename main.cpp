@@ -140,7 +140,8 @@ int main_program(unsigned int num_boids, unsigned int board_width,
     std::cout << std::endl;
     std::getchar();
 
-    calculate_distance_matrix(boid_array, distance_matrix, num_boids, max_x, max_y);
+    calculate_distance_matrix(boid_array, distance_matrix, num_boids, max_x,
+                              max_y);
 
     while (true) {
         update_all_positions(boid_array, num_boids, max_x, max_y);

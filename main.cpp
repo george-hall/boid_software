@@ -117,6 +117,15 @@ void print_all_boids(Boid **boid_array, unsigned int num_boids) {
     }
 }
 
+void print_distance_matrix(float **distance_matrix, unsigned int num_boids) {
+    for (unsigned int i = 0; i < num_boids; i++) {
+        for (unsigned int j = 0; j < num_boids; j++) {
+            std::cout << distance_matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 void update_all_positions(Boid **boid_array, unsigned int num_boids,
                           float max_x, float max_y) {
     for (unsigned int i = 0; i < num_boids; i++) {

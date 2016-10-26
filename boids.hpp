@@ -23,11 +23,11 @@ class Boid {
         // Function to calculate a boid's new velocity given influence
         // from the three steering factors of cohesion, collision
         // avoidance, and velocity matching
-        vect calculate_new_velocity();
+        vect compute_new_velocity();
 
         vect compute_avoidance_vector();
         vect compute_cohesion_vector();
-        vect compute_velocity_matching_vector();
+        vect compute_matching_vector();
 
         void compute_new_position(float max_x, float max_y);
 

@@ -49,6 +49,44 @@ void Boid::print() {
     std::cout << "\t* position: " << position_to_str(position) << std::endl;
 }
 
+vect Boid::compute_avoidance_vector(float **dist_matrix,
+                                    unsigned int num_boids, Boid **boid_array,
+                                    float neighbourhood_size) {
+    unsigned int boid_ID = get_boid_ID();
+    vect current_position = get_position();
+    vect avoidance_vector(0, 0);
+
+    for (unsigned int i = 0; i < num_boids; i++) {
+        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < neighbourhood_size)) {
+            Boid *ptr_to_neighbour = boid_array[i];
+            vect neighbour_pos = ptr_to_neighbour->get_position();
+            avoidance_vector -= (current_position - neighbour_pos);
+        }
+    }
+
+    return avoidance_vector;
+}
+
+vect Boid::compute_new_velocity(float **distance_matrix,
+                                unsigned int num_boids,
+                                Boid **boid_array) {
+    float neighbourhood_size = 15;
+
+    vect new_velocity;
+    vect avoidance_vector;
+    //vect avoidance_vector, cohesion_vector, matching_vector;
+
+    avoidance_vector = compute_avoidance_vector(distance_matrix, num_boids,
+                                                boid_array,
+                                                neighbourhood_size);
+    //cohesion_vector = compute_cohesion_vector();
+    //matching_vector = compute_matching_vector();
+
+    new_velocity = avoidance_vector;
+
+    return new_velocity;
+}
+
 void Boid::compute_new_position(float max_x, float max_y,
                                 float **distance_matrix,
                                 unsigned int num_boids, Boid **boid_array) {

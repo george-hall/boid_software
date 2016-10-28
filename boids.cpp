@@ -49,11 +49,20 @@ void Boid::print() {
     std::cout << "\t* position: " << position_to_str(position) << std::endl;
 }
 
-void Boid::compute_new_position(float max_x, float max_y) {
+void Boid::compute_new_position(float max_x, float max_y,
+                                float **distance_matrix,
+                                unsigned int num_boids, Boid **boid_array) {
+    vect zero_velocity(0, 0);
     vect old_position = get_position();
-    vect velocity = get_velocity();
-    vect new_position = old_position + velocity;
+    vect new_velocity = compute_new_velocity(distance_matrix, num_boids,
+                                             boid_array);
 
+    if (new_velocity == zero_velocity) {
+        new_velocity = get_velocity();
+    }
+    set_velocity(new_velocity.x, new_velocity.y);
+
+    vect new_position = old_position + new_velocity;
     set_position(positive_fmod(new_position.x, max_x),
                  positive_fmod(new_position.y, max_y));
 }

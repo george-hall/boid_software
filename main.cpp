@@ -145,7 +145,7 @@ int main_program(unsigned int num_boids, unsigned int board_width,
 
     initialise_boids(num_boids, boid_array);
     set_random_attributes(num_boids, boid_array, board_width, board_height);
-    //print_all_boids(boid_array, num_boids);
+    print_all_boids(boid_array, num_boids);
 
     print_board(boid_array, num_boids, board_width, board_height);
     std::cout << std::endl;
@@ -159,6 +159,8 @@ int main_program(unsigned int num_boids, unsigned int board_width,
                              distance_matrix);
         calculate_distance_matrix(boid_array, distance_matrix, num_boids,
                                   max_x, max_y);
+        print_distance_matrix(distance_matrix, num_boids);
+        print_all_boids(boid_array, num_boids);
         print_board(boid_array, num_boids, board_width, board_height);
         std::getchar();
     }

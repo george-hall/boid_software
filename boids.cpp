@@ -100,7 +100,7 @@ void Boid::compute_new_position(float max_x, float max_y,
         new_velocity = get_velocity();
     }
     else {
-        new_velocity = constrain_vector(new_velocity, 5);
+        new_velocity = constrain_vector(new_velocity, 1);
     }
     set_velocity(new_velocity.x, new_velocity.y);
 

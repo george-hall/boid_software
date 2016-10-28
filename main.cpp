@@ -127,9 +127,10 @@ void print_distance_matrix(float **distance_matrix, unsigned int num_boids) {
 }
 
 void update_all_positions(Boid **boid_array, unsigned int num_boids,
-                          float max_x, float max_y) {
+                          float max_x, float max_y, float **distance_matrix) {
     for (unsigned int i = 0; i < num_boids; i++) {
-        boid_array[i]->compute_new_position(max_x, max_y);
+        boid_array[i]->compute_new_position(max_x, max_y, distance_matrix,
+                                            num_boids, boid_array);
     }
 }
 
@@ -154,7 +155,10 @@ int main_program(unsigned int num_boids, unsigned int board_width,
                               max_y);
 
     while (true) {
-        update_all_positions(boid_array, num_boids, max_x, max_y);
+        update_all_positions(boid_array, num_boids, max_x, max_y,
+                             distance_matrix);
+        calculate_distance_matrix(boid_array, distance_matrix, num_boids,
+                                  max_x, max_y);
         print_board(boid_array, num_boids, board_width, board_height);
         std::getchar();
     }

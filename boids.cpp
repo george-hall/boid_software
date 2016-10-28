@@ -60,7 +60,8 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
         if ((i != boid_ID) && (dist_matrix[boid_ID][i] < neighbourhood_size)) {
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
-            avoidance_vector -= (current_position - neighbour_pos);
+            // Add vector in opposite direction from neighbour
+            avoidance_vector += (current_position - neighbour_pos);
         }
     }
 

@@ -34,3 +34,14 @@ std::string position_to_str(vect v) {
 float calculate_vector_magnitude(vect v) {
     return sqrt((v.x * v.x) + (v.y * v.y));
 }
+
+vect constrain_vector(vect v, float max_magnitude) {
+    // Constrain's a vector's magnitude to be at most max_magnitude
+    vect to_return;
+    float magnitude;
+
+    magnitude = calculate_vector_magnitude(v);
+    to_return = max_magnitude * (v / magnitude);
+
+    return to_return;
+}

@@ -98,6 +98,9 @@ void Boid::compute_new_position(float max_x, float max_y,
     if (new_velocity == zero_velocity) {
         new_velocity = get_velocity();
     }
+    else {
+        new_velocity = constrain_vector(new_velocity, 5);
+    }
     set_velocity(new_velocity.x, new_velocity.y);
 
     vect new_position = old_position + new_velocity;

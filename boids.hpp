@@ -24,8 +24,7 @@ class Boid {
         // from the three steering factors of cohesion, collision
         // avoidance, and velocity matching
         vect compute_new_velocity(float **distance_matrix,
-                                  unsigned int num_boids, float max_x,
-                                  float max_y, Boid **boid_array);
+                                  unsigned int num_boids, Boid **boid_array);
 
         vect compute_avoidance_vector(float **distance_matrix,
                                       unsigned int num_boids,

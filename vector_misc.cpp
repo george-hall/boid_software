@@ -30,3 +30,7 @@ std::string position_to_str(vect v) {
     to_return = "(" + std::to_string(v.x) + ", " + std::to_string(v.y) + ")";
     return to_return;
 }
+
+float calculate_vector_magnitude(vect v) {
+    return sqrt((v.x * v.x) + (v.y * v.y));
+}

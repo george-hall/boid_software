@@ -71,7 +71,7 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
 vect Boid::compute_new_velocity(float **distance_matrix,
                                 unsigned int num_boids,
                                 Boid **boid_array) {
-    float neighbourhood_size = 15;
+    float neighbourhood_size = 3;
 
     vect new_velocity;
     vect avoidance_vector;

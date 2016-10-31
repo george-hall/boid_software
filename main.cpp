@@ -8,6 +8,7 @@
 #include "vector_misc.hpp"
 #include "other_misc.hpp"
 #include "boids.hpp"
+#include "command_line_parsing.hpp"
 
 void initialise_boids(unsigned int num_boids, Boid **boid_array) {
     // Returns a pointer to an array of pointers to boids, indexed by boid_ID
@@ -173,25 +174,16 @@ int main_program(unsigned int num_boids, unsigned int board_width,
 
 int main(int argc, char **argv) {
 
-    unsigned int num_boids = 5;
-
-    /* Both in px */
-    unsigned int board_width = 30;
-    unsigned int board_height = 10;
+    argument_struct args;
+    args = parse_args(argc, argv);
 
     // Maximum values x and y can take before looping back to 0
     // Currently, they are just the same as the board height and width in order
     // to keep things simple
-    float max_x = (float) board_width;
-    float max_y = (float) board_height;
+    float max_x = (float) args.board_width;
+    float max_y = (float) args.board_height;
 
-    if (argc != 1) {
-        std::cerr << "usage: " << argv[0] << std::endl;
-        std::cerr << "note: Takes no command line arguments!" << std::endl;
-        return 1;
-    }
-
-    main_program(num_boids, board_width, board_height, max_x, max_y);
+    main_program(args.num_boids, args.board_width, args.board_height, max_x, max_y);
 
     return 0;
 }

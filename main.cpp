@@ -135,38 +135,41 @@ void update_all_positions(Boid **boid_array, unsigned int num_boids,
     }
 }
 
-int main_program(unsigned int num_boids, unsigned int board_width,
-                 unsigned int board_height, float max_x, float max_y) {
+int main_program(argument_struct args, float max_x, float max_y) {
 
-    Boid **boid_array = new Boid*[num_boids];
-    float **distance_matrix = new float*[num_boids];
-    for (unsigned int i = 0; i < num_boids; i++) {
-        distance_matrix[i] = new float[num_boids];
+    Boid **boid_array = new Boid*[args.num_boids];
+    float **distance_matrix = new float*[args.num_boids];
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        distance_matrix[i] = new float[args.num_boids];
     }
 
-    initialise_boids(num_boids, boid_array);
-    set_random_attributes(num_boids, boid_array, board_width, board_height);
-    print_all_boids(boid_array, num_boids);
+    initialise_boids(args.num_boids, boid_array);
+    set_random_attributes(args.num_boids, boid_array, args.board_width,
+                          args.board_height);
+    print_all_boids(boid_array, args.num_boids);
 
-    print_board(boid_array, num_boids, board_width, board_height);
+    print_board(boid_array, args.num_boids, args.board_width,
+                args.board_height);
     std::cout << std::endl;
     std::getchar();
 
-    calculate_distance_matrix(boid_array, distance_matrix, num_boids, max_x,
-                              max_y);
+    calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
+                              max_x, max_y);
 
     while (true) {
-        update_all_positions(boid_array, num_boids, max_x, max_y,
+        update_all_positions(boid_array, args.num_boids, max_x, max_y,
                              distance_matrix);
-        calculate_distance_matrix(boid_array, distance_matrix, num_boids,
+        calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
                                   max_x, max_y);
-        print_distance_matrix(distance_matrix, num_boids);
-        print_all_boids(boid_array, num_boids);
-        print_board(boid_array, num_boids, board_width, board_height);
+        //print_distance_matrix(distance_matrix, args.num_boids);
+        //print_all_boids(boid_array, args.num_boids);
+        print_board(boid_array, args.num_boids, args.board_width,
+                    args.board_height);
         std::getchar();
     }
 
-    free_boid_instance_memory(boid_array, num_boids);
+    free_boid_instance_memory(boid_array, args.num_boids);
     delete[] boid_array;
 
     return 0;
@@ -183,7 +186,7 @@ int main(int argc, char **argv) {
     float max_x = (float) args.board_width;
     float max_y = (float) args.board_height;
 
-    main_program(args.num_boids, args.board_width, args.board_height, max_x, max_y);
+    main_program(args, max_x, max_y);
 
     return 0;
 }

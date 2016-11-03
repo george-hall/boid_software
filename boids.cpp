@@ -68,6 +68,34 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
     return avoidance_vector;
 }
 
+vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
+                                   Boid **boid_array, float nhood_size) {
+
+    unsigned int boid_ID = get_boid_ID();
+
+    // Has to be float to be able to divide vector by this value
+    float num_boids_in_nhood = 0;
+    vect nhood_average_velocity(0, 0);
+
+    for (unsigned int i = 0; i < num_boids; i++) {
+        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < nhood_size)) {
+            num_boids_in_nhood += 1;
+            Boid *ptr_to_neighbour = boid_array[i];
+            vect neighbour_velocity = ptr_to_neighbour->get_velocity();
+
+            nhood_average_velocity += neighbour_velocity;
+        }
+    }
+
+    if (num_boids_in_nhood == 0) {
+        // Avoid division by 0
+        return nhood_average_velocity;
+    }
+
+    return (nhood_average_velocity / num_boids_in_nhood);
+}
+
+
 vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
                                   Boid **boid_array, unsigned int num_boids) {
 
@@ -123,21 +151,22 @@ vect Boid::compute_new_velocity(float **distance_matrix,
     float nhood_size = 3;
 
     vect new_velocity;
-    vect avoidance_vector, cohesion_vector;
-    //vect avoidance_vector, cohesion_vector, matching_vector;
+    vect avoidance_vector, cohesion_vector, alignment_vector;
 
     avoidance_vector = compute_avoidance_vector(distance_matrix, num_boids,
                                                 boid_array, nhood_size);
     cohesion_vector = compute_cohesion_vector(distance_matrix, num_boids,
                                               boid_array, nhood_size);
-    //matching_vector = compute_matching_vector();
+    alignment_vector = compute_cohesion_vector(distance_matrix, num_boids,
+                                               boid_array, nhood_size);
 
     std::cout << "avoid: " << velocity_to_str(avoidance_vector);
     std::cout << " cohesion: " << velocity_to_str(cohesion_vector);
+    std::cout << " alignment: " << velocity_to_str(alignment_vector);
     std::cout << std::endl;
 
     // Need to add biases
-    new_velocity = avoidance_vector + cohesion_vector;
+    new_velocity = avoidance_vector + cohesion_vector + alignment_vector;
 
     return new_velocity;
 }

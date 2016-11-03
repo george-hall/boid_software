@@ -36,7 +36,9 @@ class Boid {
         vect compute_cohesion_vector(float **dist_matrix,
                                      unsigned int num_boids, Boid **boid_array,
                                      float nhood_size);
-        vect compute_matching_vector();
+        vect compute_alignment_vector(float **dist_matrix,
+                                      unsigned int num_boids,
+                                      Boid **boid_array, float nhood_size);
 
         void compute_new_position(float max_x, float max_y,
                                   float **distance_matrix,

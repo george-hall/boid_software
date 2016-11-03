@@ -68,6 +68,38 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
     return avoidance_vector;
 }
 
+vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
+                                          Boid **boid_array,
+                                          unsigned int num_boids) {
+
+    // Computes the centroid of the boid's neighbourhood. That is, this
+    // function returns the position vector of the average position of all
+    // boids in the neighbourhood.
+
+    unsigned int boid_ID = get_boid_ID();
+
+    // Has to be float to be able to divide vector by this value
+    float num_boids_in_nhood = 0;
+    vect nhood_position_total(0, 0);
+
+    for (unsigned int i = 0; i < num_boids; i++) {
+        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < nhood_size)) {
+            num_boids_in_nhood += 1;
+            Boid *ptr_to_neighbour = boid_array[i];
+            vect neighbour_pos = ptr_to_neighbour->get_position();
+
+            nhood_position_total += neighbour_pos;
+        }
+    }
+
+    if (num_boids_in_nhood == 0) {
+        // Avoid division by 0
+        return nhood_position_total;
+    }
+
+    return (nhood_position_total / num_boids_in_nhood);
+}
+
 vect Boid::compute_new_velocity(float **distance_matrix,
                                 unsigned int num_boids,
                                 Boid **boid_array) {

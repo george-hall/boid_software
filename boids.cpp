@@ -92,8 +92,11 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
     }
 
     if (num_boids_in_nhood == 0) {
-        // Avoid division by 0
-        return nhood_position_total;
+        // In order to avoid division by 0, if there are no boids in the
+        // neighbourhood, then I simply return the boid's current position as
+        // the neighbourhood's centroid. This means that the cohesion vector
+        // is set to 0
+        return get_position();
     }
 
     return (nhood_position_total / num_boids_in_nhood);

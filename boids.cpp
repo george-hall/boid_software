@@ -69,8 +69,7 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
 }
 
 vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
-                                          Boid **boid_array,
-                                          unsigned int num_boids) {
+                                  Boid **boid_array, unsigned int num_boids) {
 
     // Computes the centroid of the boid's neighbourhood. That is, this
     // function returns the position vector of the average position of all

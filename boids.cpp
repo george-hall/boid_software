@@ -51,13 +51,13 @@ void Boid::print() {
 
 vect Boid::compute_avoidance_vector(float **dist_matrix,
                                     unsigned int num_boids, Boid **boid_array,
-                                    float neighbourhood_size) {
+                                    float nhood_size) {
     unsigned int boid_ID = get_boid_ID();
     vect current_position = get_position();
     vect avoidance_vector(0, 0);
 
     for (unsigned int i = 0; i < num_boids; i++) {
-        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < neighbourhood_size)) {
+        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < nhood_size)) {
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
             // Add vector in opposite direction from neighbour

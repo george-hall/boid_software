@@ -32,8 +32,7 @@ class Boid {
 
         vect compute_avoidance_vector(float **distance_matrix,
                                       unsigned int num_boids,
-                                      Boid **boid_array,
-                                      float neighbourhood_size);
+                                      Boid **boid_array, float nhood_size);
         vect compute_cohesion_vector(float **dist_matrix,
                                      unsigned int num_boids, Boid **boid_array,
                                      float nhood_size);

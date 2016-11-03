@@ -117,21 +117,22 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
 }
 
 vect Boid::compute_new_velocity(float **distance_matrix,
-                                unsigned int num_boids,
-                                Boid **boid_array) {
-    float neighbourhood_size = 3;
+                                unsigned int num_boids, Boid **boid_array) {
+    float nhood_size = 3;
 
     vect new_velocity;
     vect avoidance_vector, cohesion_vector;
     //vect avoidance_vector, cohesion_vector, matching_vector;
 
     avoidance_vector = compute_avoidance_vector(distance_matrix, num_boids,
-                                                boid_array,
-                                                neighbourhood_size);
-    cohesion_vector = compute_cohesion_vector(distance_matrix, num_boids, boid_array, neighbourhood_size);
+                                                boid_array, nhood_size);
+    cohesion_vector = compute_cohesion_vector(distance_matrix, num_boids,
+                                              boid_array, nhood_size);
     //matching_vector = compute_matching_vector();
 
-    std::cout << "avoid: " << velocity_to_str(avoidance_vector) << " cohesion: " << velocity_to_str(cohesion_vector) << std::endl;
+    std::cout << "avoid: " << velocity_to_str(avoidance_vector);
+    std::cout << " cohesion: " << velocity_to_str(cohesion_vector);
+    std::cout << std::endl;
 
     // Need to add biases
     new_velocity = avoidance_vector + cohesion_vector;

@@ -100,6 +100,22 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
     return (nhood_position_total / num_boids_in_nhood);
 }
 
+vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
+                                   Boid **boid_array, float nhood_size) {
+
+    // This function returns the vector required for the boid to steer towards
+    // the centroid (i.e. the average position) of its neighbourhood. It does
+    // so in two steps:
+    //      1. Compute the neighbourhood's centroid
+    //      2. Return the vector to steer the boid in that direction
+
+    vect current_position = get_position();
+    vect nhood_centroid = compute_nhood_centroid(dist_matrix, nhood_size,
+                                                 boid_array, num_boids);
+
+    return (nhood_centroid - current_position);
+}
+
 vect Boid::compute_new_velocity(float **distance_matrix,
                                 unsigned int num_boids,
                                 Boid **boid_array) {

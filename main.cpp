@@ -147,7 +147,9 @@ int main_program(argument_struct args, float max_x, float max_y) {
     initialise_boids(args.num_boids, boid_array);
     set_random_attributes(args.num_boids, boid_array, args.board_width,
                           args.board_height);
-    print_all_boids(boid_array, args.num_boids);
+    if (args.verbose) {
+        print_all_boids(boid_array, args.num_boids);
+    }
 
     print_board(boid_array, args.num_boids, args.board_width,
                 args.board_height);
@@ -162,8 +164,10 @@ int main_program(argument_struct args, float max_x, float max_y) {
                              distance_matrix);
         calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
                                   max_x, max_y);
-        //print_distance_matrix(distance_matrix, args.num_boids);
-        //print_all_boids(boid_array, args.num_boids);
+        if (args.verbose) {
+            print_distance_matrix(distance_matrix, args.num_boids);
+            print_all_boids(boid_array, args.num_boids);
+        }
         print_board(boid_array, args.num_boids, args.board_width,
                     args.board_height);
         std::getchar();

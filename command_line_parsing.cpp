@@ -83,6 +83,11 @@ argument_struct parse_args(int argc, char **argv) {
             }
         }
 
+        // Verbosity
+        else if (!strcmp(argv[i], "--verbose") || !strcmp(argv[i], "-v")) {
+            args.verbose = true;
+        }
+
         // Argument not recognised
         else {
             std::cout << "ERROR: Argument '" << argv[i] << "' not recognised" << std::endl;

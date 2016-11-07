@@ -65,7 +65,7 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
         }
     }
 
-    return avoidance_vector;
+    return constrain_vector(avoidance_vector, 1);
 }
 
 vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
@@ -92,7 +92,8 @@ vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
         return nhood_average_velocity;
     }
 
-    return (nhood_average_velocity / num_boids_in_nhood);
+    vect to_return = (nhood_average_velocity / num_boids_in_nhood);
+    return constrain_vector(to_return, 1);
 }
 
 
@@ -143,7 +144,8 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
     vect nhood_centroid = compute_nhood_centroid(dist_matrix, nhood_size,
                                                  boid_array, num_boids);
 
-    return (nhood_centroid - current_position);
+    vect to_return = (nhood_centroid - current_position);
+    return constrain_vector(to_return, 1);
 }
 
 vect Boid::compute_new_velocity(float **distance_matrix,

@@ -38,7 +38,12 @@ float calculate_vector_magnitude(vect v) {
 vect constrain_vector(vect v, float max_magnitude) {
     // Constrain's a vector's magnitude to be at most max_magnitude
     vect to_return;
+    vect zero_vector(0, 0);
     float magnitude;
+
+    if (v == zero_vector) {
+        return v;
+    }
 
     magnitude = calculate_vector_magnitude(v);
     to_return = max_magnitude * (v / magnitude);

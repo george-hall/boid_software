@@ -97,7 +97,9 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
 
     for (unsigned int i = 0; i < num_boids; i++) {
         vect boid_pos = boid_array[i]->get_position();
-        board[(int) round(boid_pos.x)][(int) round(boid_pos.y)] = true;
+        int rounded_x = static_cast<int>(round(boid_pos.x));
+        int rounded_y = static_cast<int>(round(boid_pos.y));
+        board[rounded_x][rounded_y] = true;
     }
 
     for (unsigned int i = 0; i < max_y; i++) {
@@ -186,8 +188,8 @@ int main(int argc, char **argv) {
     // Maximum values x and y can take before looping back to 0
     // Currently, they are just the same as the board height and width in order
     // to keep things simple
-    float max_x = (float) args.board_width;
-    float max_y = (float) args.board_height;
+    float max_x = static_cast<float>(args.board_width);
+    float max_y = static_cast<float>(args.board_height);
 
     main_program(args, max_x, max_y);
 

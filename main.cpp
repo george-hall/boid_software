@@ -7,8 +7,8 @@
 
 #include "vector_misc.hpp"
 #include "other_misc.hpp"
-#include "boids.hpp"
 #include "command_line_parsing.hpp"
+#include "boids.hpp"
 
 void initialise_boids(unsigned int num_boids, Boid **boid_array) {
     // Returns a pointer to an array of pointers to boids, indexed by boid_ID
@@ -127,11 +127,11 @@ void print_distance_matrix(float **distance_matrix, unsigned int num_boids) {
     }
 }
 
-void update_all_positions(Boid **boid_array, unsigned int num_boids,
+void update_all_positions(argument_struct args, Boid **boid_array,
                           float max_x, float max_y, float **distance_matrix) {
-    for (unsigned int i = 0; i < num_boids; i++) {
-        boid_array[i]->compute_new_position(max_x, max_y, distance_matrix,
-                                            num_boids, boid_array);
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        boid_array[i]->compute_new_position(args, max_x, max_y,
+                                            distance_matrix, boid_array);
     }
 }
 
@@ -160,8 +160,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
                               max_x, max_y);
 
     while (true) {
-        update_all_positions(boid_array, args.num_boids, max_x, max_y,
-                             distance_matrix);
+        update_all_positions(args, boid_array, max_x, max_y, distance_matrix);
         calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
                                   max_x, max_y);
         if (args.verbose) {

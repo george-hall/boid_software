@@ -28,7 +28,7 @@ class Boid {
         // from the three steering factors of cohesion, collision
         // avoidance, and velocity matching
         vect compute_new_velocity(float **distance_matrix,
-                                  unsigned int num_boids, Boid **boid_array);
+                                  unsigned int num_boids, Boid **boid_array, bool verbose);
 
         vect compute_avoidance_vector(float **distance_matrix,
                                       unsigned int num_boids,
@@ -40,9 +40,9 @@ class Boid {
                                       unsigned int num_boids,
                                       Boid **boid_array, float nhood_size);
 
-        void compute_new_position(float max_x, float max_y,
-                                  float **distance_matrix,
-                                  unsigned int num_boids, Boid **boid_array);
+        void compute_new_position(argument_struct args, float max_x,
+                                  float max_y, float **distance_matrix,
+                                  Boid **boid_array);
 
         void print();
 

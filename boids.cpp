@@ -4,6 +4,7 @@
 
 #include "vector_misc.hpp"
 #include "other_misc.hpp"
+#include "command_line_parsing.hpp"
 #include "boids.hpp"
 
 // Initialiser
@@ -149,7 +150,8 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
 }
 
 vect Boid::compute_new_velocity(float **distance_matrix,
-                                unsigned int num_boids, Boid **boid_array) {
+                                unsigned int num_boids, Boid **boid_array,
+                                bool verbose) {
     float nhood_size = 25;
 
     vect new_velocity;
@@ -162,10 +164,12 @@ vect Boid::compute_new_velocity(float **distance_matrix,
     alignment_vector = compute_cohesion_vector(distance_matrix, num_boids,
                                                boid_array, nhood_size);
 
-    std::cout << "avoid: " << velocity_to_str(avoidance_vector);
-    std::cout << " cohesion: " << velocity_to_str(cohesion_vector);
-    std::cout << " alignment: " << velocity_to_str(alignment_vector);
-    std::cout << std::endl;
+    if (verbose) {
+        std::cout << "avoid: " << velocity_to_str(avoidance_vector);
+        std::cout << " cohesion: " << velocity_to_str(cohesion_vector);
+        std::cout << " alignment: " << velocity_to_str(alignment_vector);
+        std::cout << std::endl;
+    }
 
     float weighting[3] = {0.4f, 0.3f, 0.3f};
     // weighting[0] is avoidance vector weighting; weighting[1] is cohesion
@@ -188,13 +192,12 @@ vect Boid::compute_new_velocity(float **distance_matrix,
     return new_velocity;
 }
 
-void Boid::compute_new_position(float max_x, float max_y,
-                                float **distance_matrix,
-                                unsigned int num_boids, Boid **boid_array) {
+void Boid::compute_new_position(argument_struct args, float max_x, float max_y,
+                                float **distance_matrix, Boid **boid_array) {
     vect zero_velocity(0, 0);
     vect old_position = get_position();
-    vect new_velocity = compute_new_velocity(distance_matrix, num_boids,
-                                             boid_array);
+    vect new_velocity = compute_new_velocity(distance_matrix, args.num_boids,
+                                             boid_array, args.verbose);
 
     if (new_velocity == zero_velocity) {
         new_velocity = get_velocity();

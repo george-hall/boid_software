@@ -10,8 +10,8 @@
 // Initialiser
 
 Boid::Boid(unsigned int new_boid_ID) {
-    vect velocity(0,0);
-    vect position(0,0);
+    vect velocity(0, 0);
+    vect position(0, 0);
 
     boid_ID = new_boid_ID;
 }
@@ -71,7 +71,6 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
 
 vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
                                    Boid **boid_array, float nhood_size) {
-
     unsigned int boid_ID = get_boid_ID();
 
     // Has to be float to be able to divide vector by this value
@@ -100,7 +99,6 @@ vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
 
 vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
                                   Boid **boid_array, unsigned int num_boids) {
-
     // Computes the centroid of the boid's neighbourhood. That is, this
     // function returns the position vector of the average position of all
     // boids in the neighbourhood.
@@ -134,7 +132,6 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
 
 vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
                                    Boid **boid_array, float nhood_size) {
-
     // This function returns the vector required for the boid to steer towards
     // the centroid (i.e. the average position) of its neighbourhood. It does
     // so in two steps:
@@ -201,10 +198,10 @@ void Boid::compute_new_position(argument_struct args, float max_x, float max_y,
 
     if (new_velocity == zero_velocity) {
         new_velocity = get_velocity();
-    }
-    else {
+    } else {
         new_velocity = constrain_vector(new_velocity, 1);
     }
+
     set_velocity(new_velocity.x, new_velocity.y);
 
     vect new_position = old_position + new_velocity;

@@ -22,12 +22,11 @@ void initialise_boids(unsigned int num_boids, Boid **boid_array) {
 void set_random_attributes(unsigned int num_boids, Boid **boid_array,
                            unsigned int board_width,
                            unsigned int board_height) {
-
     // Give each boid in boid_array a random position and velocity
 
     // Set up random number generators
-    std::random_device rd; // Seed engine
-    std::mt19937 rng(rd()); // Use Mersenne Twister
+    std::random_device rd;  // Seed engine
+    std::mt19937 rng(rd());  // Use Mersenne Twister
     std::uniform_real_distribution<float> rand_x_coord(0, board_width - 1);
     std::uniform_real_distribution<float> rand_y_coord(0, board_height - 1);
 
@@ -138,7 +137,6 @@ void update_all_positions(argument_struct args, Boid **boid_array,
 }
 
 int main_program(argument_struct args, float max_x, float max_y) {
-
     Boid **boid_array = new Boid*[args.num_boids];
     float **distance_matrix = new float*[args.num_boids];
 
@@ -181,7 +179,6 @@ int main_program(argument_struct args, float max_x, float max_y) {
 }
 
 int main(int argc, char **argv) {
-
     argument_struct args;
     args = parse_args(argc, argv);
 

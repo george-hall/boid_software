@@ -152,7 +152,7 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
 vect Boid::compute_new_velocity(float **distance_matrix,
                                 unsigned int num_boids, Boid **boid_array,
                                 bool verbose) {
-    float nhood_size = 25;
+    float nhood_size = 100;
 
     vect new_velocity;
     vect avoidance_vector, cohesion_vector, alignment_vector;

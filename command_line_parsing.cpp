@@ -19,8 +19,8 @@ argument_struct parse_args(int argc, char **argv) {
     argument_struct args;
 
     // Set struct members to default values
-    args.board_width = 30;
-    args.board_height = 10;
+    args.board_width = 400;
+    args.board_height = 400;
     args.num_boids = 5;
     args.verbose = false;
 

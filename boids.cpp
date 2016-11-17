@@ -175,17 +175,8 @@ vect Boid::compute_new_velocity(float **distance_matrix,
     // weighting[0] is avoidance vector weighting; weighting[1] is cohesion
     // vector weighting; weighting[2] is alignment vector weighting;
 
-    // 0.4, 0.3, 0.3 with a neighbourhood size of 25 and parameters -w 50 -h 30
-    // -n 15 leads to nice flocking (but not much movement once flock is
-    // established)
-
-    // 0.5, 0.25, 0.25 with otherwise idential parameters leads to boids
-    // avoiding each other (no flocking)
-
-    // 0.6, 0.3, 0.3 with otherwise idential parameters leads to boids avoiding
-    // each other even more than before (no flocking)
-
-    new_velocity = (weighting[0] * avoidance_vector) + \
+    new_velocity = get_velocity() + \
+                   (weighting[0] * avoidance_vector) + \
                    (weighting[1] * cohesion_vector) + \
                    (weighting[2] * alignment_vector);
 

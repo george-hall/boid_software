@@ -113,6 +113,16 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
     }
 }
 
+void display_all_boids(Boid **boid_array, unsigned int num_boids,
+                       sf::RenderWindow *window) {
+    sf::CircleShape triangle(10, 3);
+    triangle.setFillColor(sf::Color(100, 250, 50));
+    for (unsigned int i = 0; i < num_boids; i++) {
+        triangle.setPosition(boid_array[i]->get_position());
+        window->draw(triangle);
+    }
+}
+
 void print_all_boids(Boid **boid_array, unsigned int num_boids) {
     for (unsigned int i = 0; i < num_boids; i++) {
         boid_array[i]->print();
@@ -137,6 +147,7 @@ void update_all_positions(argument_struct args, Boid **boid_array,
 }
 
 int main_program(argument_struct args, float max_x, float max_y) {
+
     Boid **boid_array = new Boid*[args.num_boids];
     float **distance_matrix = new float*[args.num_boids];
 
@@ -151,15 +162,25 @@ int main_program(argument_struct args, float max_x, float max_y) {
         print_all_boids(boid_array, args.num_boids);
     }
 
-    print_board(boid_array, args.num_boids, args.board_width,
-                args.board_height);
-    std::cout << std::endl;
-    std::getchar();
-
     calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
                               max_x, max_y);
 
-    while (true) {
+    sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
+                            "Boidz n the Hood");
+
+    while (window.isOpen()) {
+
+        // Check for window being closed
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        // Fill window with black
+        window.clear(sf::Color::Black);
+
         update_all_positions(args, boid_array, max_x, max_y, distance_matrix);
         calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
                                   max_x, max_y);
@@ -167,9 +188,9 @@ int main_program(argument_struct args, float max_x, float max_y) {
             print_distance_matrix(distance_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);
         }
-        print_board(boid_array, args.num_boids, args.board_width,
-                    args.board_height);
-        std::getchar();
+
+        display_all_boids(boid_array, args.num_boids, &window);
+        window.display();
     }
 
     free_boid_instance_memory(boid_array, args.num_boids);

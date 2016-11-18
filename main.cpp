@@ -176,7 +176,6 @@ float **create_dist_matrix(argument_struct args, Boid **boid_array, float max_x,
 }
 
 int main_program(argument_struct args, float max_x, float max_y) {
-
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
 
@@ -184,11 +183,9 @@ int main_program(argument_struct args, float max_x, float max_y) {
                             "Boidz n the Hood");
 
     while (window.isOpen()) {
-
         // Check for window being closed
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
@@ -203,7 +200,6 @@ int main_program(argument_struct args, float max_x, float max_y) {
             print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);
         }
-
         display_all_boids(boid_array, args.num_boids, &window);
         window.display();
     }

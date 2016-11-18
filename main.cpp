@@ -115,11 +115,11 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
 
 void display_all_boids(Boid **boid_array, unsigned int num_boids,
                        sf::RenderWindow *window) {
-    sf::CircleShape triangle(10, 3);
-    triangle.setFillColor(sf::Color(100, 250, 50));
+    sf::CircleShape circle(3, 30);
+    circle.setFillColor(sf::Color(100, 250, 50));
     for (unsigned int i = 0; i < num_boids; i++) {
-        triangle.setPosition(boid_array[i]->get_position());
-        window->draw(triangle);
+        circle.setPosition(boid_array[i]->get_position());
+        window->draw(circle);
     }
 }
 

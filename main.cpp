@@ -161,9 +161,8 @@ Boid **create_boid_array(argument_struct args) {
     return boid_array;
 }
 
-int main_program(argument_struct args, float max_x, float max_y) {
+float **create_dist_matrix(argument_struct args, Boid **boid_array, float max_x, float max_y) {
 
-    Boid **boid_array = create_boid_array(args);
     float **distance_matrix = new float*[args.num_boids];
 
     for (unsigned int i = 0; i < args.num_boids; i++) {
@@ -172,6 +171,14 @@ int main_program(argument_struct args, float max_x, float max_y) {
 
     calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
                               max_x, max_y);
+
+    return distance_matrix;
+}
+
+int main_program(argument_struct args, float max_x, float max_y) {
+
+    Boid **boid_array = create_boid_array(args);
+    float **distance_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
 
     sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
                             "Boidz n the Hood");

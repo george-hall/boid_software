@@ -116,9 +116,10 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
 void display_all_boids(Boid **boid_array, unsigned int num_boids,
                        sf::RenderWindow *window) {
     sf::CircleShape circle(3, 30);
-    circle.setFillColor(sf::Color(100, 250, 50));
     for (unsigned int i = 0; i < num_boids; i++) {
         circle.setPosition(boid_array[i]->get_position());
+        sf::Color boid_colour = boid_array[i]->get_colour();
+        circle.setFillColor(boid_colour);
         window->draw(circle);
     }
 }

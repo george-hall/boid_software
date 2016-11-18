@@ -60,11 +60,11 @@ float distance_between_boids(Boid *boid_1, Boid *boid_2, float max_x,
     return x_diff + y_diff;
 }
 
-void calculate_distance_matrix(Boid **boid_array, float **distance_matrix,
+void calculate_dist_matrix(Boid **boid_array, float **dist_matrix,
                                unsigned int num_boids, float max_x,
                                float max_y) {
     // Recieves an array from main into which it inserts the distance for all
-    // pairs of boids, indexed by their boid_ID. That is, distance_matrix[i][j]
+    // pairs of boids, indexed by their boid_ID. That is, dist_matrix[i][j]
     // contains the distance between the boid with boid_ID i and the boid with
     // boid_ID j.
 
@@ -73,7 +73,7 @@ void calculate_distance_matrix(Boid **boid_array, float **distance_matrix,
             float distance;
             distance = distance_between_boids(boid_array[i], boid_array[j],
                                               max_x, max_y);
-            distance_matrix[i][j] = distance;
+            dist_matrix[i][j] = distance;
         }
     }
 }
@@ -130,20 +130,20 @@ void print_all_boids(Boid **boid_array, unsigned int num_boids) {
     }
 }
 
-void print_distance_matrix(float **distance_matrix, unsigned int num_boids) {
+void print_dist_matrix(float **dist_matrix, unsigned int num_boids) {
     for (unsigned int i = 0; i < num_boids; i++) {
         for (unsigned int j = 0; j < num_boids; j++) {
-            std::cout << distance_matrix[i][j] << " ";
+            std::cout << dist_matrix[i][j] << " ";
         }
         std::cout << std::endl;
     }
 }
 
 void update_all_positions(argument_struct args, Boid **boid_array,
-                          float max_x, float max_y, float **distance_matrix) {
+                          float max_x, float max_y, float **dist_matrix) {
     for (unsigned int i = 0; i < args.num_boids; i++) {
-        boid_array[i]->compute_new_position(args, max_x, max_y,
-                                            distance_matrix, boid_array);
+        boid_array[i]->compute_new_position(args, max_x, max_y, dist_matrix,
+                                            boid_array);
     }
 }
 
@@ -163,22 +163,22 @@ Boid **create_boid_array(argument_struct args) {
 
 float **create_dist_matrix(argument_struct args, Boid **boid_array, float max_x, float max_y) {
 
-    float **distance_matrix = new float*[args.num_boids];
+    float **dist_matrix = new float*[args.num_boids];
 
     for (unsigned int i = 0; i < args.num_boids; i++) {
-        distance_matrix[i] = new float[args.num_boids];
+        dist_matrix[i] = new float[args.num_boids];
     }
 
-    calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
-                              max_x, max_y);
+    calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
+                          max_y);
 
-    return distance_matrix;
+    return dist_matrix;
 }
 
 int main_program(argument_struct args, float max_x, float max_y) {
 
     Boid **boid_array = create_boid_array(args);
-    float **distance_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
+    float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
 
     sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
                             "Boidz n the Hood");
@@ -196,11 +196,11 @@ int main_program(argument_struct args, float max_x, float max_y) {
         // Fill window with black
         window.clear(sf::Color::Black);
 
-        update_all_positions(args, boid_array, max_x, max_y, distance_matrix);
-        calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,
-                                  max_x, max_y);
+        update_all_positions(args, boid_array, max_x, max_y, dist_matrix);
+        calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
+                              max_y);
         if (args.verbose) {
-            print_distance_matrix(distance_matrix, args.num_boids);
+            print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);
         }
 

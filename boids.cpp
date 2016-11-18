@@ -155,19 +155,18 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
     return constrain_vector(to_return, 1);
 }
 
-vect Boid::compute_new_velocity(float **distance_matrix,
-                                unsigned int num_boids, Boid **boid_array,
-                                bool verbose) {
+vect Boid::compute_new_velocity(float **dist_matrix, unsigned int num_boids,
+                                Boid **boid_array, bool verbose) {
     float nhood_size = 100;
 
     vect new_velocity;
     vect avoidance_vector, cohesion_vector, alignment_vector;
 
-    avoidance_vector = compute_avoidance_vector(distance_matrix, num_boids,
+    avoidance_vector = compute_avoidance_vector(dist_matrix, num_boids,
                                                 boid_array, nhood_size);
-    cohesion_vector = compute_cohesion_vector(distance_matrix, num_boids,
+    cohesion_vector = compute_cohesion_vector(dist_matrix, num_boids,
                                               boid_array, nhood_size);
-    alignment_vector = compute_cohesion_vector(distance_matrix, num_boids,
+    alignment_vector = compute_cohesion_vector(dist_matrix, num_boids,
                                                boid_array, nhood_size);
 
     if (verbose) {
@@ -191,10 +190,10 @@ vect Boid::compute_new_velocity(float **distance_matrix,
 }
 
 void Boid::compute_new_position(argument_struct args, float max_x, float max_y,
-                                float **distance_matrix, Boid **boid_array) {
+                                float **dist_matrix, Boid **boid_array) {
     vect zero_velocity(0, 0);
     vect old_position = get_position();
-    vect new_velocity = compute_new_velocity(distance_matrix, args.num_boids,
+    vect new_velocity = compute_new_velocity(dist_matrix, args.num_boids,
                                              boid_array, args.verbose);
 
     if (new_velocity == zero_velocity) {

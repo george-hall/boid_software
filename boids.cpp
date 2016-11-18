@@ -171,7 +171,7 @@ vect Boid::compute_new_velocity(float **distance_matrix,
         std::cout << std::endl;
     }
 
-    float weighting[4] = {0.75f, 0.1f, 0.075f, 0.075f};
+    float weighting[4] = {1.0f, 0.4f, 0.3f, 0.2f};
     // weighting[0] is the weighting applied to the boid's old velocity;
     // weighting[1] is avoidance vector weighting; weighting[2] is cohesion
     // vector weighting; weighting[3] is alignment vector weighting;

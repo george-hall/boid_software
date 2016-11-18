@@ -6,6 +6,7 @@ class Boid {
     public:
         vect velocity;
         vect position;
+        sf::Color colour;
 
         Boid(unsigned int boid_ID);
         void set_position(float new_x, float new_y);
@@ -14,6 +15,7 @@ class Boid {
         unsigned int get_boid_ID();
         vect get_velocity();
         vect get_position();
+        sf::Color get_colour();
 
         // I want this to return a list of structs, with each
         // struct containing the boid_ID and distance of all

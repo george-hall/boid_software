@@ -13,6 +13,8 @@ Boid::Boid(unsigned int new_boid_ID) {
     vect velocity(0,0);
     vect position(0,0);
 
+    colour = generate_random_colour();
+
     boid_ID = new_boid_ID;
 }
 
@@ -40,6 +42,10 @@ vect Boid::get_position() {
 
 vect Boid::get_velocity() {
     return velocity;
+}
+
+sf::Color Boid::get_colour() {
+    return colour;
 }
 
 // Miscellaneous

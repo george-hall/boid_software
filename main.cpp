@@ -147,20 +147,27 @@ void update_all_positions(argument_struct args, Boid **boid_array,
     }
 }
 
-int main_program(argument_struct args, float max_x, float max_y) {
+Boid **create_boid_array(argument_struct args) {
 
     Boid **boid_array = new Boid*[args.num_boids];
-    float **distance_matrix = new float*[args.num_boids];
-
-    for (unsigned int i = 0; i < args.num_boids; i++) {
-        distance_matrix[i] = new float[args.num_boids];
-    }
 
     initialise_boids(args.num_boids, boid_array);
     set_random_attributes(args.num_boids, boid_array, args.board_width,
                           args.board_height);
     if (args.verbose) {
         print_all_boids(boid_array, args.num_boids);
+    }
+
+    return boid_array;
+}
+
+int main_program(argument_struct args, float max_x, float max_y) {
+
+    Boid **boid_array = create_boid_array(args);
+    float **distance_matrix = new float*[args.num_boids];
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        distance_matrix[i] = new float[args.num_boids];
     }
 
     calculate_distance_matrix(boid_array, distance_matrix, args.num_boids,

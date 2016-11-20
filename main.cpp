@@ -10,6 +10,8 @@
 #include "command_line_parsing.hpp"
 #include "boids.hpp"
 
+#define PI 3.14159265
+
 void initialise_boids(unsigned int num_boids, Boid **boid_array) {
     // Returns a pointer to an array of pointers to boids, indexed by boid_ID
 
@@ -116,11 +118,31 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
 void display_all_boids(Boid **boid_array, unsigned int num_boids,
                        sf::RenderWindow *window) {
     sf::CircleShape circle(3, 30);
+    sf::ConvexShape arrow;
+    arrow.setPointCount(3);
+    arrow.setPoint(0, sf::Vector2f(0, 0));
+    arrow.setPoint(1, sf::Vector2f(15, 5));
+    arrow.setPoint(2, sf::Vector2f(0, 10));
     for (unsigned int i = 0; i < num_boids; i++) {
-        circle.setPosition(boid_array[i]->get_position());
-        sf::Color boid_colour = boid_array[i]->get_colour();
-        circle.setFillColor(boid_colour);
-        window->draw(circle);
+        Boid *ptr_to_boid = boid_array[i];
+        arrow.setPosition(ptr_to_boid->get_position());
+        vect current_velocity = ptr_to_boid->get_velocity();
+        float velocity_mag = calculate_vector_magnitude(current_velocity);
+        // Calculate the angle between the velocity and the vector (1,0) (i.e.
+        // a horizontal vector).
+        float rotation = std::acos(current_velocity.x / velocity_mag);
+        // Convert to degrees
+        rotation = rotation * 180.0f / PI;
+        // As acos only returns values in the range [0, pi], we need to
+        // differentiate between velocities which are pointing upwards and
+        // those which are pointing downwards. This section does that.
+        if (current_velocity.y < 0) {
+            rotation = 360.0f - rotation;
+        }
+        arrow.setRotation(rotation);
+        sf::Color boid_colour = ptr_to_boid->get_colour();
+        arrow.setFillColor(boid_colour);
+        window->draw(arrow);
     }
 }
 

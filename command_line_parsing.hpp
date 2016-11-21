@@ -5,6 +5,10 @@
 typedef struct {
     unsigned int board_width;
     unsigned int board_height;
+    float old_velocity_weight;
+    float avoidance_weight;
+    float cohesion_weight;
+    float alignment_weight;
     unsigned int num_boids;
     bool verbose;
 } argument_struct;

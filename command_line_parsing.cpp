@@ -22,6 +22,10 @@ argument_struct parse_args(int argc, char **argv) {
     args.board_width = 400;
     args.board_height = 400;
     args.num_boids = 5;
+    args.old_velocity_weight = 1.0f;
+    args.avoidance_weight = 0.4f;
+    args.cohesion_weight = 0.3f;
+    args.alignment_weight = 0.2f;
     args.verbose = false;
 
     for (int i = 1; i < argc; i++) {
@@ -79,6 +83,79 @@ argument_struct parse_args(int argc, char **argv) {
                 if (args.num_boids == 0) {
                     std::cout << "ERROR: number of boids must be a positive integer" << std::endl;
                     exit(EXIT_FAILURE);
+                }
+            }
+        }
+
+        // Steer weights
+        else if (!strcmp(argv[i], "--old-velocity-weight")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                float weight;
+                weight = atof(argv[++i]);
+                if (weight < 0) {
+                    std::cout << "ERROR: " << argv[i-1] << " must be non-negative" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+                else {
+                    args.old_velocity_weight = weight;
+                }
+            }
+        }
+
+        else if (!strcmp(argv[i], "--avoidance-weight")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                float weight;
+                weight = atof(argv[++i]);
+                if (weight < 0) {
+                    std::cout << "ERROR: " << argv[i-1] << " must be non-negative" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+                else {
+                    args.avoidance_weight = weight;
+                }
+            }
+        }
+
+        else if (!strcmp(argv[i], "--cohesion-weight")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                float weight;
+                weight = atof(argv[++i]);
+                if (weight < 0) {
+                    std::cout << "ERROR: " << argv[i-1] << " must be non-negative" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+                else {
+                    args.cohesion_weight = weight;
+                }
+            }
+        }
+
+        else if (!strcmp(argv[i], "--alignment-weight")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                float weight;
+                weight = atof(argv[++i]);
+                if (weight < 0) {
+                    std::cout << "ERROR: " << argv[i-1] << " must be non-negative" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+                else {
+                    args.alignment_weight = weight;
                 }
             }
         }

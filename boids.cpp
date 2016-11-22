@@ -216,14 +216,8 @@ void Boid::compute_new_position(argument_struct args, float max_x, float max_y,
     vect zero_velocity(0, 0);
     vect old_position = get_position();
     vect new_velocity = compute_new_velocity(args, dist_matrix,
-                                             boid_array);
-
-    if (new_velocity == zero_velocity) {
-        new_velocity = get_velocity();
-    }
-    else {
-        new_velocity = constrain_vector(new_velocity, 1);
-    }
+                                             boid_array, max_x, max_y);
+    new_velocity = constrain_vector(new_velocity, 1);
     set_velocity(new_velocity.x, new_velocity.y);
 
     vect new_position = old_position + new_velocity;

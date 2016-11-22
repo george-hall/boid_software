@@ -10,6 +10,6 @@ std::string position_to_str(vect v);
 
 float calculate_vector_magnitude(vect v);
 vect constrain_vector(vect v, float max_magnitude);
-
+vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y);
 
 #endif // VECTOR_MISC_HPP

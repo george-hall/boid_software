@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "vector_misc.hpp"
+#include "other_misc.hpp"
 
 std::string velocity_to_str(vect v) {
     // Convert a velocity (of type vect) to a string, expressed as
@@ -55,4 +56,30 @@ vect constrain_vector(vect v, float max_magnitude) {
         to_return = max_magnitude * (v / magnitude);
         return to_return;
     }
+}
+
+vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y) {
+    // Return a vector from vector v1 to vector v2. The point of this function
+    // is to take into account the periodic boundary conditions imposed on the
+    // board, as the displacement vector between two points should take the
+    // shortest path, and this path may cross the boundary
+    vect to_return(0, 0);
+
+    if (abs((v2.x - v1.x) > (max_x/2.0f))) {
+        // Shortest path crosses boundary
+        to_return.x = v1.x - v2.x;
+    }
+    else {
+        to_return.x = v2.x - v1.x;
+    }
+
+    if (abs((v2.y - v1.y) > (max_y/2.0f))) {
+        // Shortest path crosses boundary
+        to_return.y = v1.y - v2.y;
+    }
+    else {
+        to_return.y = v2.y - v1.y;
+    }
+
+    return to_return;
 }

@@ -202,7 +202,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
 
     sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
-                            "Boidz n the Hood");
+                            "Boids");
 
     while (window.isOpen()) {
         // Check for window being closed

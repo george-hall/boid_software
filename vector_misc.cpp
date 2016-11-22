@@ -46,7 +46,13 @@ vect constrain_vector(vect v, float max_magnitude) {
     }
 
     magnitude = calculate_vector_magnitude(v);
-    to_return = max_magnitude * (v / magnitude);
 
-    return to_return;
+    if (magnitude <= max_magnitude) {
+        return v;
+    }
+
+    else {
+        to_return = max_magnitude * (v / magnitude);
+        return to_return;
+    }
 }

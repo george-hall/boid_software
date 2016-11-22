@@ -221,6 +221,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
         if (args.verbose) {
             print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);
+            print_board(boid_array, args.num_boids, max_x, max_y);
         }
         display_all_boids(boid_array, args.num_boids, &window);
         window.display();

@@ -42,6 +42,8 @@ class Boid {
                                       unsigned int num_boids,
                                       Boid **boid_array, float nhood_size);
 
+        bool in_danger(float **dist_matrix, unsigned int num_boids);
+
         void compute_new_position(argument_struct args, float max_x,
                                   float max_y, float **distance_matrix,
                                   Boid **boid_array);

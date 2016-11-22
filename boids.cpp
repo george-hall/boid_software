@@ -155,6 +155,17 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
     return constrain_vector(to_return, 1);
 }
 
+bool Boid::in_danger(float **dist_matrix, unsigned int num_boids) {
+    float danger_zone = 5;
+    unsigned int boid_ID = get_boid_ID();
+    for (unsigned int i; i < num_boids; i++) {
+        if ((i != boid_ID) && (dist_matrix[i][boid_ID] < danger_zone)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                                 Boid **boid_array, float max_x, float max_y) {
     float nhood_size = 100;
@@ -182,12 +193,22 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
     // weighting[1] is avoidance vector weighting; weighting[2] is cohesion
     // vector weighting; weighting[3] is alignment vector weighting;
 
-    new_velocity = (weighting[0] * get_velocity()) + \
-                   (weighting[1] * avoidance_vector) + \
-                   (weighting[2] * cohesion_vector) + \
-                   (weighting[3] * alignment_vector);
+    if (!in_danger(dist_matrix, args.num_boids)) {
+        new_velocity = (weighting[0] * get_velocity()) + \
+                       (weighting[1] * avoidance_vector) + \
+                       (weighting[2] * cohesion_vector) + \
+                       (weighting[3] * alignment_vector);
 
-    return new_velocity;
+        return new_velocity;
+    }
+
+    else {
+        // Need to give priority to avoidance vector
+        if (args.verbose) {
+            std::cout << "DANGER! GIVING PRIORITY TO AVOIDANCE FOR BOID " << get_boid_ID() << std::endl;
+        }
+        return avoidance_vector;
+    }
 }
 
 void Boid::compute_new_position(argument_struct args, float max_x, float max_y,

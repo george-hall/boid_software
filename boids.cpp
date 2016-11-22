@@ -164,7 +164,7 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
 
     avoidance_vector = compute_avoidance_vector(dist_matrix, args.num_boids,
                                                 boid_array, nhood_size, max_x, max_y);
-    alignment_vector = compute_cohesion_vector(dist_matrix, args.num_boids,
+    alignment_vector = compute_alignment_vector(dist_matrix, args.num_boids,
                                               boid_array, nhood_size);
     cohesion_vector = compute_cohesion_vector(dist_matrix, args.num_boids,
                                                boid_array, nhood_size, max_x, max_y);

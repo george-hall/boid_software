@@ -155,7 +155,7 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
 
     vect current_position = get_position();
     vect nhood_centroid = compute_nhood_centroid(dist_matrix, nhood_size,
-                                                 boid_array, num_boids);
+                                                 boid_array, num_boids, max_x, max_y);
 
     vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y);
     return constrain_vector(to_return, 1);

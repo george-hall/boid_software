@@ -105,7 +105,8 @@ vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
 
 
 vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
-                                  Boid **boid_array, unsigned int num_boids) {
+                                  Boid **boid_array, unsigned int num_boids,
+                                  float max_x, float max_y) {
 
     // Computes the centroid of the boid's neighbourhood. That is, this
     // function returns the position vector of the average position of all
@@ -134,6 +135,11 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
         // is set to 0
         return get_position();
     }
+
+    // Make centroid deal with periodic boundaries correctly
+
+    nhood_position_total.x = positive_fmod(nhood_position_total.x, max_x);
+    nhood_position_total.y = positive_fmod(nhood_position_total.y, max_y);
 
     return (nhood_position_total / num_boids_in_nhood);
 }

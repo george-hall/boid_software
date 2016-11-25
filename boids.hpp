@@ -24,7 +24,7 @@ class Boid {
 
         vect compute_nhood_centroid(float **dist_matrix, float nhood_size,
                                                   Boid **boid_array,
-                                                  unsigned int num_boids);
+                                                  unsigned int num_boids, float max_x, float max_y);
 
         // Function to calculate a boid's new velocity given influence
         // from the three steering factors of cohesion, collision

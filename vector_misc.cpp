@@ -65,7 +65,7 @@ vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y) {
     // shortest path, and this path may cross the boundary
     vect to_return(0, 0);
 
-    if (abs((v2.x - v1.x) > (max_x/2.0f))) {
+    if (abs((v2.x - v1.x)) > (max_x/2.0f)) {
         // Shortest path crosses boundary
         to_return.x = v1.x - v2.x;
     }
@@ -73,7 +73,7 @@ vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y) {
         to_return.x = v2.x - v1.x;
     }
 
-    if (abs((v2.y - v1.y) > (max_y/2.0f))) {
+    if (abs((v2.y - v1.y)) > (max_y/2.0f)) {
         // Shortest path crosses boundary
         to_return.y = v1.y - v2.y;
     }

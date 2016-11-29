@@ -59,7 +59,7 @@ float distance_between_boids(Boid *boid_1, Boid *boid_2, float max_x,
     float y_diff = std::min(positive_fmod(boid_1_pos.y - boid_2_pos.y, max_y),
                             positive_fmod(boid_2_pos.y - boid_1_pos.y, max_y));
 
-    return x_diff + y_diff;
+    return sqrt((x_diff*x_diff) + (y_diff * y_diff));
 }
 
 void calculate_dist_matrix(Boid **boid_array, float **dist_matrix,

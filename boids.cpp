@@ -124,6 +124,15 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
 
+            // Keep position within range [-max_x/2, max_x/2] (same for y)
+            // This helps with boundary conditions as well
+            while (neighbour_pos.x > max_x/2.0f) {
+                neighbour_pos -= vect(max_x, 0);
+            }
+            while (neighbour_pos.y > max_y/2.0f) {
+                neighbour_pos -= vect(0, max_y);
+            }
+
             nhood_position_total += neighbour_pos;
         }
     }
@@ -136,12 +145,13 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
         return get_position();
     }
 
-    // Make centroid deal with periodic boundaries correctly
+    nhood_position_total = nhood_position_total / num_boids_in_nhood;
 
+    // Make centroid deal with periodic boundaries correctly
     nhood_position_total.x = positive_fmod(nhood_position_total.x, max_x);
     nhood_position_total.y = positive_fmod(nhood_position_total.y, max_y);
 
-    return (nhood_position_total / num_boids_in_nhood);
+    return nhood_position_total;
 }
 
 vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,

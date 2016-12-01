@@ -215,9 +215,9 @@ int main_program(argument_struct args, float max_x, float max_y) {
         // Fill window with black
         window.clear(sf::Color::Black);
 
-        update_all_positions(args, boid_array, max_x, max_y, dist_matrix);
         calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
                               max_y);
+        update_all_positions(args, boid_array, max_x, max_y, dist_matrix);
         if (args.verbose) {
             print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);

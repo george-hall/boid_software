@@ -239,20 +239,10 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
             std::cout << "DANGER! GIVING PRIORITY TO AVOIDANCE FOR BOID ";
             std::cout << get_boid_ID() << std::endl;
         }
-        return avoidance_vector;
+        return change_vector_magnitude(avoidance_vector, 3);
     }
 }
 
-void Boid::compute_new_position(argument_struct args, float max_x, float max_y,
-                                float **dist_matrix, Boid **boid_array) {
-    vect zero_velocity(0, 0);
-    vect old_position = get_position();
-    vect new_velocity = compute_new_velocity(args, dist_matrix,
-                                             boid_array, max_x, max_y);
-    new_velocity = constrain_vector(new_velocity, 1);
-    set_velocity(new_velocity.x, new_velocity.y);
-
-    vect new_position = old_position + new_velocity;
-    set_position(positive_fmod(new_position.x, max_x),
-                 positive_fmod(new_position.y, max_y));
+vect Boid::compute_new_position() {
+    return get_position() + get_velocity();
 }

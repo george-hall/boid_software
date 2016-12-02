@@ -35,7 +35,7 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
                            unsigned int board_width,
                            unsigned int board_height);
 
-void update_all_positions(argument_struct args, Boid **boid_array, float max_x,
-                          float max_y, float **dist_matrix);
+void update_all_boids(argument_struct args, Boid **boid_array, float max_x,
+                      float max_y, float **dist_matrix);
 
 #endif // MAIN_HPP

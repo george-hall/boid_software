@@ -162,12 +162,26 @@ void print_dist_matrix(float **dist_matrix, unsigned int num_boids) {
     }
 }
 
-void update_all_positions(argument_struct args, Boid **boid_array,
-                          float max_x, float max_y, float **dist_matrix) {
+void update_all_boids(argument_struct args, Boid **boid_array,
+                      float max_x, float max_y, float **dist_matrix) {
+
+    // Updates the velocity and then the position for all boids
+
+    vect new_velocity, new_position;
+
     for (unsigned int i = 0; i < args.num_boids; i++) {
-        boid_array[i]->compute_new_position(args, max_x, max_y, dist_matrix,
-                                            boid_array);
+        Boid *ptr_to_boid = boid_array[i];
+
+        new_velocity = ptr_to_boid->compute_new_velocity(args, dist_matrix,
+                                                         boid_array, max_x,
+                                                         max_y);
+        ptr_to_boid->set_velocity(new_velocity.x, new_velocity.y);
+
+        new_position = ptr_to_boid->compute_new_position();
+        ptr_to_boid->set_position(positive_fmod(new_position.x, max_x),
+                                  positive_fmod(new_position.y, max_y));
     }
+
 }
 
 Boid **create_boid_array(argument_struct args) {
@@ -219,7 +233,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
 
         calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
                               max_y);
-        update_all_positions(args, boid_array, max_x, max_y, dist_matrix);
+        update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
         if (args.verbose) {
             print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);

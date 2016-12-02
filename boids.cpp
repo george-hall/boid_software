@@ -67,8 +67,17 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
         if ((i != boid_ID) && (dist_matrix[boid_ID][i] < nhood_size)) {
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
-            // Add vector in opposite direction from neighbour
-            avoidance_vector += compute_displacement_vector(neighbour_pos, current_position, max_x, max_y);
+
+            // Compute vector in direction away from neighbour
+            vect dis_vect = compute_displacement_vector(neighbour_pos,
+                                                        current_position,
+                                                        max_x, max_y);
+            // Make this vector unit length (this means that the avoidance
+            // vector for a pair of boids will be the same regardless of their
+            // distance from one another)
+            vect dis_vect_constrained = constrain_vector(dis_vect, 1);
+
+            avoidance_vector += dis_vect_constrained;
         }
     }
 

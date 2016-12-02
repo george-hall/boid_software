@@ -21,7 +21,7 @@ argument_struct parse_args(int argc, char **argv) {
     // Set struct members to default values
     args.board_width = 400;
     args.board_height = 400;
-    args.num_boids = 5;
+    args.num_boids = 15;
     args.old_velocity_weight = 1.0f;
     args.avoidance_weight = 0.4f;
     args.cohesion_weight = 0.3f;

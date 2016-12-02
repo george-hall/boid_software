@@ -75,13 +75,13 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
             // Make this vector unit length (this means that the avoidance
             // vector for a pair of boids will be the same regardless of their
             // distance from one another)
-            vect dis_vect_constrained = constrain_vector(dis_vect, 1);
+            vect dis_vect_unit = change_vector_magnitude(dis_vect, 1);
 
-            avoidance_vector += dis_vect_constrained;
+            avoidance_vector += dis_vect_unit;
         }
     }
 
-    return constrain_vector(avoidance_vector, 1);
+    return change_vector_magnitude(avoidance_vector, 1);
 }
 
 vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
@@ -109,7 +109,7 @@ vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
     }
 
     vect to_return = (nhood_average_velocity / num_boids_in_nhood);
-    return constrain_vector(to_return, 1);
+    return change_vector_magnitude(to_return, 1);
 }
 
 
@@ -177,7 +177,7 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
                                                  boid_array, num_boids, max_x, max_y);
 
     vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y);
-    return constrain_vector(to_return, 1);
+    return change_vector_magnitude(to_return, 1);
 }
 
 bool Boid::in_danger(float **dist_matrix, unsigned int num_boids) {

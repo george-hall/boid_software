@@ -9,6 +9,7 @@
 #include "other_misc.hpp"
 #include "command_line_parsing.hpp"
 #include "boids.hpp"
+#include "main.hpp"
 
 #define PI 3.14159265
 

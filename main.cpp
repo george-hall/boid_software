@@ -184,7 +184,8 @@ Boid **create_boid_array(argument_struct args) {
     return boid_array;
 }
 
-float **create_dist_matrix(argument_struct args, Boid **boid_array, float max_x, float max_y) {
+float **create_dist_matrix(argument_struct args, Boid **boid_array,
+                           float max_x, float max_y) {
 
     float **dist_matrix = new float*[args.num_boids];
 

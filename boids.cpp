@@ -58,7 +58,8 @@ void Boid::print() {
 
 vect Boid::compute_avoidance_vector(float **dist_matrix,
                                     unsigned int num_boids, Boid **boid_array,
-                                    float nhood_size, float max_x, float max_y) {
+                                    float nhood_size, float max_x,
+                                    float max_y) {
     unsigned int boid_ID = get_boid_ID();
     vect current_position = get_position();
     vect avoidance_vector(0, 0);
@@ -84,8 +85,9 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
     return change_vector_magnitude(avoidance_vector, 1);
 }
 
-vect Boid::compute_alignment_vector(float **dist_matrix, unsigned int num_boids,
-                                   Boid **boid_array, float nhood_size) {
+vect Boid::compute_alignment_vector(float **dist_matrix,
+                                    unsigned int num_boids, Boid **boid_array,
+                                    float nhood_size) {
 
     unsigned int boid_ID = get_boid_ID();
 
@@ -164,7 +166,8 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
 }
 
 vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
-                                   Boid **boid_array, float nhood_size, float max_x, float max_y) {
+                                   Boid **boid_array, float nhood_size,
+                                   float max_x, float max_y) {
 
     // This function returns the vector required for the boid to steer towards
     // the centroid (i.e. the average position) of its neighbourhood. It does
@@ -181,7 +184,7 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
 }
 
 bool Boid::in_danger(float **dist_matrix, unsigned int num_boids) {
-    float danger_zone = 5;
+    float danger_zone = 20;
     unsigned int boid_ID = get_boid_ID();
     for (unsigned int i; i < num_boids; i++) {
         if ((i != boid_ID) && (dist_matrix[i][boid_ID] < danger_zone)) {
@@ -199,11 +202,13 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
     vect avoidance_vector, cohesion_vector, alignment_vector;
 
     avoidance_vector = compute_avoidance_vector(dist_matrix, args.num_boids,
-                                                boid_array, nhood_size, max_x, max_y);
+                                                boid_array, nhood_size, max_x,
+                                                max_y);
     alignment_vector = compute_alignment_vector(dist_matrix, args.num_boids,
-                                              boid_array, nhood_size);
+                                                boid_array, nhood_size);
     cohesion_vector = compute_cohesion_vector(dist_matrix, args.num_boids,
-                                               boid_array, nhood_size, max_x, max_y);
+                                              boid_array, nhood_size, max_x,
+                                              max_y);
 
     if (args.verbose) {
         std::cout << "avoid: " << velocity_to_str(avoidance_vector);
@@ -224,13 +229,15 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                        (weighting[2] * cohesion_vector) + \
                        (weighting[3] * alignment_vector);
 
+        //return constrain_vector(new_velocity, 1);
         return new_velocity;
     }
 
     else {
         // Need to give priority to avoidance vector
         if (args.verbose) {
-            std::cout << "DANGER! GIVING PRIORITY TO AVOIDANCE FOR BOID " << get_boid_ID() << std::endl;
+            std::cout << "DANGER! GIVING PRIORITY TO AVOIDANCE FOR BOID ";
+            std::cout << get_boid_ID() << std::endl;
         }
         return avoidance_vector;
     }

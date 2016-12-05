@@ -40,4 +40,6 @@ void update_all_boids(argument_struct args, Boid **boid_array, float max_x,
 
 vect calculate_mean_velocity(Boid **boid_array, unsigned int num_boids);
 
+float calculate_polarisation(Boid **boid_array, unsigned int num_boids);
+
 #endif // MAIN_HPP

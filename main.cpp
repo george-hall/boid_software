@@ -225,6 +225,21 @@ vect calculate_mean_velocity(Boid **boid_array, unsigned int num_boids) {
     return (running_total / (float) num_boids);
 }
 
+float calculate_polarisation(Boid **boid_array, unsigned int num_boids) {
+    vect running_total(0, 0);
+    Boid *ptr_to_boid;
+
+    for (unsigned int i = 0; i < num_boids; i++) {
+        ptr_to_boid = boid_array[i];
+        vect boid_velocity = ptr_to_boid->get_velocity();
+        running_total += change_vector_magnitude(boid_velocity, 1);
+    }
+
+    float polarisation = calculate_vector_magnitude(running_total / (float) num_boids);
+
+    return polarisation;
+}
+
 int main_program(argument_struct args, float max_x, float max_y) {
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);

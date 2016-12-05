@@ -38,4 +38,6 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
 void update_all_boids(argument_struct args, Boid **boid_array, float max_x,
                       float max_y, float **dist_matrix);
 
+vect calculate_mean_velocity(Boid **boid_array, unsigned int num_boids);
+
 #endif // MAIN_HPP

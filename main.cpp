@@ -213,6 +213,18 @@ float **create_dist_matrix(argument_struct args, Boid **boid_array,
     return dist_matrix;
 }
 
+vect calculate_mean_velocity(Boid **boid_array, unsigned int num_boids) {
+    vect running_total(0, 0);
+    Boid *ptr_to_boid;
+
+    for (unsigned int i = 0; i < num_boids; i++) {
+        ptr_to_boid = boid_array[i];
+        running_total += ptr_to_boid->get_velocity();
+    }
+
+    return (running_total / (float) num_boids);
+}
+
 int main_program(argument_struct args, float max_x, float max_y) {
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);

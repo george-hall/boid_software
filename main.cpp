@@ -232,6 +232,12 @@ int main_program(argument_struct args, float max_x, float max_y) {
     sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
                             "Boids");
 
+    sf::Font font;
+    if (!font.loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")) {
+        std::cerr << "ERROR: Unable to locate font file required to display ";
+        std::cerr << "average velocity." << std::endl;
+    }
+
     while (window.isOpen()) {
         // Check for window being closed
         sf::Event event;
@@ -246,6 +252,17 @@ int main_program(argument_struct args, float max_x, float max_y) {
         calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
                               max_y);
         update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
+        vect average_velocity = calculate_mean_velocity(boid_array,
+                                                        args.num_boids);
+
+        sf::Text average_velocity_str;
+        average_velocity_str.setString("Average Velocity: " +
+                                       velocity_to_str(average_velocity));
+        average_velocity_str.setFont(font);
+        average_velocity_str.setCharacterSize(16);
+        average_velocity_str.setColor(sf::Color::Red);
+        window.draw(average_velocity_str);
+
         if (args.verbose) {
             print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);

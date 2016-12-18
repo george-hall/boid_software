@@ -127,25 +127,76 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
 
     // Has to be float to be able to divide vector by this value
     float num_boids_in_nhood = 0;
+
+    // Running total for simple method (used when neighbourhood does not cross
+    // boundaries)
+    vect simple_nhood_position_total(0, 0);
+    // Running total for complex method (used when neighbourhood does cross
+    // boundaries)
+    vect complex_nhood_position_total(0, 0);
+    // Total to return
     vect nhood_position_total(0, 0);
 
+    // These variables keep track of the highest and lowest x and y values
+    // assigned to boids in the neighbourhood. This allows us to determine
+    // whether the neighbourhood crosses a boundary, and thus requires the more
+    // complex centroid calculation to be used
+    float highest_x_in_nhood, lowest_x_in_nhood;
+    float highest_y_in_nhood, lowest_y_in_nhood;
+
     for (unsigned int i = 0; i < num_boids; i++) {
+        highest_x_in_nhood = boid_array[boid_ID]->get_position().x;
+        lowest_x_in_nhood = boid_array[boid_ID]->get_position().x;
+        highest_y_in_nhood = boid_array[boid_ID]->get_position().y;
+        lowest_y_in_nhood = boid_array[boid_ID]->get_position().y;
+
         if (dist_matrix[boid_ID][i] < nhood_size) {
             num_boids_in_nhood += 1;
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
+            vect complex_neighbour_pos = neighbour_pos;
 
-            // Keep position within range [-max_x/2, max_x/2] (same for y)
-            // This helps with boundary conditions as well
-            while (neighbour_pos.x > max_x/2.0f) {
-                neighbour_pos -= vect(max_x, 0);
+            if (neighbour_pos.x < lowest_x_in_nhood) {
+                lowest_x_in_nhood = neighbour_pos.x;
             }
-            while (neighbour_pos.y > max_y/2.0f) {
-                neighbour_pos -= vect(0, max_y);
+            if (neighbour_pos.x > highest_x_in_nhood) {
+                highest_x_in_nhood = neighbour_pos.x;
+            }
+            if (neighbour_pos.y < lowest_y_in_nhood) {
+                lowest_y_in_nhood = neighbour_pos.y;
+            }
+            if (neighbour_pos.y > highest_y_in_nhood) {
+                highest_y_in_nhood = neighbour_pos.y;
             }
 
-            nhood_position_total += neighbour_pos;
+            // Keep complex position total within range [-max_x/2, max_x/2]
+            // (resp. y)
+            while (complex_neighbour_pos.x > max_x/2.0f) {
+                complex_neighbour_pos -= vect(max_x, 0);
+            }
+            while (complex_neighbour_pos.y > max_y/2.0f) {
+                complex_neighbour_pos -= vect(0, max_y);
+            }
+
+            simple_nhood_position_total += neighbour_pos;
+            complex_nhood_position_total += complex_neighbour_pos;
         }
+    }
+
+    if (highest_x_in_nhood - lowest_x_in_nhood > nhood_size) {
+        // i.e. the neighbourhood must cross a boundary in the x direction
+        nhood_position_total.x = complex_nhood_position_total.x;
+    }
+    else {
+        nhood_position_total.x = simple_nhood_position_total.x;
+    }
+
+    if (highest_y_in_nhood - lowest_y_in_nhood > nhood_size) {
+        // i.e. the neighbourhood must cross a boundary in the y direction
+        nhood_position_total.y = complex_nhood_position_total.y;
+    }
+    else {
+        nhood_position_total.y = simple_nhood_position_total.y;
     }
 
     nhood_position_total = nhood_position_total / num_boids_in_nhood;

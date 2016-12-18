@@ -168,15 +168,20 @@ void update_all_boids(argument_struct args, Boid **boid_array,
     // Updates the velocity and then the position for all boids
 
     vect new_velocity, new_position;
+    Boid *ptr_to_boid;
 
+    // Update all boids' velocities
     for (unsigned int i = 0; i < args.num_boids; i++) {
-        Boid *ptr_to_boid = boid_array[i];
-
+        ptr_to_boid = boid_array[i];
         new_velocity = ptr_to_boid->compute_new_velocity(args, dist_matrix,
                                                          boid_array, max_x,
                                                          max_y);
         ptr_to_boid->set_velocity(new_velocity.x, new_velocity.y);
+    }
 
+    // Update all boids' positions
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        ptr_to_boid = boid_array[i];
         new_position = ptr_to_boid->compute_new_position();
         ptr_to_boid->set_position(positive_fmod(new_position.x, max_x),
                                   positive_fmod(new_position.y, max_y));

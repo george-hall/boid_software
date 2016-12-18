@@ -130,7 +130,7 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
     vect nhood_position_total(0, 0);
 
     for (unsigned int i = 0; i < num_boids; i++) {
-        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < nhood_size)) {
+        if (dist_matrix[boid_ID][i] < nhood_size) {
             num_boids_in_nhood += 1;
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
@@ -146,14 +146,6 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
 
             nhood_position_total += neighbour_pos;
         }
-    }
-
-    if (num_boids_in_nhood == 0) {
-        // In order to avoid division by 0, if there are no boids in the
-        // neighbourhood, then I simply return the boid's current position as
-        // the neighbourhood's centroid. This means that the cohesion vector
-        // is set to 0
-        return get_position();
     }
 
     nhood_position_total = nhood_position_total / num_boids_in_nhood;

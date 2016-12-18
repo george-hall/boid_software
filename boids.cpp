@@ -144,12 +144,12 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
     float highest_x_in_nhood, lowest_x_in_nhood;
     float highest_y_in_nhood, lowest_y_in_nhood;
 
-    for (unsigned int i = 0; i < num_boids; i++) {
-        highest_x_in_nhood = boid_array[boid_ID]->get_position().x;
-        lowest_x_in_nhood = boid_array[boid_ID]->get_position().x;
-        highest_y_in_nhood = boid_array[boid_ID]->get_position().y;
-        lowest_y_in_nhood = boid_array[boid_ID]->get_position().y;
+    highest_x_in_nhood = get_position().x;
+    lowest_x_in_nhood = get_position().x;
+    highest_y_in_nhood = get_position().y;
+    lowest_y_in_nhood = get_position().y;
 
+    for (unsigned int i = 0; i < num_boids; i++) {
         if (dist_matrix[boid_ID][i] < nhood_size) {
             num_boids_in_nhood += 1;
             Boid *ptr_to_neighbour = boid_array[i];

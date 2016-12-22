@@ -1,2 +1,3 @@
 boids
 *.o
+test_progs/

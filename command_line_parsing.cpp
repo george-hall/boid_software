@@ -19,13 +19,13 @@ argument_struct parse_args(int argc, char **argv) {
     argument_struct args;
 
     // Set struct members to default values
-    args.board_width = 400;
-    args.board_height = 400;
-    args.num_boids = 15;
+    args.board_width = 1000;
+    args.board_height = 650;
+    args.num_boids = 50;
     args.old_velocity_weight = 1.0f;
-    args.avoidance_weight = 0.4f;
-    args.cohesion_weight = 0.3f;
-    args.alignment_weight = 0.2f;
+    args.avoidance_weight = 1.0f;
+    args.cohesion_weight = 1.0f;
+    args.alignment_weight = 1.0f;
     args.verbose = false;
 
     for (int i = 1; i < argc; i++) {

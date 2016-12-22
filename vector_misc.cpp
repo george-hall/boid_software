@@ -82,18 +82,22 @@ vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y) {
     if (abs((v2.x - v1.x)) > (max_x/2.0f)) {
         // Shortest path crosses boundary
         to_return.x = v1.x - v2.x;
+        // Make magnitude of vector match what expect (the BCs throw it off)
+        if (to_return.x < 0) {to_return.x = ((max_x + to_return.x) * -1);}
+        else {to_return.x = ((to_return.x - max_x) * -1);}
     }
-    else {
-        to_return.x = v2.x - v1.x;
-    }
+
+    else {to_return.x = v2.x - v1.x;}
 
     if (abs((v2.y - v1.y)) > (max_y/2.0f)) {
         // Shortest path crosses boundary
         to_return.y = v1.y - v2.y;
-    }
-    else {
-        to_return.y = v2.y - v1.y;
+        // Make magnitude of vector match what expect (the BCs throw it off)
+        if (to_return.y < 0) {to_return.y = ((max_y + to_return.y) * -1);}
+        else {to_return.y = ((to_return.y - max_y) * -1);}
     }
 
-    return to_return;
+    else  {to_return.y = v2.y - v1.y;}
+
+    return change_vector_magnitude(to_return, 1);
 }

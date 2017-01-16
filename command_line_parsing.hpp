@@ -11,6 +11,7 @@ typedef struct {
     float alignment_weight;
     unsigned int num_boids;
     bool verbose;
+    bool quiet;
 } argument_struct;
 
 argument_struct parse_args(int argc, char **argv);

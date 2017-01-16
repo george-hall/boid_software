@@ -27,6 +27,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.cohesion_weight = 1.0f;
     args.alignment_weight = 1.0f;
     args.verbose = false;
+    args.quiet = false;
 
     for (int i = 1; i < argc; i++) {
 
@@ -163,6 +164,11 @@ argument_struct parse_args(int argc, char **argv) {
         // Verbosity
         else if (!strcmp(argv[i], "--verbose") || !strcmp(argv[i], "-v")) {
             args.verbose = true;
+        }
+
+        // Quiet
+        else if (!strcmp(argv[i], "--quiet") || !strcmp(argv[i], "-q")) {
+            args.quiet = true;
         }
 
         // Argument not recognised

@@ -249,44 +249,62 @@ int main_program(argument_struct args, float max_x, float max_y) {
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
 
-    sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
-                            "Boids");
-
     sf::Font font;
+
+    sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
+                        "Boids");
+    if (args.quiet) {
+        window.close();
+    }
+
     if (!font.loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")) {
         std::cerr << "ERROR: Unable to locate font file required to display ";
         std::cerr << "the flock's polarisation." << std::endl;
     }
 
-    while (window.isOpen()) {
-        // Check for window being closed
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
 
-        // Fill window with black
-        window.clear(sf::Color::Black);
+    while (true) {
+
+        if (!args.quiet) {
+            // Check for window being closed
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    window.close();
+                    break;
+                }
+            }
+            if (event.type == sf::Event::Closed) {
+                break;
+            }
+
+            // Fill window with black
+            window.clear(sf::Color::Black);
+        }
 
         calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
                               max_y);
         update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
 
+        if (!args.quiet) {
         sf::Text polarisation_str;
         polarisation_str.setString("Polarisation: " + std::to_string(polarisation));
         polarisation_str.setFont(font);
         polarisation_str.setCharacterSize(16);
         polarisation_str.setColor(sf::Color::Red);
         window.draw(polarisation_str);
+        }
 
         if (args.verbose) {
             print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);
         }
-        display_all_boids(boid_array, args.num_boids, &window);
-        window.display();
+
+        if (!args.quiet) {
+            display_all_boids(boid_array, args.num_boids, &window);
+            window.display();
+        }
     }
 
     free_boid_instance_memory(boid_array, args.num_boids);

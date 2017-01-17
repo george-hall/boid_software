@@ -10,6 +10,7 @@ typedef struct {
     float cohesion_weight;
     float alignment_weight;
     unsigned int num_boids;
+    bool use_periodic;
     bool verbose;
     bool quiet;
 } argument_struct;

@@ -43,7 +43,7 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
 }
 
 float distance_between_boids(Boid *boid_1, Boid *boid_2, float max_x,
-                             float max_y) {
+                             float max_y, bool use_periodic) {
     // Let the minimum of (+/-) (x0 - x1) mod (max_x) be the x-distance, where
     // x0 and x1 are the x co-ordinates of the two boids, and max_x is the
     // maximum value x can take before looping back to 0. There is an analogous
@@ -54,18 +54,28 @@ float distance_between_boids(Boid *boid_1, Boid *boid_2, float max_x,
     vect boid_1_pos = boid_1->get_position();
     vect boid_2_pos = boid_2->get_position();
 
-    float x_diff = std::min(positive_fmod(boid_1_pos.x - boid_2_pos.x, max_x),
-                            positive_fmod(boid_2_pos.x - boid_1_pos.x, max_x));
+    float x_diff;
+    float y_diff;
 
-    float y_diff = std::min(positive_fmod(boid_1_pos.y - boid_2_pos.y, max_y),
-                            positive_fmod(boid_2_pos.y - boid_1_pos.y, max_y));
+    if (use_periodic) {
+        x_diff = std::min(positive_fmod(boid_1_pos.x - boid_2_pos.x, max_x),
+                          positive_fmod(boid_2_pos.x - boid_1_pos.x, max_x));
+
+        y_diff = std::min(positive_fmod(boid_1_pos.y - boid_2_pos.y, max_y),
+                          positive_fmod(boid_2_pos.y - boid_1_pos.y, max_y));
+    }
+
+    else {
+        x_diff = positive_fmod(boid_1_pos.x - boid_2_pos.x, max_x);
+        y_diff = positive_fmod(boid_1_pos.y - boid_2_pos.y, max_y);
+    }
 
     return sqrt((x_diff*x_diff) + (y_diff * y_diff));
 }
 
 void calculate_dist_matrix(Boid **boid_array, float **dist_matrix,
                                unsigned int num_boids, float max_x,
-                               float max_y) {
+                               float max_y, bool use_periodic) {
     // Recieves an array from main into which it inserts the distance for all
     // pairs of boids, indexed by their boid_ID. That is, dist_matrix[i][j]
     // contains the distance between the boid with boid_ID i and the boid with
@@ -75,7 +85,7 @@ void calculate_dist_matrix(Boid **boid_array, float **dist_matrix,
         for (unsigned int j = 0; j < num_boids; j++) {
             float distance;
             distance = distance_between_boids(boid_array[i], boid_array[j],
-                                              max_x, max_y);
+                                              max_x, max_y, use_periodic);
             dist_matrix[i][j] = distance;
         }
     }
@@ -213,7 +223,7 @@ float **create_dist_matrix(argument_struct args, Boid **boid_array,
     }
 
     calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
-                          max_y);
+                          max_y, args.use_periodic);
 
     return dist_matrix;
 }
@@ -283,7 +293,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
         }
 
         calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
-                              max_y);
+                              max_y, args.use_periodic);
         update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
 

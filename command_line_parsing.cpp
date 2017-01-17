@@ -161,6 +161,11 @@ argument_struct parse_args(int argc, char **argv) {
             }
         }
 
+        // Use periodic boundary conditions
+        else if (!strcmp(argv[i], "--periodic") || !strcmp(argv[i], "-p")) {
+            args.use_periodic = true;
+        }
+
         // Verbosity
         else if (!strcmp(argv[i], "--verbose") || !strcmp(argv[i], "-v")) {
             args.verbose = true;

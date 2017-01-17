@@ -3,7 +3,8 @@
 #define MAIN_HPP
 
 void calculate_dist_matrix(Boid **boid_array, float **dist_matrix,
-                           unsigned int num_boids, float max_x, float max_y);
+                           unsigned int num_boids, float max_x, float max_y,
+                           bool use_periodic);
 
 Boid **create_boid_array(argument_struct args);
 
@@ -14,7 +15,7 @@ void display_all_boids(Boid **boid_array, unsigned int num_boids,
                        sf::RenderWindow *window);
 
 float distance_between_boids(Boid *boid_1, Boid *boid_2, float max_x,
-                             float max_y);
+                             float max_y, bool use_periodic);
 
 void free_boid_instance_memory(Boid **boid_array, unsigned int num_boids);
 

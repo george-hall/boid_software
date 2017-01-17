@@ -72,12 +72,16 @@ vect constrain_vector(vect v, float max_magnitude) {
     }
 }
 
-vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y) {
+vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y, bool use_periodic) {
     // Return a vector from vector v1 to vector v2. The point of this function
     // is to take into account the periodic boundary conditions imposed on the
     // board, as the displacement vector between two points should take the
     // shortest path, and this path may cross the boundary
     vect to_return(0, 0);
+
+    if (!use_periodic) {
+        return v2 - v1;
+    }
 
     if (abs((v2.x - v1.x)) > (max_x/2.0f)) {
         // Shortest path crosses boundary

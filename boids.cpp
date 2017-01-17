@@ -59,7 +59,7 @@ void Boid::print() {
 vect Boid::compute_avoidance_vector(float **dist_matrix,
                                     unsigned int num_boids, Boid **boid_array,
                                     float nhood_size, float max_x,
-                                    float max_y) {
+                                    float max_y, bool use_periodic) {
     unsigned int boid_ID = get_boid_ID();
     vect current_position = get_position();
     vect avoidance_vector(0, 0);
@@ -72,7 +72,7 @@ vect Boid::compute_avoidance_vector(float **dist_matrix,
             // Compute vector in direction away from neighbour
             vect dis_vect = compute_displacement_vector(neighbour_pos,
                                                         current_position,
-                                                        max_x, max_y);
+                                                        max_x, max_y, use_periodic);
             // Make this vector unit length (this means that the avoidance
             // vector for a pair of boids will be the same regardless of their
             // distance from one another)
@@ -210,7 +210,7 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
 
 vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
                                    Boid **boid_array, float nhood_size,
-                                   float max_x, float max_y) {
+                                   float max_x, float max_y, bool use_periodic) {
 
     // This function returns the vector required for the boid to steer towards
     // the centroid (i.e. the average position) of its neighbourhood. It does
@@ -222,7 +222,7 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
     vect nhood_centroid = compute_nhood_centroid(dist_matrix, nhood_size,
                                                  boid_array, num_boids, max_x, max_y);
 
-    vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y);
+    vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y, use_periodic);
     return change_vector_magnitude(to_return, 1);
 }
 
@@ -237,6 +237,24 @@ bool Boid::in_danger(float **dist_matrix, unsigned int num_boids) {
     return false;
 }
 
+
+bool Boid::approaching_wall(float max_x, float max_y) {
+    // Return true if the boid is within 1 of a wall
+
+    vect current_position = get_position();
+
+    if (current_position.x <= 1.0f || current_position.y >= max_x - 1.0f) {
+        return true;
+    }
+
+    if (current_position.y <= 1.0f || current_position.y >= max_y - 1.0f) {
+        return true;
+    }
+
+    return false;
+}
+
+
 vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                                 Boid **boid_array, float max_x, float max_y) {
     float nhood_size = 100;
@@ -246,12 +264,12 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
 
     avoidance_vector = compute_avoidance_vector(dist_matrix, args.num_boids,
                                                 boid_array, nhood_size, max_x,
-                                                max_y);
+                                                max_y, args.use_periodic);
     alignment_vector = compute_alignment_vector(dist_matrix, args.num_boids,
                                                 boid_array, nhood_size);
     cohesion_vector = compute_cohesion_vector(dist_matrix, args.num_boids,
                                               boid_array, nhood_size, max_x,
-                                              max_y);
+                                              max_y, args.use_periodic);
 
     if (args.verbose) {
         std::cout << "avoid: " << velocity_to_str(avoidance_vector);
@@ -265,6 +283,12 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
     // weighting[0] is the weighting applied to the boid's old velocity;
     // weighting[1] is avoidance vector weighting; weighting[2] is cohesion
     // vector weighting; weighting[3] is alignment vector weighting;
+
+    if (!args.use_periodic) {
+        if (approaching_wall(max_x, max_y)) {
+            return (get_velocity() * -1.0f);
+        }
+    }
 
     if (!in_danger(dist_matrix, args.num_boids)) {
         new_velocity = (weighting[0] * get_velocity()) + \

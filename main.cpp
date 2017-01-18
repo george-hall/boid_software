@@ -193,8 +193,25 @@ void update_all_boids(argument_struct args, Boid **boid_array,
     for (unsigned int i = 0; i < args.num_boids; i++) {
         ptr_to_boid = boid_array[i];
         new_position = ptr_to_boid->compute_new_position();
-        ptr_to_boid->set_position(positive_fmod(new_position.x, max_x),
-                                  positive_fmod(new_position.y, max_y));
+        if (args.use_periodic) {
+            ptr_to_boid->set_position(positive_fmod(new_position.x, max_x),
+                                      positive_fmod(new_position.y, max_y));
+        }
+        else {
+            if (new_position.x > max_x) {
+                new_position.x = max_x;
+            }
+            else if (new_position.x < 0) {
+                new_position.x = 0;
+            }
+            if (new_position.y > max_y) {
+                new_position.y = max_y;
+            }
+            else if (new_position.y < 0) {
+                new_position.y = 0;
+            }
+            ptr_to_boid->set_position(new_position.x, new_position.y);
+        }
     }
 
 }

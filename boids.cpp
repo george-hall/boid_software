@@ -264,6 +264,28 @@ int Boid::approaching_wall(float max_x, float max_y) {
     return 0;
 }
 
+
+vect Boid::direct_away_from_wall(int wall_approach) {
+    // wall_approach == 1 => approaching top wall
+    // wall_approach == 2 => approaching right wall
+    // wall_approach == 3 => approaching bottom wall
+    // wall_approach == 4 => approaching left wall
+
+    vect current_velocity = get_velocity();
+    if (wall_approach == 1 && current_velocity.y <= 0.0f) {
+        current_velocity.y *= -1.0f;
+    }
+    else if (wall_approach == 3 && current_velocity.y >= 0.0f) {
+        current_velocity.y *= -1.0f;
+    }
+    else if (wall_approach == 2 && current_velocity.x >= 0.0f) {
+        current_velocity.x *= -1.0f;
+    }
+    else if (wall_approach == 4 && current_velocity.x <= 0.0f) {
+        current_velocity.x *= -1.0f;
+    }
+
+    return current_velocity;
 }
 
 

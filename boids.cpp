@@ -243,11 +243,13 @@ bool Boid::approaching_wall(float max_x, float max_y) {
 
     vect current_position = get_position();
 
-    if (current_position.x <= 1.0f || current_position.y >= max_x - 1.0f) {
+    float cutoff_point = 1.0f;
+
+    if (current_position.x <= cutoff_point || current_position.y >= max_x - cutoff_point) {
         return true;
     }
 
-    if (current_position.y <= 1.0f || current_position.y >= max_y - 1.0f) {
+    if (current_position.y <= cutoff_point || current_position.y >= max_y - cutoff_point) {
         return true;
     }
 

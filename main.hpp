@@ -43,4 +43,6 @@ vect calculate_mean_velocity(Boid **boid_array, unsigned int num_boids);
 
 float calculate_polarisation(Boid **boid_array, unsigned int num_boids);
 
+void update_fluctuations(argument_struct args, Boid **boid_array, vect *fluctuations_matrix);
+
 #endif // MAIN_HPP

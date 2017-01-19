@@ -272,9 +272,27 @@ float calculate_polarisation(Boid **boid_array, unsigned int num_boids) {
     return polarisation;
 }
 
+void update_fluctuations(argument_struct args, Boid **boid_array, vect *fluctuations_matrix) {
+    vect flock_mean_velocity(0, 0);
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        flock_mean_velocity += boid_array[i]->get_velocity();
+    }
+    flock_mean_velocity.x /= args.num_boids;
+    flock_mean_velocity.y /= args.num_boids;
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        Boid *boid_ptr = boid_array[i];
+        fluctuations_matrix[boid_ptr->get_boid_ID()] = boid_ptr->get_velocity() - flock_mean_velocity;
+    }
+}
+
 int main_program(argument_struct args, float max_x, float max_y) {
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
+
+    // Stores fluctuations of boids' velocities around the flock's mean velocity
+    vect *fluctuations_matrix = new vect[args.num_boids];
 
     sf::Font font;
 
@@ -312,6 +330,8 @@ int main_program(argument_struct args, float max_x, float max_y) {
         calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
                               max_y, args.use_periodic);
         update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
+        update_fluctuations(args, boid_array, fluctuations_matrix);
+
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
 
         if (!args.quiet) {

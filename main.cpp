@@ -316,11 +316,8 @@ int main_program(argument_struct args, float max_x, float max_y) {
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::Closed) {
                     window.close();
-                    break;
+                    return 0;
                 }
-            }
-            if (event.type == sf::Event::Closed) {
-                break;
             }
 
             // Fill window with black

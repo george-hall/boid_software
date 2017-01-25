@@ -26,6 +26,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.avoidance_weight = 1.0f;
     args.cohesion_weight = 1.0f;
     args.alignment_weight = 1.0f;
+    args.in_file_name = "";
     args.verbose = false;
     args.quiet = false;
 
@@ -174,6 +175,15 @@ argument_struct parse_args(int argc, char **argv) {
         // Quiet
         else if (!strcmp(argv[i], "--quiet") || !strcmp(argv[i], "-q")) {
             args.quiet = true;
+        }
+
+        // In file name
+        else if (!strcmp(argv[i], "--in-file") || !strcmp(argv[i], "-f")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            args.in_file_name = argv[++i];
         }
 
         // Argument not recognised

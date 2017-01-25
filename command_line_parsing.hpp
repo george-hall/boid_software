@@ -11,6 +11,7 @@ typedef struct {
     float alignment_weight;
     unsigned int num_boids;
     bool use_periodic;
+    std::string in_file_name;
     bool verbose;
     bool quiet;
 } argument_struct;

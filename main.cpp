@@ -9,6 +9,7 @@
 #include "other_misc.hpp"
 #include "command_line_parsing.hpp"
 #include "boids.hpp"
+#include "boid_file_io.hpp"
 #include "main.hpp"
 
 #define PI 3.14159265
@@ -221,8 +222,15 @@ Boid **create_boid_array(argument_struct args) {
     Boid **boid_array = new Boid*[args.num_boids];
 
     initialise_boids(args.num_boids, boid_array);
-    set_random_attributes(args.num_boids, boid_array, args.board_width,
-                          args.board_height);
+
+    if (args.in_file_name == "") {
+        set_random_attributes(args.num_boids, boid_array, args.board_width,
+                              args.board_height);
+    }
+    else {
+        read_boids_from_file(args, boid_array);
+    }
+
     if (args.verbose) {
         print_all_boids(boid_array, args.num_boids);
     }

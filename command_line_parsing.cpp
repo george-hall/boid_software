@@ -27,6 +27,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.cohesion_weight = 1.0f;
     args.alignment_weight = 1.0f;
     args.in_file_name = "";
+    args.use_periodic = false;
     args.verbose = false;
     args.quiet = false;
 

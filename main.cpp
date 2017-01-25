@@ -316,6 +316,8 @@ int main_program(argument_struct args, float max_x, float max_y) {
     }
 
 
+    int iterations_completed = 0;
+
     while (true) {
 
         if (!args.quiet) {
@@ -338,6 +340,13 @@ int main_program(argument_struct args, float max_x, float max_y) {
         update_fluctuations(args, boid_array, fluctuations_matrix);
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
+
+        if (args.quiet && iterations_completed == 1000) {
+            std::cout << polarisation << std::endl;
+            break;
+        }
+
+        iterations_completed += 1;
 
         if (!args.quiet) {
         sf::Text polarisation_str;

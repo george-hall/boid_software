@@ -1,3 +1,4 @@
 boids
 *.o
 test_progs/
+boid_data.boids

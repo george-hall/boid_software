@@ -291,18 +291,16 @@ vect Boid::direct_away_from_wall(int wall_approach) {
 
 vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                                 Boid **boid_array, float max_x, float max_y) {
-    float nhood_size = 100;
-
     vect new_velocity;
     vect avoidance_vector, cohesion_vector, alignment_vector;
 
     avoidance_vector = compute_avoidance_vector(dist_matrix, args.num_boids,
-                                                boid_array, nhood_size, max_x,
+                                                boid_array, args.nhood_size, max_x,
                                                 max_y, args.use_periodic);
     alignment_vector = compute_alignment_vector(dist_matrix, args.num_boids,
-                                                boid_array, nhood_size);
+                                                boid_array, args.nhood_size);
     cohesion_vector = compute_cohesion_vector(dist_matrix, args.num_boids,
-                                              boid_array, nhood_size, max_x,
+                                              boid_array, args.nhood_size, max_x,
                                               max_y, args.use_periodic);
 
     if (args.verbose) {

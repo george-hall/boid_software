@@ -22,6 +22,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.board_width = 1000;
     args.board_height = 650;
     args.num_boids = 50;
+    args.nhood_size = 50;
     args.old_velocity_weight = 1.0f;
     args.avoidance_weight = 1.0f;
     args.cohesion_weight = 1.0f;
@@ -85,6 +86,25 @@ argument_struct parse_args(int argc, char **argv) {
                 args.num_boids = (unsigned int) strtoul(argv[++i], NULL, 10);
                 if (args.num_boids == 0) {
                     std::cout << "ERROR: number of boids must be a positive integer" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+            }
+        }
+
+        // Neighbourhood size
+        else if (!strcmp(argv[i], "--nhood-size") || !strcmp(argv[i], "-s")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else if (argv[i+1][0] == '-') {
+                std::cout << "ERROR: neighbourhood size must be a positive integer" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                args.nhood_size = (unsigned int) strtof(argv[++i], NULL);
+                if (args.nhood_size == 0) {
+                    std::cout << "ERROR: neighbourhood size must be a positive integer" << std::endl;
                     exit(EXIT_FAILURE);
                 }
             }

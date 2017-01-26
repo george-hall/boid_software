@@ -238,26 +238,24 @@ bool Boid::in_danger(float **dist_matrix, unsigned int num_boids) {
 }
 
 
-int Boid::approaching_wall(float max_x, float max_y) {
+int Boid::approaching_wall(float max_x, float max_y, float nhood_size) {
     // Return true if the boid is within 1 of a wall
 
     vect current_position = get_position();
 
-    float cutoff_point = 1.0f;
-
-    if (current_position.x <= cutoff_point) {
+    if (current_position.x <= nhood_size) {
         return 4;
     }
     
-    else if (current_position.x >= max_x - cutoff_point) {
+    else if (current_position.x >= max_x - nhood_size) {
         return 2;
     }
 
-    else if (current_position.y <= cutoff_point) {
+    else if (current_position.y <= nhood_size) {
         return 1;
     }
     
-    else if (current_position.y >= max_y - cutoff_point) {
+    else if (current_position.y >= max_y - nhood_size) {
         return 3;
     }
 
@@ -318,7 +316,7 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
 
     if (!args.use_periodic) {
         // wall_approach == 0 => not approaching wall
-        int wall_approach = approaching_wall(max_x, max_y);
+        int wall_approach = approaching_wall(max_x, max_y, args.nhood_size);
         if (wall_approach != 0) {
             return direct_away_from_wall(wall_approach);
         }

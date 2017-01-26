@@ -42,7 +42,7 @@ class Boid {
                                       unsigned int num_boids,
                                       Boid **boid_array, float nhood_size);
 
-        bool in_danger(float **dist_matrix, unsigned int num_boids);
+        bool in_danger(float **dist_matrix, unsigned int num_boids, float danger_zone);
         int approaching_wall(float max_x, float max_y, float nhood_size);
 
         vect direct_away_from_wall(int wall_approach);

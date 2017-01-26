@@ -226,8 +226,7 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
     return change_vector_magnitude(to_return, 1);
 }
 
-bool Boid::in_danger(float **dist_matrix, unsigned int num_boids) {
-    float danger_zone = 20;
+bool Boid::in_danger(float **dist_matrix, unsigned int num_boids, float danger_zone) {
     unsigned int boid_ID = get_boid_ID();
     for (unsigned int i = 0; i < num_boids; i++) {
         if ((i != boid_ID) && (dist_matrix[i][boid_ID] <= danger_zone)) {
@@ -322,7 +321,7 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
         }
     }
 
-    if (!in_danger(dist_matrix, args.num_boids)) {
+    if (!in_danger(dist_matrix, args.num_boids, args.danger_zone)) {
         new_velocity = (weighting[0] * get_velocity()) + \
                        (weighting[1] * avoidance_vector) + \
                        (weighting[2] * cohesion_vector) + \

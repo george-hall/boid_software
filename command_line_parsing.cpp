@@ -23,6 +23,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.board_height = 650;
     args.num_boids = 50;
     args.nhood_size = 50;
+    args.danger_zone = 10;
     args.old_velocity_weight = 1.0f;
     args.avoidance_weight = 1.0f;
     args.cohesion_weight = 1.0f;
@@ -105,6 +106,25 @@ argument_struct parse_args(int argc, char **argv) {
                 args.nhood_size = (unsigned int) strtof(argv[++i], NULL);
                 if (args.nhood_size == 0) {
                     std::cout << "ERROR: neighbourhood size must be a positive integer" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+            }
+        }
+
+        // Danger zone size
+        else if (!strcmp(argv[i], "--danger-zone") || !strcmp(argv[i], "-d")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else if (argv[i+1][0] == '-') {
+                std::cout << "ERROR: danger zone size must be a positive integer" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                args.danger_zone = (unsigned int) strtof(argv[++i], NULL);
+                if (args.danger_zone == 0) {
+                    std::cout << "ERROR: danger zone size must be a positive integer" << std::endl;
                     exit(EXIT_FAILURE);
                 }
             }

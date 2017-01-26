@@ -6,6 +6,7 @@ typedef struct {
     unsigned int board_width;
     unsigned int board_height;
     float nhood_size;
+    float danger_zone;
     float old_velocity_weight;
     float avoidance_weight;
     float cohesion_weight;

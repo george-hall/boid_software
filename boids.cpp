@@ -229,8 +229,8 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
 bool Boid::in_danger(float **dist_matrix, unsigned int num_boids) {
     float danger_zone = 20;
     unsigned int boid_ID = get_boid_ID();
-    for (unsigned int i; i < num_boids; i++) {
-        if ((i != boid_ID) && (dist_matrix[i][boid_ID] < danger_zone)) {
+    for (unsigned int i = 0; i < num_boids; i++) {
+        if ((i != boid_ID) && (dist_matrix[i][boid_ID] <= danger_zone)) {
             return true;
         }
     }

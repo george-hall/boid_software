@@ -23,7 +23,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.board_height = 650;
     args.num_boids = 50;
     args.nhood_size = 50;
-    args.danger_zone = 10;
+    args.danger_zone = 10.0f;
     args.old_velocity_weight = 1.0f;
     args.avoidance_weight = 1.0f;
     args.cohesion_weight = 1.0f;
@@ -121,13 +121,7 @@ argument_struct parse_args(int argc, char **argv) {
                 std::cout << "ERROR: danger zone size must be a positive integer" << std::endl;
                 exit(EXIT_FAILURE);
             }
-            else {
-                args.danger_zone = (unsigned int) strtof(argv[++i], NULL);
-                if (args.danger_zone == 0) {
-                    std::cout << "ERROR: danger zone size must be a positive integer" << std::endl;
-                    exit(EXIT_FAILURE);
-                }
-            }
+            args.danger_zone = strtof(argv[++i], NULL);
         }
 
         // Steer weights

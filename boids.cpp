@@ -317,11 +317,15 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
         // wall_approach == 0 => not approaching wall
         int wall_approach = approaching_wall(max_x, max_y, args.nhood_size);
         if (wall_approach != 0) {
+            std::cout << "Boid " << get_boid_ID() << " avoiding wall" << std::endl;
             return direct_away_from_wall(wall_approach);
         }
     }
 
     if (!in_danger(dist_matrix, args.num_boids, args.danger_zone)) {
+        if (args.verbose) {
+            std::cout << "Boid " << get_boid_ID() << " in safe zone" << std::endl;
+        }
         new_velocity = (weighting[0] * get_velocity()) + \
                        (weighting[2] * cohesion_vector) + \
                        (weighting[3] * alignment_vector);
@@ -330,10 +334,8 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
     }
 
     else {
-        // Need to give priority to avoidance vector
         if (args.verbose) {
-            std::cout << "DANGER! GIVING PRIORITY TO AVOIDANCE FOR BOID ";
-            std::cout << get_boid_ID() << std::endl;
+            std::cout << "Boid " << get_boid_ID() << " in danger zone" << std::endl;
         }
         new_velocity = (weighting[0] * get_velocity()) + \
                        (weighting[1] * avoidance_vector) + \

@@ -26,6 +26,11 @@ void read_boids_from_file(argument_struct args, Boid **boid_array) {
         }
     }
 
+    else {
+        std::cerr << "Could not open input file. Exiting..." << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     // Set any unspecified boids to random values
     if (lines_read < args.num_boids) {
         set_random_attributes(args.num_boids - lines_read, &boid_array[lines_read], args.board_width, args.board_height);

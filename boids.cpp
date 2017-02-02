@@ -317,7 +317,9 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
         // wall_approach == 0 => not approaching wall
         int wall_approach = approaching_wall(max_x, max_y, args.nhood_size);
         if (wall_approach != 0) {
-            std::cout << "Boid " << get_boid_ID() << " avoiding wall" << std::endl;
+            if (args.verbose) {
+                std::cout << "Boid " << get_boid_ID() << " avoiding wall" << std::endl;
+            }
             return direct_away_from_wall(wall_approach);
         }
     }

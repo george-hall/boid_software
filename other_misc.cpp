@@ -5,6 +5,20 @@
 
 #include "other_misc.hpp"
 
+int smoothed_delta(float value, float desired_val, float tolerance) {
+    // Returns 1 if value is between desired_value +/- (desired_value * tolerance)
+    float lower_bound = desired_val - (tolerance * desired_val);
+    float upper_bound = desired_val + (tolerance * desired_val);
+
+    if ((value >= lower_bound) && (value <= upper_bound)) {
+        return 1;
+    }
+
+    else {
+        return 0;
+    }
+}
+
 float positive_fmod(float x, float max) {
     // Returns the smallest non-negative real number congruent to the value
     // returned by fmod

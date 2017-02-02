@@ -323,7 +323,6 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
 
     if (!in_danger(dist_matrix, args.num_boids, args.danger_zone)) {
         new_velocity = (weighting[0] * get_velocity()) + \
-                       (weighting[1] * avoidance_vector) + \
                        (weighting[2] * cohesion_vector) + \
                        (weighting[3] * alignment_vector);
 
@@ -336,7 +335,12 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
             std::cout << "DANGER! GIVING PRIORITY TO AVOIDANCE FOR BOID ";
             std::cout << get_boid_ID() << std::endl;
         }
-        return change_vector_magnitude(avoidance_vector, 3);
+        new_velocity = (weighting[0] * get_velocity()) + \
+                       (weighting[1] * avoidance_vector) + \
+                       (weighting[2] * cohesion_vector) + \
+                       (weighting[3] * alignment_vector);
+
+        return change_vector_magnitude(new_velocity, 1);
     }
 }
 

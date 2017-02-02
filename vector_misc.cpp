@@ -5,6 +5,10 @@
 #include "vector_misc.hpp"
 #include "other_misc.hpp"
 
+float dot_product(vect v1, vect v2) {
+    return ((v1.x * v2.x) + (v1.y * v2.y));
+}
+
 std::string velocity_to_str(vect v) {
     // Convert a velocity (of type vect) to a string, expressed as
     // the sum of the vector's i and j components

@@ -46,4 +46,6 @@ float calculate_polarisation(Boid **boid_array, unsigned int num_boids);
 
 void update_fluctuations(argument_struct args, Boid **boid_array, vect *fluctuations_matrix);
 
+void calculate_correlations(argument_struct args, vect *fluctuations, float **dist_matrix);
+
 #endif // MAIN_HPP

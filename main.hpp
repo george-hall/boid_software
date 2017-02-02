@@ -20,6 +20,8 @@ void free_boid_instance_memory(Boid **boid_array, unsigned int num_boids);
 
 void initialise_boids(unsigned int num_boids, Boid **boid_array);
 
+void save_state(argument_struct args, Boid **boid_array);
+
 int main(int argc, char **argv);
 
 int main_program(argument_struct args, float max_x, float max_y);

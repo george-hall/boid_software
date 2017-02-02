@@ -2,6 +2,7 @@
 #include <string>
 #include <random>
 #include <cmath>
+#include <fstream>
 
 #include <SFML/Graphics.hpp>
 
@@ -288,6 +289,30 @@ void update_fluctuations(argument_struct args, Boid **boid_array, vect *fluctuat
     }
 }
 
+void save_state(argument_struct args, Boid **boid_array) {
+    // Write the current state of the board to file
+
+    std::string file_name;
+
+    std::cout << "What do you want to call the data file? ";
+    std::cin >> file_name;
+
+    std::ofstream out_file(file_name);
+
+    if (out_file.is_open()) {
+        for (unsigned int i = 0; i < args.num_boids; i++) {
+            Boid *ptr_to_boid = boid_array[i];
+            vect boid_pos = ptr_to_boid->get_position();
+            vect boid_vel = ptr_to_boid->get_velocity();
+            out_file << boid_pos.x << " " << boid_pos.y << " ";
+            out_file << boid_vel.x << " " << boid_vel.y << std::endl;
+        }
+        out_file.close();
+    }
+
+    return;
+}
+
 int main_program(argument_struct args, float max_x, float max_y) {
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
@@ -320,6 +345,12 @@ int main_program(argument_struct args, float max_x, float max_y) {
                 if (event.type == sf::Event::Closed) {
                     window.close();
                     return 0;
+                }
+
+                else if (event.type == sf::Event::KeyPressed) {
+                    if (event.key.code == sf::Keyboard::Space) {
+                        save_state(args, boid_array);
+                    }
                 }
             }
 

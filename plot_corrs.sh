@@ -7,7 +7,6 @@ then
 fi
 
 IN_FILE=$1
-OUT_GRAPH_NAME="graph.png"
 DATA_FILES=""
 TEMP_FILES=""
 
@@ -20,10 +19,8 @@ for CORR_LEN in 10 30 50 70 90 110; do
     rm tmp
 done
 
-gnuplot -dislay -p <<EOF
+gnuplot -p <<EOF
 plot $DATA_FILES
 EOF
 
 rm $TEMP_FILES
-
-#xdg-open $OUT_GRAPH_NAME

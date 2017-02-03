@@ -7,8 +7,9 @@
 
 int smoothed_delta(float value, float desired_val, float tolerance) {
     // Returns 1 if value is between desired_value +/- (desired_value * tolerance)
-    float lower_bound = desired_val - (tolerance * desired_val);
-    float upper_bound = desired_val + (tolerance * desired_val);
+
+    float lower_bound = desired_val - tolerance;
+    float upper_bound = desired_val + tolerance;
 
     if ((value >= lower_bound) && (value <= upper_bound)) {
         return 1;

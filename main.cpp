@@ -421,12 +421,23 @@ int main_program(argument_struct args, float max_x, float max_y) {
         iterations_completed += 1;
 
         if (!args.quiet) {
+        // Display polarisation
         sf::Text polarisation_str;
         polarisation_str.setString("Polarisation: " + std::to_string(polarisation));
         polarisation_str.setFont(font);
         polarisation_str.setCharacterSize(16);
         polarisation_str.setColor(sf::Color::Red);
         window.draw(polarisation_str);
+
+        // Display correlations
+        sf::Text flock_corr_str;
+        float flock_corr = calc_correlation(args, fluctuations_matrix, dist_matrix, 0, 10000.0f);
+        flock_corr_str.setString("Flock Correlation: " + std::to_string(flock_corr));
+        flock_corr_str.setFont(font);
+        flock_corr_str.setCharacterSize(16);
+        flock_corr_str.setColor(sf::Color::Red);
+        flock_corr_str.setPosition(0, 25);
+        window.draw(flock_corr_str);
         }
 
         if (args.verbose) {

@@ -16,6 +16,7 @@
 // Avoidance weight        |      -a
 // Cohesion weight         |      -c
 // Periodic boundary conds |      -p
+// Print correlations      |      -k
 // Input file              |      -f
 // Verbose                 |      -v
 // Quiet                   |      -q
@@ -36,6 +37,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.alignment_weight = 1.0f;
     args.in_file_name = "";
     args.use_periodic = false;
+    args.print_corrs = false;
     args.verbose = false;
     args.quiet = false;
 
@@ -206,6 +208,11 @@ argument_struct parse_args(int argc, char **argv) {
         // Use periodic boundary conditions
         else if (!strcmp(argv[i], "--periodic") || !strcmp(argv[i], "-p")) {
             args.use_periodic = true;
+        }
+
+        // Print correlations
+        else if (!strcmp(argv[i], "--print-corrs") || !strcmp(argv[i], "-k")) {
+            args.print_corrs = true;
         }
 
         // Verbosity

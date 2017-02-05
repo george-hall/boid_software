@@ -13,6 +13,7 @@ typedef struct {
     float alignment_weight;
     unsigned int num_boids;
     bool use_periodic;
+    bool print_corrs;
     std::string in_file_name;
     bool verbose;
     bool quiet;

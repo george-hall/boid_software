@@ -337,9 +337,11 @@ void calculate_correlations(argument_struct args, vect *fluctuations, float **di
         float numerator = 0;
         float denominator = 0;
         for (unsigned int i = 0; i < args.num_boids; i++) {
+            vect f1 = fluctuations[i];
             for (unsigned int j = 0; j < args.num_boids; j++) {
                 int smoothed_delta_val = smoothed_delta(dist_matrix[i][j], d, 10.0f);
-                numerator += (dot_product(fluctuations[i], fluctuations[j]) * smoothed_delta_val);
+                vect f2 = fluctuations[j];
+                numerator += (angle_between_vects(f1, f2) * smoothed_delta_val);
                 denominator += smoothed_delta_val;
             }
         }
@@ -349,9 +351,11 @@ void calculate_correlations(argument_struct args, vect *fluctuations, float **di
     float numerator = 0;
     float denominator = 0;
     for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect f1 = fluctuations[i];
         for (unsigned int j = 0; j < args.num_boids; j++) {
             if (i != j) {
-                numerator += fabs(dot_product(fluctuations[i], fluctuations[j])) / (calculate_vector_magnitude(fluctuations[i]) * calculate_vector_magnitude(fluctuations[j]));
+                vect f2 = fluctuations[j];
+                numerator += angle_between_vects(f1, f2);
                 denominator += 1;
             }
         }

@@ -5,6 +5,15 @@
 #include "vector_misc.hpp"
 #include "other_misc.hpp"
 
+float angle_between_vects(vect v1, vect v2) {
+    float dot_prod = dot_product(v1, v2);
+    float v1_mag = calculate_vector_magnitude(v1);
+    float v2_mag = calculate_vector_magnitude(v2);
+
+    return fabs(dot_prod / (v1_mag * v2_mag));
+}
+
+
 float dot_product(vect v1, vect v2) {
     return ((v1.x * v2.x) + (v1.y * v2.y));
 }

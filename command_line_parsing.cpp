@@ -125,7 +125,7 @@ argument_struct parse_args(int argc, char **argv) {
         }
 
         // Steer weights
-        else if (!strcmp(argv[i], "--old-velocity-weight")) {
+        else if (!strcmp(argv[i], "--old-velocity-weight") || !strcmp(argv[i], "-o")) {
             if (i == argc - 1) {
                 std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
                 exit(EXIT_FAILURE);
@@ -143,7 +143,7 @@ argument_struct parse_args(int argc, char **argv) {
             }
         }
 
-        else if (!strcmp(argv[i], "--avoidance-weight")) {
+        else if (!strcmp(argv[i], "--avoidance-weight") || !strcmp(argv[i], "-a")) {
             if (i == argc - 1) {
                 std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
                 exit(EXIT_FAILURE);
@@ -161,7 +161,7 @@ argument_struct parse_args(int argc, char **argv) {
             }
         }
 
-        else if (!strcmp(argv[i], "--cohesion-weight")) {
+        else if (!strcmp(argv[i], "--cohesion-weight") || !strcmp(argv[i], "-c")) {
             if (i == argc - 1) {
                 std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
                 exit(EXIT_FAILURE);
@@ -179,7 +179,7 @@ argument_struct parse_args(int argc, char **argv) {
             }
         }
 
-        else if (!strcmp(argv[i], "--alignment-weight")) {
+        else if (!strcmp(argv[i], "--alignment-weight") || !strcmp(argv[i], "-l")) {
             if (i == argc - 1) {
                 std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
                 exit(EXIT_FAILURE);

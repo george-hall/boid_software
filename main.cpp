@@ -407,7 +407,9 @@ int main_program(argument_struct args, float max_x, float max_y) {
                               max_y);
         update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
         update_fluctuations(args, boid_array, fluctuations_matrix);
-        print_correlations(args, fluctuations_matrix, dist_matrix);
+        if (args.print_corrs) {
+            print_correlations(args, fluctuations_matrix, dist_matrix);
+        }
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
 

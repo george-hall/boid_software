@@ -346,6 +346,18 @@ void calculate_correlations(argument_struct args, vect *fluctuations, float **di
         std::cout << "Correlation with length " << d << ": " << numerator / denominator << std::endl;
     }
 
+    float numerator = 0;
+    float denominator = 0;
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        for (unsigned int j = 0; j < args.num_boids; j++) {
+            if (i != j) {
+                numerator += fabs(dot_product(fluctuations[i], fluctuations[j])) / (calculate_vector_magnitude(fluctuations[i]) * calculate_vector_magnitude(fluctuations[j]));
+                denominator += 1;
+            }
+        }
+    }
+    std::cout << "Correlation with arbitrary length: " << numerator / denominator << std::endl;
+
     return;
 }
 

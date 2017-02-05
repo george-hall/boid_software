@@ -5,14 +5,20 @@
 
 #include "command_line_parsing.hpp"
 
-// Options:
-//  * Board width
-//  * Board height
-//  * Num boids
-//  * Max speed (will do later)
-//  * Neighbourhood size (will do later)
-//  * Verbose
-//  * Help
+//          Option:        | Short Switch:
+// Board width             |      -w
+// Board height            |      -h
+// Num boids               |      -n
+// Neighbourhood size      |      -s
+// Danger Zone size        |      -d
+// Old velocity weight     |      -o
+// Alignment weight        |      -l
+// Avoidance weight        |      -a
+// Cohesion weight         |      -c
+// Periodic boundary conds |      -p
+// Input file              |      -f
+// Verbose                 |      -v
+// Quiet                   |      -q
 
 argument_struct parse_args(int argc, char **argv) {
 

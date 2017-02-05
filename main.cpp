@@ -313,7 +313,8 @@ void save_state(argument_struct args, Boid **boid_array) {
     return;
 }
 
-void calculate_correlations(argument_struct args, vect *fluctuations, float **dist_matrix) {
+float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
+
     // The correlations will in fact be calculated for different inter-boid
     // distances. That is, we will calculate a correlation for boids which are
     // ~10 units away from each other, and another for boids which are ~20
@@ -326,44 +327,36 @@ void calculate_correlations(argument_struct args, vect *fluctuations, float **di
     //
     // I have tried to do a better write up in my project proper!
 
-    // int number_of_distance_values = 7;
-    // float distance_values[7] = {1.0f, 5.0f, 10.0f, 50.0f, 100.0f, 200.0f, 500.0f};
-    int number_of_distance_values = 25;
-    float distance_values[25] = {10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f, 120.0f, 130.0f, 140.0f, 150.0f, 160.0f, 170.0f, 180.0f, 190.0f, 200.0f, 210.0f, 220.0f, 230.0f, 240.0f, 250.0f};
-
-
-    for (int dist_count = 0; dist_count < number_of_distance_values; dist_count++) {
-        float d = distance_values[dist_count];
-        float numerator = 0;
-        float denominator = 0;
-        for (unsigned int i = 0; i < args.num_boids; i++) {
-            vect f1 = fluctuations[i];
-            for (unsigned int j = 0; j < args.num_boids; j++) {
-                int smoothed_delta_val = smoothed_delta(dist_matrix[i][j], d, 10.0f);
-                vect f2 = fluctuations[j];
-                numerator += (angle_between_vects(f1, f2) * smoothed_delta_val);
-                denominator += smoothed_delta_val;
-            }
-        }
-        std::cout << "Correlation with length " << d << ": " << numerator / denominator << std::endl;
-    }
-
     float numerator = 0;
     float denominator = 0;
     for (unsigned int i = 0; i < args.num_boids; i++) {
         vect f1 = fluctuations[i];
         for (unsigned int j = 0; j < args.num_boids; j++) {
-            if (i != j) {
-                vect f2 = fluctuations[j];
-                numerator += angle_between_vects(f1, f2);
-                denominator += 1;
-            }
+            int smoothed_delta_val = smoothed_delta(dist_matrix[i][j], distance, tolerance);
+            vect f2 = fluctuations[j];
+            numerator += (angle_between_vects(f1, f2) * smoothed_delta_val);
+            denominator += smoothed_delta_val;
         }
     }
-    std::cout << "Correlation with arbitrary length: " << numerator / denominator << std::endl;
 
-    return;
+    return numerator / denominator;
 }
+
+void print_correlations(argument_struct args, vect *fluctuations, float **dist_matrix) {
+    int number_of_distance_values = 25;
+    float distance_values[25] = {10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f, 120.0f, 130.0f, 140.0f, 150.0f, 160.0f, 170.0f, 180.0f, 190.0f, 200.0f, 210.0f, 220.0f, 230.0f, 240.0f, 250.0f};
+    float tolerance = 10.0f;
+
+    for (int dist_count = 0; dist_count < number_of_distance_values; dist_count++) {
+        float d = distance_values[dist_count];
+        float correlation = calc_correlation(args, fluctuations, dist_matrix, d, tolerance);
+        std::cout << "Correlation with length " << d << ": " << correlation << std::endl;
+    }
+
+    float flock_corr = calc_correlation(args, fluctuations, dist_matrix, 0, 10000.0f);
+    std::cout << "Correlation with arbitrary length: " << flock_corr << std::endl;
+}
+
 
 int main_program(argument_struct args, float max_x, float max_y) {
     Boid **boid_array = create_boid_array(args);
@@ -414,7 +407,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
                               max_y);
         update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
         update_fluctuations(args, boid_array, fluctuations_matrix);
-        calculate_correlations(args, fluctuations_matrix, dist_matrix);
+        print_correlations(args, fluctuations_matrix, dist_matrix);
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
 

@@ -5,13 +5,10 @@
 
 #include "other_misc.hpp"
 
-int smoothed_delta(float value, float desired_val, float tolerance) {
-    // Returns 1 if value is between desired_value +/- (desired_value * tolerance)
+int smoothed_delta(float value, float tolerance) {
+    // Returns 1 if value is between +/-tolerance
 
-    float lower_bound = desired_val - tolerance;
-    float upper_bound = desired_val + tolerance;
-
-    if ((value >= lower_bound) && (value <= upper_bound)) {
+    if ((value >= (-1 * tolerance)) && (value <= tolerance)) {
         return 1;
     }
 

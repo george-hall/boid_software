@@ -332,7 +332,7 @@ float calc_correlation(argument_struct args, vect *fluctuations, float **dist_ma
     for (unsigned int i = 0; i < args.num_boids; i++) {
         vect f1 = fluctuations[i];
         for (unsigned int j = 0; j < args.num_boids; j++) {
-            int smoothed_delta_val = smoothed_delta(dist_matrix[i][j], distance, tolerance);
+            int smoothed_delta_val = smoothed_delta(dist_matrix[i][j] - distance, tolerance);
             vect f2 = fluctuations[j];
             numerator += (angle_between_vects(f1, f2) * smoothed_delta_val);
             denominator += smoothed_delta_val;

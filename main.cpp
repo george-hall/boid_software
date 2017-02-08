@@ -275,13 +275,7 @@ float calculate_polarisation(Boid **boid_array, unsigned int num_boids) {
 }
 
 void update_fluctuations(argument_struct args, Boid **boid_array, vect *fluctuations_matrix) {
-    vect flock_mean_velocity(0, 0);
-
-    for (unsigned int i = 0; i < args.num_boids; i++) {
-        flock_mean_velocity += boid_array[i]->get_velocity();
-    }
-    flock_mean_velocity.x /= args.num_boids;
-    flock_mean_velocity.y /= args.num_boids;
+    vect flock_mean_velocity = calculate_mean_velocity(boid_array, args.num_boids);
 
     for (unsigned int i = 0; i < args.num_boids; i++) {
         Boid *boid_ptr = boid_array[i];

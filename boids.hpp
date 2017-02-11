@@ -51,6 +51,11 @@ class Boid {
 
         void print();
 
+        vect compute_new_velocity_classic(argument_struct args,
+                                                float **dist_matrix,
+                                                Boid **boid_array, float max_x,
+                                                float max_y);
+
     private:
         unsigned int boid_ID;
 };

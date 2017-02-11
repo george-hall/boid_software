@@ -10,7 +10,7 @@ IN_FILE=$1
 DATA_FILES=""
 TEMP_FILES=""
 
-for CORR_LEN in 10 30 50 70 90 110; do
+for CORR_LEN in 10 30 50; do
     AWK_COMMAND='{if ($4 == "'$CORR_LEN':") {print $5}}'
     awk "$AWK_COMMAND" "$IN_FILE" > tmp
     awk '{print NR "\t" $0}' tmp > "corr_length_"$CORR_LEN".tmp"
@@ -20,7 +20,7 @@ for CORR_LEN in 10 30 50 70 90 110; do
 done
 
 gnuplot -p <<EOF
-plot $DATA_FILES
+set yr [-2:2]; plot $DATA_FILES
 EOF
 
 rm $TEMP_FILES

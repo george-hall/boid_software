@@ -17,6 +17,7 @@ typedef struct {
     std::string in_file_name;
     bool verbose;
     bool quiet;
+    int mode;
 } argument_struct;
 
 argument_struct parse_args(int argc, char **argv);

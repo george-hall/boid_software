@@ -20,6 +20,7 @@
 // Input file              |      -f
 // Verbose                 |      -v
 // Quiet                   |      -q
+// Mode                    |      -m
 
 argument_struct parse_args(int argc, char **argv) {
 
@@ -40,6 +41,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.print_corrs = false;
     args.verbose = false;
     args.quiet = false;
+    args.mode = 0;
 
     for (int i = 1; i < argc; i++) {
 
@@ -232,6 +234,15 @@ argument_struct parse_args(int argc, char **argv) {
                 exit(EXIT_FAILURE);
             }
             args.in_file_name = argv[++i];
+        }
+
+        // Mode
+        else if (!strcmp(argv[i], "--mode") || !strcmp(argv[i], "-m")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            args.mode = atoi(argv[++i]);
         }
 
         // Argument not recognised

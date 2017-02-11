@@ -35,9 +35,9 @@ class Boid {
         vect compute_avoidance_vector(argument_struct args, float **distance_matrix,
                                       Boid **boid_array, float max_x,
                                       float max_y);
-        vect compute_cohesion_vector(float **dist_matrix,
-                                     unsigned int num_boids, Boid **boid_array,
-                                     float nhood_size, float max_x, float max_y, bool use_periodic);
+        vect compute_cohesion_vector(argument_struct args, float **dist_matrix,
+                                     Boid **boid_array, float max_x,
+                                     float max_y);
         vect compute_alignment_vector(argument_struct args, float **dist_matrix,
                                       Boid **boid_array);
 

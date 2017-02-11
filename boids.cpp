@@ -206,9 +206,8 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
     return nhood_position_total;
 }
 
-vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
-                                   Boid **boid_array, float nhood_size,
-                                   float max_x, float max_y, bool use_periodic) {
+vect Boid::compute_cohesion_vector(argument_struct args, float **dist_matrix,
+                                   Boid **boid_array, float max_x, float max_y) {
 
     // This function returns the vector required for the boid to steer towards
     // the centroid (i.e. the average position) of its neighbourhood. It does
@@ -217,10 +216,10 @@ vect Boid::compute_cohesion_vector(float **dist_matrix, unsigned int num_boids,
     //      2. Return the vector to steer the boid in that direction
 
     vect current_position = get_position();
-    vect nhood_centroid = compute_nhood_centroid(dist_matrix, nhood_size,
-                                                 boid_array, num_boids, max_x, max_y);
+    vect nhood_centroid = compute_nhood_centroid(dist_matrix, args.nhood_size,
+                                                 boid_array, args.num_boids, max_x, max_y);
 
-    vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y, use_periodic);
+    vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y, args.use_periodic);
     return change_vector_magnitude(to_return, 1);
 }
 
@@ -294,9 +293,8 @@ vect Boid::compute_new_velocity_classic(argument_struct args,
     avoidance_vector = compute_avoidance_vector(args, dist_matrix, boid_array,
                                                 max_x, max_y);
     alignment_vector = compute_alignment_vector(args, dist_matrix, boid_array);
-    cohesion_vector = compute_cohesion_vector(dist_matrix, args.num_boids,
-                                              boid_array, args.nhood_size, max_x,
-                                              max_y, args.use_periodic);
+    cohesion_vector = compute_cohesion_vector(args, dist_matrix, boid_array,
+                                              max_x, max_y);
 
     if (args.verbose) {
         std::cout << "avoid: " << velocity_to_str(avoidance_vector);

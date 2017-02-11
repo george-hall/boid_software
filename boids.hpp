@@ -38,9 +38,8 @@ class Boid {
         vect compute_cohesion_vector(float **dist_matrix,
                                      unsigned int num_boids, Boid **boid_array,
                                      float nhood_size, float max_x, float max_y, bool use_periodic);
-        vect compute_alignment_vector(float **dist_matrix,
-                                      unsigned int num_boids,
-                                      Boid **boid_array, float nhood_size);
+        vect compute_alignment_vector(argument_struct args, float **dist_matrix,
+                                      Boid **boid_array);
 
         bool in_danger(float **dist_matrix, unsigned int num_boids, float danger_zone);
         int approaching_wall(float max_x, float max_y, float nhood_size);

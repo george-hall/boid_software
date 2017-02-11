@@ -84,9 +84,8 @@ vect Boid::compute_avoidance_vector(argument_struct args, float **dist_matrix,
     return change_vector_magnitude(avoidance_vector, 1);
 }
 
-vect Boid::compute_alignment_vector(float **dist_matrix,
-                                    unsigned int num_boids, Boid **boid_array,
-                                    float nhood_size) {
+vect Boid::compute_alignment_vector(argument_struct args, float **dist_matrix,
+                                    Boid **boid_array) {
 
     unsigned int boid_ID = get_boid_ID();
 
@@ -94,8 +93,8 @@ vect Boid::compute_alignment_vector(float **dist_matrix,
     float num_boids_in_nhood = 0;
     vect nhood_average_velocity(0, 0);
 
-    for (unsigned int i = 0; i < num_boids; i++) {
-        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < nhood_size)) {
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < args.nhood_size)) {
             num_boids_in_nhood += 1;
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_velocity = ptr_to_neighbour->get_velocity();
@@ -294,8 +293,7 @@ vect Boid::compute_new_velocity_classic(argument_struct args,
 
     avoidance_vector = compute_avoidance_vector(args, dist_matrix, boid_array,
                                                 max_x, max_y);
-    alignment_vector = compute_alignment_vector(dist_matrix, args.num_boids,
-                                                boid_array, args.nhood_size);
+    alignment_vector = compute_alignment_vector(args, dist_matrix, boid_array);
     cohesion_vector = compute_cohesion_vector(dist_matrix, args.num_boids,
                                               boid_array, args.nhood_size, max_x,
                                               max_y, args.use_periodic);

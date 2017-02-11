@@ -113,7 +113,7 @@ vect Boid::compute_alignment_vector(argument_struct args, float **dist_matrix,
     vect nhood_average_velocity(0, 0);
 
     for (unsigned int i = 0; i < args.num_boids; i++) {
-        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < args.nhood_size)) {
+        if ((i != boid_ID) && (boid_in_nhood(args, boid_array, dist_matrix, i))) {
             num_boids_in_nhood += 1;
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_velocity = ptr_to_neighbour->get_velocity();

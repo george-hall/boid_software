@@ -328,7 +328,7 @@ vect Boid::compute_new_velocity_classic(argument_struct args,
                        (weighting[2] * cohesion_vector) + \
                        (weighting[3] * alignment_vector);
 
-        return change_vector_magnitude(new_velocity, 1);
+        return constrain_vector(new_velocity, 1);
     }
 
     else {
@@ -340,7 +340,7 @@ vect Boid::compute_new_velocity_classic(argument_struct args,
                        (weighting[2] * cohesion_vector) + \
                        (weighting[3] * alignment_vector);
 
-        return change_vector_magnitude(new_velocity, 1);
+        return constrain_vector(new_velocity, 1);
     }
 }
 

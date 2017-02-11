@@ -139,8 +139,6 @@ vect Boid::compute_nhood_centroid(argument_struct args, float **dist_matrix,
     // function returns the position vector of the average position of all
     // boids in the neighbourhood.
 
-    unsigned int boid_ID = get_boid_ID();
-
     // Has to be float to be able to divide vector by this value
     float num_boids_in_nhood = 0;
 
@@ -166,7 +164,7 @@ vect Boid::compute_nhood_centroid(argument_struct args, float **dist_matrix,
     lowest_y_in_nhood = get_position().y;
 
     for (unsigned int i = 0; i < args.num_boids; i++) {
-        if (dist_matrix[boid_ID][i] < args.nhood_size) {
+        if (boid_in_nhood(args, boid_array, dist_matrix, i)) {
             num_boids_in_nhood += 1;
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();

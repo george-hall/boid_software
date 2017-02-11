@@ -132,9 +132,8 @@ vect Boid::compute_alignment_vector(argument_struct args, float **dist_matrix,
 }
 
 
-vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
-                                  Boid **boid_array, unsigned int num_boids,
-                                  float max_x, float max_y) {
+vect Boid::compute_nhood_centroid(argument_struct args, float **dist_matrix,
+                                  Boid **boid_array, float max_x, float max_y) {
 
     // Computes the centroid of the boid's neighbourhood. That is, this
     // function returns the position vector of the average position of all
@@ -166,8 +165,8 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
     highest_y_in_nhood = get_position().y;
     lowest_y_in_nhood = get_position().y;
 
-    for (unsigned int i = 0; i < num_boids; i++) {
-        if (dist_matrix[boid_ID][i] < nhood_size) {
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        if (dist_matrix[boid_ID][i] < args.nhood_size) {
             num_boids_in_nhood += 1;
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
@@ -200,7 +199,7 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
         }
     }
 
-    if (highest_x_in_nhood - lowest_x_in_nhood > nhood_size) {
+    if (highest_x_in_nhood - lowest_x_in_nhood > args.nhood_size) {
         // i.e. the neighbourhood must cross a boundary in the x direction
         nhood_position_total.x = complex_nhood_position_total.x;
     }
@@ -208,7 +207,7 @@ vect Boid::compute_nhood_centroid(float **dist_matrix, float nhood_size,
         nhood_position_total.x = simple_nhood_position_total.x;
     }
 
-    if (highest_y_in_nhood - lowest_y_in_nhood > nhood_size) {
+    if (highest_y_in_nhood - lowest_y_in_nhood > args.nhood_size) {
         // i.e. the neighbourhood must cross a boundary in the y direction
         nhood_position_total.y = complex_nhood_position_total.y;
     }
@@ -235,8 +234,8 @@ vect Boid::compute_cohesion_vector(argument_struct args, float **dist_matrix,
     //      2. Return the vector to steer the boid in that direction
 
     vect current_position = get_position();
-    vect nhood_centroid = compute_nhood_centroid(dist_matrix, args.nhood_size,
-                                                 boid_array, args.num_boids, max_x, max_y);
+    vect nhood_centroid = compute_nhood_centroid(args, dist_matrix, boid_array,
+                                                 max_x, max_y);
 
     vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y, args.use_periodic);
     return change_vector_magnitude(to_return, 1);

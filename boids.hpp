@@ -22,9 +22,8 @@ class Boid {
         // boids within a defined neighbourhood
         void get_visible_boids();
 
-        vect compute_nhood_centroid(float **dist_matrix, float nhood_size,
-                                                  Boid **boid_array,
-                                                  unsigned int num_boids, float max_x, float max_y);
+        vect compute_nhood_centroid(argument_struct args, float **dist_matrix,
+                                    Boid **boid_array, float max_x, float max_y);
 
         // Function to calculate a boid's new velocity given influence
         // from the three steering factors of cohesion, collision

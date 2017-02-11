@@ -55,6 +55,9 @@ class Boid {
                                                 Boid **boid_array, float max_x,
                                                 float max_y);
 
+        bool boid_in_nhood(argument_struct args, Boid **boid_array,
+                           float **dist_matrix, unsigned int other_boid_ID);
+
     private:
         unsigned int boid_ID;
 };

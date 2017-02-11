@@ -307,7 +307,7 @@ void save_state(argument_struct args, Boid **boid_array) {
     return;
 }
 
-float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
+float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance, float mean_flock_velocity_magnitude) {
 
     // The correlations will in fact be calculated for different inter-boid
     // distances. That is, we will calculate a correlation for boids which are
@@ -318,36 +318,45 @@ float calc_correlation(argument_struct args, vect *fluctuations, float **dist_ma
     // Corr(r) = sum over i,j (fluc(i) * fluc(j) * (delta function = 1 if boids are distance r from each other, 0 otherwise))
     //                              ***** divided by *****
     //           (sum over i,j (same delta as above...))
-    //
-    // I have tried to do a better write up in my project proper!
 
     float numerator = 0;
     float denominator = 0;
+    float mean_flock_velocity_magnitude_square = mean_flock_velocity_magnitude * mean_flock_velocity_magnitude;
+
+    float c0 = 0;
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        c0 += dot_product(fluctuations[i], fluctuations[i]);
+    }
+    c0 = c0 / args.num_boids;
+
     for (unsigned int i = 0; i < args.num_boids; i++) {
         vect f1 = fluctuations[i];
         for (unsigned int j = 0; j < args.num_boids; j++) {
             int smoothed_delta_val = smoothed_delta(dist_matrix[i][j] - distance, tolerance);
             vect f2 = fluctuations[j];
-            numerator += (angle_between_vects(f1, f2) * smoothed_delta_val);
+            numerator += (dot_product(f1, f2) * smoothed_delta_val);
             denominator += smoothed_delta_val;
         }
     }
 
-    return numerator / denominator;
+    return (1.0f / c0) * (numerator / denominator);
 }
 
-void print_correlations(argument_struct args, vect *fluctuations, float **dist_matrix) {
+void print_correlations(argument_struct args, vect *fluctuations, float **dist_matrix, Boid **boid_array) {
     int number_of_distance_values = 25;
     float distance_values[25] = {10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f, 120.0f, 130.0f, 140.0f, 150.0f, 160.0f, 170.0f, 180.0f, 190.0f, 200.0f, 210.0f, 220.0f, 230.0f, 240.0f, 250.0f};
     float tolerance = 10.0f;
 
+    vect mean_flock_velocity = calculate_mean_velocity(boid_array, args.num_boids);
+    float mean_flock_velocity_magnitude = calculate_vector_magnitude(mean_flock_velocity);
+
     for (int dist_count = 0; dist_count < number_of_distance_values; dist_count++) {
         float d = distance_values[dist_count];
-        float correlation = calc_correlation(args, fluctuations, dist_matrix, d, tolerance);
+        float correlation = calc_correlation(args, fluctuations, dist_matrix, d, tolerance, mean_flock_velocity_magnitude);
         std::cout << "Correlation with length " << d << ": " << correlation << std::endl;
     }
 
-    float flock_corr = calc_correlation(args, fluctuations, dist_matrix, 0, 10000.0f);
+    float flock_corr = calc_correlation(args, fluctuations, dist_matrix, 0, 10000.0f, mean_flock_velocity_magnitude);
     std::cout << "Correlation with arbitrary length: " << flock_corr << std::endl;
 }
 
@@ -402,7 +411,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
         update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
         update_fluctuations(args, boid_array, fluctuations_matrix);
         if (args.print_corrs) {
-            print_correlations(args, fluctuations_matrix, dist_matrix);
+            print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
         }
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);

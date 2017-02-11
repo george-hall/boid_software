@@ -464,13 +464,7 @@ int main(int argc, char **argv) {
     argument_struct args;
     args = parse_args(argc, argv);
 
-    // Maximum values x and y can take before looping back to 0
-    // Currently, they are just the same as the board height and width in order
-    // to keep things simple
-    float max_x = static_cast<float>(args.board_width);
-    float max_y = static_cast<float>(args.board_height);
-
-    main_program(args, max_x, max_y);
+    main_program(args, args.max_x, args.max_y);
 
     return 0;
 }

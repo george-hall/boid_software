@@ -21,6 +21,8 @@
 // Verbose                 |      -v
 // Quiet                   |      -q
 // Mode                    |      -m
+// Max X                   |      -x
+// Max Y                   |      -y
 
 argument_struct parse_args(int argc, char **argv) {
 
@@ -29,6 +31,8 @@ argument_struct parse_args(int argc, char **argv) {
     // Set struct members to default values
     args.board_width = 1000;
     args.board_height = 650;
+    args.max_x = args.board_width;
+    args.max_y = args.board_height;
     args.num_boids = 50;
     args.nhood_size = 50;
     args.danger_zone = 10.0f;
@@ -78,6 +82,44 @@ argument_struct parse_args(int argc, char **argv) {
                 args.board_height = (unsigned int) strtoul(argv[++i], NULL, 10);
                 if (args.board_height == 0) {
                     std::cout << "ERROR: board height must be a positive integer" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+            }
+        }
+
+        // Max X
+        if (!strcmp(argv[i], "--max-x") || !strcmp(argv[i], "-x")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else if (argv[i+1][0] == '-') {
+                std::cout << "ERROR: max x must be a positive integer" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                args.max_x = (unsigned int) strtoul(argv[++i], NULL, 10);
+                if (args.board_width == 0) {
+                    std::cout << "ERROR: max x must be a positive integer" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+            }
+        }
+
+        // Max Y
+        if (!strcmp(argv[i], "--max-y") || !strcmp(argv[i], "-y")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else if (argv[i+1][0] == '-') {
+                std::cout << "ERROR: max y must be a positive integer" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                args.max_y = (unsigned int) strtoul(argv[++i], NULL, 10);
+                if (args.board_width == 0) {
+                    std::cout << "ERROR: max y must be a positive integer" << std::endl;
                     exit(EXIT_FAILURE);
                 }
             }

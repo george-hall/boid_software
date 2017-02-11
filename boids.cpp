@@ -56,23 +56,22 @@ void Boid::print() {
     std::cout << "\t* position: " << position_to_str(position) << std::endl;
 }
 
-vect Boid::compute_avoidance_vector(float **dist_matrix,
-                                    unsigned int num_boids, Boid **boid_array,
-                                    float nhood_size, float max_x,
-                                    float max_y, bool use_periodic) {
+vect Boid::compute_avoidance_vector(argument_struct args, float **dist_matrix,
+                                    Boid **boid_array, float max_x,
+                                    float max_y) {
     unsigned int boid_ID = get_boid_ID();
     vect current_position = get_position();
     vect avoidance_vector(0, 0);
 
-    for (unsigned int i = 0; i < num_boids; i++) {
-        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < nhood_size)) {
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        if ((i != boid_ID) && (dist_matrix[boid_ID][i] < args.nhood_size)) {
             Boid *ptr_to_neighbour = boid_array[i];
             vect neighbour_pos = ptr_to_neighbour->get_position();
 
             // Compute vector in direction away from neighbour
             vect dis_vect = compute_displacement_vector(neighbour_pos,
                                                         current_position,
-                                                        max_x, max_y, use_periodic);
+                                                        max_x, max_y, args.use_periodic);
             // Make this vector unit length (this means that the avoidance
             // vector for a pair of boids will be the same regardless of their
             // distance from one another)
@@ -293,9 +292,8 @@ vect Boid::compute_new_velocity_classic(argument_struct args,
     vect new_velocity;
     vect avoidance_vector, cohesion_vector, alignment_vector;
 
-    avoidance_vector = compute_avoidance_vector(dist_matrix, args.num_boids,
-                                                boid_array, args.nhood_size, max_x,
-                                                max_y, args.use_periodic);
+    avoidance_vector = compute_avoidance_vector(args, dist_matrix, boid_array,
+                                                max_x, max_y);
     alignment_vector = compute_alignment_vector(dist_matrix, args.num_boids,
                                                 boid_array, args.nhood_size);
     cohesion_vector = compute_cohesion_vector(dist_matrix, args.num_boids,

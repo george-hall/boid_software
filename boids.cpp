@@ -110,7 +110,7 @@ bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_m
         }
 
         float angle = angle_between_vects(dis_vect, get_velocity());
-        if (angle <= 45) {
+        if (angle > -45 && angle < 45) {
             return true;
         }
         else {

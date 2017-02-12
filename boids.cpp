@@ -312,9 +312,10 @@ vect Boid::direct_away_from_wall(int wall_approach) {
 }
 
 
-vect Boid::compute_new_velocity_classic(argument_struct args,
-                                        float **dist_matrix, Boid **boid_array,
-                                        float max_x, float max_y) {
+vect Boid::compute_new_velocity_using_steers(argument_struct args,
+                                             float **dist_matrix,
+                                             Boid **boid_array, float max_x,
+                                             float max_y) {
 
     vect new_velocity;
     vect avoidance_vector, cohesion_vector, alignment_vector;
@@ -377,8 +378,8 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                                 Boid **boid_array, float max_x, float max_y) {
 
     if (args.mode == 0 || args.mode == 1) {
-        return compute_new_velocity_classic(args, dist_matrix, boid_array,
-                                            max_x, max_y);
+        return compute_new_velocity_using_steers(args, dist_matrix, boid_array,
+                                                 max_x, max_y);
     }
 
     else {

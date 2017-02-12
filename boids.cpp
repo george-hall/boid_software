@@ -111,7 +111,12 @@ bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_m
 
         float angle = angle_between_vects(dis_vect, get_velocity());
         if (angle < 45) {
-            return true;
+            if (dist_matrix[get_boid_ID()][other_boid_ID] <= args.nhood_size) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
             return false;

@@ -96,6 +96,19 @@ bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_m
         }
     }
 
+    else if (args.mode == 1) {
+        Boid *ptr_to_other_boid = boid_array[other_boid_ID];
+        // Displacement vector from current boid to other boid
+        vect dis_vect = compute_displacement_vector(get_position(), ptr_to_other_boid->get_position(), args.max_x, args.max_y, args.use_periodic);
+        float angle = angle_between_vects(dis_vect, get_velocity());
+        if (angle <= 45) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     else {
         std::cerr << "ERROR: Mode not recognised: " << args.mode << std::endl;
         exit(EXIT_FAILURE);
@@ -360,11 +373,10 @@ vect Boid::compute_new_velocity_classic(argument_struct args,
     }
 }
 
-
 vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                                 Boid **boid_array, float max_x, float max_y) {
 
-    if (args.mode == 0) {
+    if (args.mode == 0 || args.mode == 1) {
         return compute_new_velocity_classic(args, dist_matrix, boid_array,
                                             max_x, max_y);
     }

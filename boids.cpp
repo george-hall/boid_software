@@ -104,6 +104,11 @@ bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_m
         Boid *ptr_to_other_boid = boid_array[other_boid_ID];
         // Displacement vector from current boid to other boid
         vect dis_vect = compute_displacement_vector(get_position(), ptr_to_other_boid->get_position(), args.max_x, args.max_y, args.use_periodic);
+
+        if (get_position() == boid_array[other_boid_ID]->get_position()) {
+            return true;
+        }
+
         float angle = angle_between_vects(dis_vect, get_velocity());
         if (angle <= 45) {
             return true;

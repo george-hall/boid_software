@@ -97,6 +97,10 @@ bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_m
     }
 
     else if (args.mode == 1) {
+
+        if (get_boid_ID() == other_boid_ID) {
+            return true;
+        }
         Boid *ptr_to_other_boid = boid_array[other_boid_ID];
         // Displacement vector from current boid to other boid
         vect dis_vect = compute_displacement_vector(get_position(), ptr_to_other_boid->get_position(), args.max_x, args.max_y, args.use_periodic);

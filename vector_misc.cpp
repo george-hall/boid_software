@@ -1,4 +1,5 @@
 #include <string>
+#include <cmath>
 
 #include <SFML/Graphics.hpp>
 
@@ -10,7 +11,7 @@ float angle_between_vects(vect v1, vect v2) {
     float v1_mag = calculate_vector_magnitude(v1);
     float v2_mag = calculate_vector_magnitude(v2);
 
-    return fabs(dot_prod / (v1_mag * v2_mag));
+    return (180.0f * acos(dot_prod / (v1_mag * v2_mag))) / 3.14159265f;
 }
 
 

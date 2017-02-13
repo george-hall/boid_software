@@ -393,8 +393,7 @@ void display_stats(sf::RenderWindow *window, sf::Font font, int iterations_compl
 
 
 int main(int argc, char **argv) {
-    argument_struct args;
-    args = parse_args(argc, argv);
+    argument_struct args = parse_args(argc, argv);
 
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, args.max_x, args.max_y);
@@ -403,30 +402,23 @@ int main(int argc, char **argv) {
     vect *fluctuations_matrix = new vect[args.num_boids];
 
     sf::Font font;
-
     sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
                         "Boids");
-    if (args.quiet) {
-        window.close();
-    }
+    if (args.quiet) {window.close();}
 
     if (!font.loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")) {
         std::cerr << "ERROR: Unable to locate font file required to display ";
         std::cerr << "the flock's polarisation." << std::endl;
     }
 
-
     int iterations_completed = 0;
-
     while (true) {
-
         if (!args.quiet) {
             // Check for window being closed
             sf::Event event;
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::Closed) {
-                    window.close();
-                    return 0;
+                    window.close(); return 0;
                 }
 
                 else if (event.type == sf::Event::KeyPressed) {
@@ -435,9 +427,7 @@ int main(int argc, char **argv) {
                     }
                 }
             }
-
-            // Fill window with black
-            window.clear(sf::Color::Black);
+            window.clear(sf::Color::Black); // Fill window with black
         }
 
         calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, args.max_x,
@@ -449,13 +439,10 @@ int main(int argc, char **argv) {
         }
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
-
         if (args.quiet && iterations_completed == 1000) {
-            std::cout << polarisation << std::endl;
-            break;
+            std::cout << polarisation << std::endl; break;
         }
-
-        iterations_completed += 1;
+        iterations_completed++;
 
         if (args.verbose) {
             print_dist_matrix(dist_matrix, args.num_boids);

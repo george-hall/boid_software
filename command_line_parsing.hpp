@@ -20,6 +20,7 @@ typedef struct {
     bool verbose;
     bool quiet;
     int mode;
+    float vision_angle;
 } argument_struct;
 
 argument_struct parse_args(int argc, char **argv);

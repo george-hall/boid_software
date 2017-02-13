@@ -23,6 +23,7 @@
 // Mode                    |      -m
 // Max X                   |      -x
 // Max Y                   |      -y
+// Vision angle            |      -b
 
 argument_struct parse_args(int argc, char **argv) {
 
@@ -46,6 +47,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.verbose = false;
     args.quiet = false;
     args.mode = 0;
+    args.vision_angle = 45;
 
     for (int i = 1; i < argc; i++) {
 
@@ -285,6 +287,21 @@ argument_struct parse_args(int argc, char **argv) {
                 exit(EXIT_FAILURE);
             }
             args.mode = atoi(argv[++i]);
+        }
+
+        // Vision Angle
+        else if (!strcmp(argv[i], "--vision-angle") || !strcmp(argv[i], "-b")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else if (argv[i+1][0] == '-') {
+                std::cout << "ERROR: vision angle must be a positive integer" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            else {
+                args.vision_angle = atof(argv[++i]);
+            }
         }
 
         // Argument not recognised

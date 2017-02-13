@@ -424,6 +424,14 @@ int main_program(argument_struct args, float max_x, float max_y) {
         iterations_completed += 1;
 
         if (!args.quiet) {
+
+        sf::Text iterations_str;
+        iterations_str.setString("Iteration: " + std::to_string(iterations_completed));
+        iterations_str.setFont(font);
+        iterations_str.setCharacterSize(16);
+        iterations_str.setColor(sf::Color::Red);
+        window.draw(iterations_str);
+
         // Display polarisation
         sf::Text polarisation_str;
         polarisation_str.setString("Polarisation: " + std::to_string(polarisation));

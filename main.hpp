@@ -24,8 +24,6 @@ void save_state(argument_struct args, Boid **boid_array);
 
 int main(int argc, char **argv);
 
-int main_program(argument_struct args, float max_x, float max_y);
-
 void print_all_boids(Boid **boid_array, unsigned int num_boids);
 
 void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,

@@ -392,9 +392,12 @@ void display_stats(sf::RenderWindow *window, sf::Font font, int iterations_compl
 }
 
 
-int main_program(argument_struct args, float max_x, float max_y) {
+int main(int argc, char **argv) {
+    argument_struct args;
+    args = parse_args(argc, argv);
+
     Boid **boid_array = create_boid_array(args);
-    float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
+    float **dist_matrix = create_dist_matrix(args, boid_array, args.max_x, args.max_y);
 
     // Stores fluctuations of boids' velocities around the flock's mean velocity
     vect *fluctuations_matrix = new vect[args.num_boids];
@@ -437,9 +440,9 @@ int main_program(argument_struct args, float max_x, float max_y) {
             window.clear(sf::Color::Black);
         }
 
-        calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, max_x,
-                              max_y);
-        update_all_boids(args, boid_array, max_x, max_y, dist_matrix);
+        calculate_dist_matrix(boid_array, dist_matrix, args.num_boids, args.max_x,
+                              args.max_y);
+        update_all_boids(args, boid_array, args.max_x, args.max_y, dist_matrix);
         update_fluctuations(args, boid_array, fluctuations_matrix);
         if (args.print_corrs) {
             print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
@@ -468,15 +471,6 @@ int main_program(argument_struct args, float max_x, float max_y) {
 
     free_boid_instance_memory(boid_array, args.num_boids);
     delete[] boid_array;
-
-    return 0;
-}
-
-int main(int argc, char **argv) {
-    argument_struct args;
-    args = parse_args(argc, argv);
-
-    main_program(args, args.max_x, args.max_y);
 
     return 0;
 }

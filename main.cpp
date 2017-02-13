@@ -438,6 +438,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
         polarisation_str.setFont(font);
         polarisation_str.setCharacterSize(16);
         polarisation_str.setColor(sf::Color::Red);
+        polarisation_str.setPosition(0, 25);
         window.draw(polarisation_str);
 
         // Display correlations

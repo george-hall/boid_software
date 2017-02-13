@@ -361,6 +361,37 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
 }
 
 
+void display_stats(sf::RenderWindow *window, sf::Font font, int iterations_completed, float polarisation) {
+    sf::Text iterations_str;
+    iterations_str.setString("Iteration: " + std::to_string(iterations_completed));
+    iterations_str.setFont(font);
+    iterations_str.setCharacterSize(16);
+    iterations_str.setColor(sf::Color::Red);
+    window->draw(iterations_str);
+
+    // Display polarisation
+    sf::Text polarisation_str;
+    polarisation_str.setString("Polarisation: " + std::to_string(polarisation));
+    polarisation_str.setFont(font);
+    polarisation_str.setCharacterSize(16);
+    polarisation_str.setColor(sf::Color::Red);
+    polarisation_str.setPosition(0, 25);
+    window->draw(polarisation_str);
+
+    // Currently not used:
+    //
+    // // Display correlations
+    // sf::Text flock_corr_str;
+    // float flock_corr = calc_correlation(args, fluctuations_matrix, dist_matrix, 0, 10000.0f);
+    // flock_corr_str.setString("Flock Correlation: " + std::to_string(flock_corr));
+    // flock_corr_str.setFont(font);
+    // flock_corr_str.setCharacterSize(16);
+    // flock_corr_str.setColor(sf::Color::Red);
+    // flock_corr_str.setPosition(0, 25);
+    // window.draw(flock_corr_str);
+}
+
+
 int main_program(argument_struct args, float max_x, float max_y) {
     Boid **boid_array = create_boid_array(args);
     float **dist_matrix = create_dist_matrix(args, boid_array, max_x, max_y);
@@ -423,35 +454,6 @@ int main_program(argument_struct args, float max_x, float max_y) {
 
         iterations_completed += 1;
 
-        if (!args.quiet) {
-
-        sf::Text iterations_str;
-        iterations_str.setString("Iteration: " + std::to_string(iterations_completed));
-        iterations_str.setFont(font);
-        iterations_str.setCharacterSize(16);
-        iterations_str.setColor(sf::Color::Red);
-        window.draw(iterations_str);
-
-        // Display polarisation
-        sf::Text polarisation_str;
-        polarisation_str.setString("Polarisation: " + std::to_string(polarisation));
-        polarisation_str.setFont(font);
-        polarisation_str.setCharacterSize(16);
-        polarisation_str.setColor(sf::Color::Red);
-        polarisation_str.setPosition(0, 25);
-        window.draw(polarisation_str);
-
-        // Display correlations
-        sf::Text flock_corr_str;
-        float flock_corr = calc_correlation(args, fluctuations_matrix, dist_matrix, 0, 10000.0f);
-        flock_corr_str.setString("Flock Correlation: " + std::to_string(flock_corr));
-        flock_corr_str.setFont(font);
-        flock_corr_str.setCharacterSize(16);
-        flock_corr_str.setColor(sf::Color::Red);
-        flock_corr_str.setPosition(0, 25);
-        window.draw(flock_corr_str);
-        }
-
         if (args.verbose) {
             print_dist_matrix(dist_matrix, args.num_boids);
             print_all_boids(boid_array, args.num_boids);
@@ -459,6 +461,7 @@ int main_program(argument_struct args, float max_x, float max_y) {
 
         if (!args.quiet) {
             display_all_boids(boid_array, args.num_boids, &window);
+            display_stats(&window, font, iterations_completed, polarisation);
             window.display();
         }
     }

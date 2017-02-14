@@ -18,6 +18,7 @@ Boid::Boid(unsigned int new_boid_ID) {
     boid_ID = new_boid_ID;
 }
 
+
 // Setters
 
 void Boid::set_position(float new_x, float new_y) {
@@ -25,10 +26,12 @@ void Boid::set_position(float new_x, float new_y) {
     position = new_position;
 }
 
+
 void Boid::set_velocity(float new_i, float new_j) {
     vect new_velocity(new_i, new_j);
     velocity = new_velocity;
 }
+
 
 // Getters
 
@@ -36,17 +39,21 @@ unsigned int Boid::get_boid_ID() {
     return boid_ID;
 }
 
+
 vect Boid::get_position() {
     return position;
 }
+
 
 vect Boid::get_velocity() {
     return velocity;
 }
 
+
 sf::Color Boid::get_colour() {
     return colour;
 }
+
 
 // Miscellaneous
 
@@ -55,6 +62,7 @@ void Boid::print() {
     std::cout << "\t* velocity: " << velocity_to_str(velocity) << std::endl;
     std::cout << "\t* position: " << position_to_str(position) << std::endl;
 }
+
 
 vect Boid::compute_avoidance_vector(argument_struct args, float **dist_matrix,
                                     Boid **boid_array, float max_x,
@@ -249,6 +257,7 @@ vect Boid::compute_nhood_centroid(argument_struct args, float **dist_matrix,
     return nhood_position_total;
 }
 
+
 vect Boid::compute_cohesion_vector(argument_struct args, float **dist_matrix,
                                    Boid **boid_array, float max_x, float max_y) {
 
@@ -265,6 +274,7 @@ vect Boid::compute_cohesion_vector(argument_struct args, float **dist_matrix,
     vect to_return = compute_displacement_vector(current_position, nhood_centroid, max_x, max_y, args.use_periodic);
     return change_vector_magnitude(to_return, 1);
 }
+
 
 bool Boid::in_danger(float **dist_matrix, unsigned int num_boids, float danger_zone) {
     unsigned int boid_ID = get_boid_ID();
@@ -388,6 +398,7 @@ vect Boid::compute_new_velocity_using_steers(argument_struct args,
     }
 }
 
+
 vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                                 Boid **boid_array, float max_x, float max_y) {
 
@@ -401,6 +412,7 @@ vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
         exit(EXIT_FAILURE);
     }
 }
+
 
 vect Boid::compute_new_position() {
     return get_position() + get_velocity();

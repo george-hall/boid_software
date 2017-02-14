@@ -15,6 +15,7 @@
 
 #define PI 3.14159265
 
+
 void initialise_boids(unsigned int num_boids, Boid **boid_array) {
     // Returns a pointer to an array of pointers to boids, indexed by boid_ID
 
@@ -23,6 +24,7 @@ void initialise_boids(unsigned int num_boids, Boid **boid_array) {
         boid_array[i] = new_boid_ptr;
     }
 }
+
 
 void set_random_attributes(unsigned int num_boids, Boid **boid_array,
                            unsigned int board_width,
@@ -43,6 +45,7 @@ void set_random_attributes(unsigned int num_boids, Boid **boid_array,
         boid_ptr->set_velocity(rand_velocity(rng), rand_velocity(rng));
     }
 }
+
 
 float distance_between_boids(Boid *boid_1, Boid *boid_2, float max_x,
                              float max_y) {
@@ -68,6 +71,7 @@ float distance_between_boids(Boid *boid_1, Boid *boid_2, float max_x,
     return sqrt((x_diff*x_diff) + (y_diff * y_diff));
 }
 
+
 void calculate_dist_matrix(Boid **boid_array, float **dist_matrix,
                                unsigned int num_boids, float max_x,
                                float max_y) {
@@ -86,12 +90,14 @@ void calculate_dist_matrix(Boid **boid_array, float **dist_matrix,
     }
 }
 
+
 void free_boid_instance_memory(Boid **boid_array, unsigned int num_boids) {
     // Free memory allocated for individual instances of boids
     for (unsigned int i = 0; i < num_boids; i++) {
         delete boid_array[i];
     }
 }
+
 
 void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
                  unsigned int max_y) {
@@ -120,6 +126,7 @@ void print_board(Boid **boid_array, unsigned int num_boids, unsigned int max_x,
         std::cout << std::endl;
     }
 }
+
 
 void display_all_boids(Boid **boid_array, unsigned int num_boids,
                        sf::RenderWindow *window) {
@@ -152,11 +159,13 @@ void display_all_boids(Boid **boid_array, unsigned int num_boids,
     }
 }
 
+
 void print_all_boids(Boid **boid_array, unsigned int num_boids) {
     for (unsigned int i = 0; i < num_boids; i++) {
         boid_array[i]->print();
     }
 }
+
 
 void print_dist_matrix(float **dist_matrix, unsigned int num_boids) {
     for (unsigned int i = 0; i < num_boids; i++) {
@@ -166,6 +175,7 @@ void print_dist_matrix(float **dist_matrix, unsigned int num_boids) {
         std::cout << std::endl;
     }
 }
+
 
 void update_all_boids(argument_struct args, Boid **boid_array,
                       float max_x, float max_y, float **dist_matrix) {
@@ -211,6 +221,7 @@ void update_all_boids(argument_struct args, Boid **boid_array,
 
 }
 
+
 Boid **create_boid_array(argument_struct args) {
 
     Boid **boid_array = new Boid*[args.num_boids];
@@ -232,6 +243,7 @@ Boid **create_boid_array(argument_struct args) {
     return boid_array;
 }
 
+
 float **create_dist_matrix(argument_struct args, Boid **boid_array,
                            float max_x, float max_y) {
 
@@ -247,6 +259,7 @@ float **create_dist_matrix(argument_struct args, Boid **boid_array,
     return dist_matrix;
 }
 
+
 vect calculate_mean_velocity(Boid **boid_array, unsigned int num_boids) {
     vect running_total(0, 0);
     Boid *ptr_to_boid;
@@ -258,6 +271,7 @@ vect calculate_mean_velocity(Boid **boid_array, unsigned int num_boids) {
 
     return (running_total / (float) num_boids);
 }
+
 
 float calculate_polarisation(Boid **boid_array, unsigned int num_boids) {
     vect running_total(0, 0);
@@ -274,6 +288,7 @@ float calculate_polarisation(Boid **boid_array, unsigned int num_boids) {
     return polarisation;
 }
 
+
 void update_fluctuations(argument_struct args, Boid **boid_array, vect *fluctuations_matrix) {
     vect flock_mean_velocity = calculate_mean_velocity(boid_array, args.num_boids);
 
@@ -282,6 +297,7 @@ void update_fluctuations(argument_struct args, Boid **boid_array, vect *fluctuat
         fluctuations_matrix[boid_ptr->get_boid_ID()] = boid_ptr->get_velocity() - flock_mean_velocity;
     }
 }
+
 
 void save_state(argument_struct args, Boid **boid_array) {
     // Write the current state of the board to file
@@ -306,6 +322,7 @@ void save_state(argument_struct args, Boid **boid_array) {
 
     return;
 }
+
 
 float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance, float mean_flock_velocity_magnitude) {
 
@@ -341,6 +358,7 @@ float calc_correlation(argument_struct args, vect *fluctuations, float **dist_ma
 
     return (1.0f / c0) * (numerator / denominator);
 }
+
 
 void print_correlations(argument_struct args, vect *fluctuations, float **dist_matrix, Boid **boid_array) {
     int number_of_distance_values = 25;

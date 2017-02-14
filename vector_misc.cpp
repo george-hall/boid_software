@@ -19,6 +19,7 @@ float dot_product(vect v1, vect v2) {
     return ((v1.x * v2.x) + (v1.y * v2.y));
 }
 
+
 std::string velocity_to_str(vect v) {
     // Convert a velocity (of type vect) to a string, expressed as
     // the sum of the vector's i and j components
@@ -38,6 +39,7 @@ std::string velocity_to_str(vect v) {
     return to_return;
 }
 
+
 std::string position_to_str(vect v) {
     // Convert a position (of type vect) to a string, expressed as
     // an (x, y) co-ordinate pair
@@ -46,9 +48,11 @@ std::string position_to_str(vect v) {
     return to_return;
 }
 
+
 float calculate_vector_magnitude(vect v) {
     return sqrt((v.x * v.x) + (v.y * v.y));
 }
+
 
 vect change_vector_magnitude(vect v, float desired_magnitude) {
     float magnitude;
@@ -63,6 +67,7 @@ vect change_vector_magnitude(vect v, float desired_magnitude) {
         return desired_magnitude * (v / magnitude);
     }
 }
+
 
 vect constrain_vector(vect v, float max_magnitude) {
     // Constrain's a vector's magnitude to be at most max_magnitude
@@ -85,6 +90,7 @@ vect constrain_vector(vect v, float max_magnitude) {
         return to_return;
     }
 }
+
 
 vect compute_displacement_vector(vect v1, vect v2, float max_x, float max_y, bool use_periodic) {
     // Return a vector from vector v1 to vector v2. The point of this function

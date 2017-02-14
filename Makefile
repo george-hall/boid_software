@@ -1,7 +1,7 @@
 CC=gcc
 CXX=g++
 
-CPP_FLAGS=-std=c++11 -Wall -Wextra
+CPP_FLAGS=-std=c++11 -Wall -Wextra -O3
 SRCS=boids.cpp vector_misc.cpp other_misc.cpp command_line_parsing.cpp boid_file_io.cpp main.cpp
 OBJS=$(SRCS:.cpp=.o)
 

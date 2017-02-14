@@ -90,7 +90,7 @@ argument_struct parse_args(int argc, char **argv) {
         }
 
         // Max X
-        if (!strcmp(argv[i], "--max-x") || !strcmp(argv[i], "-x")) {
+        else if (!strcmp(argv[i], "--max-x") || !strcmp(argv[i], "-x")) {
             if (i == argc - 1) {
                 std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
                 exit(EXIT_FAILURE);
@@ -109,7 +109,7 @@ argument_struct parse_args(int argc, char **argv) {
         }
 
         // Max Y
-        if (!strcmp(argv[i], "--max-y") || !strcmp(argv[i], "-y")) {
+        else if (!strcmp(argv[i], "--max-y") || !strcmp(argv[i], "-y")) {
             if (i == argc - 1) {
                 std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
                 exit(EXIT_FAILURE);

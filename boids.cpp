@@ -93,42 +93,96 @@ vect Boid::compute_avoidance_vector(argument_struct args, float **dist_matrix,
 }
 
 
-bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
-    if (args.mode == 0) {
-        if (dist_matrix[get_boid_ID()][other_boid_ID] < args.nhood_size) {
+bool Boid::boid_in_closest_n_boids(argument_struct args, float **dist_matrix, unsigned int other_boid_ID, int cutoff) {
+
+    unsigned int boid_ID = get_boid_ID();
+    float dist_from_other_boid = dist_matrix[boid_ID][other_boid_ID];
+    int num_boids_closer = 0;
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        if (i != other_boid_ID && i != boid_ID) {
+            if (dist_matrix[boid_ID][i] < dist_from_other_boid) {
+                num_boids_closer++;
+            }
+        }
+    }
+
+    if (num_boids_closer < cutoff) {
+        return true;
+    }
+
+    else {
+        return false;
+    }
+}
+
+
+bool Boid::boid_in_nhood_classic(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
+    if (dist_matrix[get_boid_ID()][other_boid_ID] < args.nhood_size) {
+        return true;
+    }
+
+    else {
+        return false;
+    }
+}
+
+
+bool Boid::boid_in_nhood_vision(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
+    if (get_boid_ID() == other_boid_ID) {
+        return true;
+    }
+    Boid *ptr_to_other_boid = boid_array[other_boid_ID];
+    // Displacement vector from current boid to other boid
+    vect dis_vect = compute_displacement_vector(get_position(), ptr_to_other_boid->get_position(), args.max_x, args.max_y, args.use_periodic);
+
+    if (get_position() == boid_array[other_boid_ID]->get_position()) {
+        return true;
+    }
+
+    float angle = angle_between_vects(dis_vect, get_velocity());
+    if (angle <= args.vision_angle) {
+        if (dist_matrix[get_boid_ID()][other_boid_ID] <= args.nhood_size) {
             return true;
         }
-
         else {
             return false;
         }
     }
+    else {
+        return false;
+    }
+}
 
-    else if (args.mode == 1) {
 
-        if (get_boid_ID() == other_boid_ID) {
+bool Boid::boid_in_nhood_nearest_n(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
+    // In normal nhood and in closest n boids
+
+    if (boid_in_nhood_classic(args, boid_array, dist_matrix, other_boid_ID)) {
+        if (boid_in_closest_n_boids(args, dist_matrix, other_boid_ID, 7)) {
             return true;
-        }
-        Boid *ptr_to_other_boid = boid_array[other_boid_ID];
-        // Displacement vector from current boid to other boid
-        vect dis_vect = compute_displacement_vector(get_position(), ptr_to_other_boid->get_position(), args.max_x, args.max_y, args.use_periodic);
-
-        if (get_position() == boid_array[other_boid_ID]->get_position()) {
-            return true;
-        }
-
-        float angle = angle_between_vects(dis_vect, get_velocity());
-        if (angle <= args.vision_angle) {
-            if (dist_matrix[get_boid_ID()][other_boid_ID] <= args.nhood_size) {
-                return true;
-            }
-            else {
-                return false;
-            }
         }
         else {
             return false;
         }
+    }
+    else {
+        return false;
+    }
+}
+
+
+bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
+    if (args.mode == 0) {
+        return boid_in_nhood_classic(args, boid_array, dist_matrix, other_boid_ID);
+    }
+
+    else if (args.mode == 1) {
+        return boid_in_nhood_vision(args, boid_array, dist_matrix, other_boid_ID);
+    }
+
+    else if (args.mode == 2) {
+        return boid_in_nhood_nearest_n(args, boid_array, dist_matrix, other_boid_ID);
     }
 
     else {
@@ -402,7 +456,7 @@ vect Boid::compute_new_velocity_using_steers(argument_struct args,
 vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
                                 Boid **boid_array, float max_x, float max_y) {
 
-    if (args.mode == 0 || args.mode == 1) {
+    if (args.mode == 0 || args.mode == 1 || args.mode == 2) {
         return compute_new_velocity_using_steers(args, dist_matrix, boid_array,
                                                  max_x, max_y);
     }

@@ -57,6 +57,14 @@ class Boid {
         bool boid_in_nhood(argument_struct args, Boid **boid_array,
                            float **dist_matrix, unsigned int other_boid_ID);
 
+        bool boid_in_nhood_classic(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID);
+
+        bool boid_in_nhood_vision(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID);
+
+        bool boid_in_nhood_nearest_n(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID);
+
+        bool boid_in_closest_n_boids(argument_struct args, float **dist_matrix, unsigned int other_boid_ID, int cutoff);
+
     private:
         unsigned int boid_ID;
 };

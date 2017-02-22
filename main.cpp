@@ -373,9 +373,6 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
         float correlation = calc_correlation(args, fluctuations, dist_matrix, d, tolerance, mean_flock_velocity_magnitude);
         std::cout << "Correlation with length " << d << ": " << correlation << std::endl;
     }
-
-    float flock_corr = calc_correlation(args, fluctuations, dist_matrix, 0, 10000.0f, mean_flock_velocity_magnitude);
-    std::cout << "Correlation with arbitrary length: " << flock_corr << std::endl;
 }
 
 

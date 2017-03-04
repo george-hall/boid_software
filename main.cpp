@@ -412,23 +412,32 @@ float calc_correlation(argument_struct args, vect *fluctuations, float **dist_ma
     float denominator = 0;
     float mean_flock_velocity_magnitude_square = mean_flock_velocity_magnitude * mean_flock_velocity_magnitude;
 
-    float c0 = 0;
-    for (unsigned int i = 0; i < args.num_boids; i++) {
-        c0 += dot_product(fluctuations[i], fluctuations[i]);
-    }
-    c0 = c0 / args.num_boids;
+    // float c0 = 0;
+    // for (unsigned int i = 0; i < args.num_boids; i++) {
+    //     c0 += dot_product(fluctuations[i], fluctuations[i]);
+    // }
+    // c0 = c0 / args.num_boids;
 
     for (unsigned int i = 0; i < args.num_boids; i++) {
         vect f1 = fluctuations[i];
         for (unsigned int j = 0; j < args.num_boids; j++) {
-            int smoothed_delta_val = smoothed_delta(dist_matrix[i][j] - distance, tolerance);
-            vect f2 = fluctuations[j];
-            numerator += (dot_product(f1, f2) * smoothed_delta_val);
-            denominator += smoothed_delta_val;
+            if (i < j) {
+                int smoothed_delta_val = smoothed_delta(dist_matrix[i][j] - distance, tolerance);
+                vect f2 = fluctuations[j];
+                numerator += (dot_product(f1, f2) * smoothed_delta_val);
+                // denominator += smoothed_delta_val;
+                denominator += calculate_vector_magnitude(f1) * calculate_vector_magnitude(f2) * smoothed_delta_val;
+            }
         }
     }
 
-    return (1.0f / c0) * (numerator / denominator);
+    // return (1.0f / c0) * (numerator / denominator);
+    if (numerator == 0 && numerator == 0) {
+        return 5000;
+    }
+    else {
+        return (numerator / denominator);
+    }
 }
 
 

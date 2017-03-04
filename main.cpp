@@ -558,7 +558,8 @@ int main(int argc, char **argv) {
         update_all_boids(args, boid_array, args.max_x, args.max_y, dist_matrix);
         update_fluctuations(args, boid_array, fluctuations_matrix);
         if (args.print_corrs) {
-            print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
+            //print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
+            std::cout << iterations_completed << " " << calc_corr_length(args, fluctuations_matrix, dist_matrix, boid_array) << std::endl;
         }
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);

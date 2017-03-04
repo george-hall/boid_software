@@ -471,7 +471,16 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
     }
 }
 
+
+float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_matrix, Boid **boid_array) {
+    float tolerance = 10.0f;
+    for (float length = 1.0f; length < args.max_x; length++) {
+        float correlation = calc_correlation_method_4(args, fluctuations, dist_matrix, length, tolerance);
+        if (correlation <= 0.0f || correlation == 5000.0f) {
+            return length;
+        }
     }
+    return 0.0f;
 }
 
 

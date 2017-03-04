@@ -324,6 +324,41 @@ void save_state(argument_struct args, Boid **boid_array) {
 }
 
 
+float calc_correlation_method_3(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
+
+    float numerator = 0.0f;
+    float denominator = 0.0f;
+    float dot_prod_sum = 0.0f;
+    int iCount = 0;
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect f1 = fluctuations[i];
+        for (unsigned int j = 0; j < args.num_boids; j++) {
+            int smoothed_delta_val = smoothed_delta(dist_matrix[i][j] - distance, tolerance);
+            vect f2 = fluctuations[j];
+            dot_prod_sum += (dot_product(f1, f2) * smoothed_delta_val);
+            iCount += smoothed_delta_val;
+        }
+    }
+
+    if (iCount == 0) {
+        return 5000.0f;
+    }
+    else {
+        numerator = dot_prod_sum / iCount;
+    }
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect fluc = fluctuations[i];
+        denominator += dot_product(fluc, fluc);
+    }
+    denominator = denominator / args.num_boids;
+
+    return (numerator / denominator);
+
+}
+
+
 float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance, float mean_flock_velocity_magnitude) {
 
     // The correlations will in fact be calculated for different inter-boid

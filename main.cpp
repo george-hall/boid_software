@@ -324,6 +324,43 @@ void save_state(argument_struct args, Boid **boid_array) {
 }
 
 
+float calc_correlation_method_4(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
+
+    float normalising_factor = 0.0f;
+    float dot_prod_sum = 0.0f;
+    float denominator = 0.0f;
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect fluc = fluctuations[i];
+        normalising_factor += dot_product(fluc, fluc);
+    }
+    normalising_factor /= args.num_boids;
+    normalising_factor = sqrt(normalising_factor);
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect f1 = fluctuations[i];
+        f1 /= normalising_factor;
+        for (unsigned int j = 0; j < args.num_boids; j++) {
+            if (i != j) {
+                int smoothed_delta_val = smoothed_delta(dist_matrix[i][j] - distance, tolerance);
+                vect f2 = fluctuations[j];
+                f2 /= normalising_factor;
+                dot_prod_sum += (dot_product(f1, f2) * smoothed_delta_val);
+                denominator += smoothed_delta_val;
+            }
+        }
+    }
+    if (denominator == 0) {
+        return 5000.0f;
+    }
+    else {
+        return dot_prod_sum / denominator;
+    }
+
+
+}
+
+
 float calc_correlation_method_3(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
 
     float numerator = 0.0f;

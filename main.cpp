@@ -536,6 +536,7 @@ int main(int argc, char **argv) {
     }
 
     int iterations_completed = 0;
+    int num_iters_high_polarisation = 0;
     while (true) {
         if (!args.quiet) {
             // Check for window being closed
@@ -564,8 +565,21 @@ int main(int argc, char **argv) {
         }
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
-        if (args.quiet && iterations_completed == 1000) {
-            std::cout << polarisation << std::endl; break;
+        if (args.quiet) {
+            if (iterations_completed <= 50000) {
+                if (polarisation >= 0.98f) {
+                    num_iters_high_polarisation++;
+                    if (num_iters_high_polarisation == 51) {
+                        std::cout << args.max_x << " " << args.max_y << " " << iterations_completed - 50 << std::endl; break;
+                    }
+                }
+                else {
+                    num_iters_high_polarisation = 0;
+                }
+            }
+            else {
+                std::cout << args.max_x << " " << args.max_y << " " << 0 << std::endl; break;
+            }
         }
         iterations_completed++;
 

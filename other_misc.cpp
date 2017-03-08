@@ -1,9 +1,32 @@
 #include <cmath>
 #include <random>
+#include <string>
 
 #include <SFML/Graphics.hpp>
 
+#include "command_line_parsing.hpp"
 #include "other_misc.hpp"
+
+std::string create_window_title(argument_struct args) {
+    std::string window_title = "Boids | ";
+    window_title += "n: " + std::to_string(args.num_boids);
+    window_title += " m: " + std::to_string(args.mode);
+    window_title += " f: " + args.in_file_name;
+    window_title += " p: " + std::to_string(args.use_periodic);
+    window_title += " s: " + std::to_string((int)args.nhood_size);
+    window_title += " d: " + std::to_string((int)args.danger_zone);
+    window_title += " x: " + std::to_string((int)args.max_x);
+    window_title += " y: " + std::to_string((int)args.max_y);
+    window_title += " o: " + std::to_string(args.old_velocity_weight);
+    window_title += " l: " + std::to_string(args.alignment_weight);
+    window_title += " a: " + std::to_string(args.avoidance_weight);
+    window_title += " c: " + std::to_string(args.cohesion_weight);
+    if (args.mode == 1) {
+        window_title += " b: " + std::to_string(args.vision_angle);
+    }
+
+    return window_title;
+}
 
 int smoothed_delta(float value, float tolerance) {
     // Returns 1 if value is between +/-tolerance

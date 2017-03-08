@@ -3,8 +3,8 @@
 #include <SFML/Graphics.hpp>
 
 #include "vector_misc.hpp"
-#include "other_misc.hpp"
 #include "command_line_parsing.hpp"
+#include "other_misc.hpp"
 #include "boids.hpp"
 
 // Initialiser

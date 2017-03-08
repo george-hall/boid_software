@@ -7,8 +7,8 @@
 #include <SFML/Graphics.hpp>
 
 #include "vector_misc.hpp"
-#include "other_misc.hpp"
 #include "command_line_parsing.hpp"
+#include "other_misc.hpp"
 #include "boids.hpp"
 #include "boid_file_io.hpp"
 #include "main.hpp"
@@ -525,8 +525,9 @@ int main(int argc, char **argv) {
     vect *fluctuations_matrix = new vect[args.num_boids];
 
     sf::Font font;
+    std::string window_title = create_window_title(args);
     sf::RenderWindow window(sf::VideoMode(args.board_width, args.board_height),
-                        "Boids");
+                        window_title);
     if (args.quiet) {window.close();}
 
     if (!font.loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")) {

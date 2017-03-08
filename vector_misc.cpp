@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "vector_misc.hpp"
+#include "command_line_parsing.hpp"
 #include "other_misc.hpp"
 
 float angle_between_vects(vect v1, vect v2) {

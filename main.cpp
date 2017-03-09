@@ -579,7 +579,7 @@ int main(int argc, char **argv) {
                 }
             }
             else {
-                std::cout << args.max_x << " " << args.max_y << " " << 0 << std::endl; break;
+                std::cout << "num_boids: " << args.num_boids << " max_x: " << args.max_x << " max_y: " << args.max_y << " iterations: " << iterations_cutoff << std::endl; break;
             }
         }
         iterations_completed++;

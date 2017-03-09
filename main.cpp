@@ -566,7 +566,8 @@ int main(int argc, char **argv) {
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
         if (args.quiet) {
-            if (iterations_completed <= 50000) {
+            int iterations_cutoff = 50000; // Number of iterations until we give up trying to produce a flock
+            if (iterations_completed <= iterations_cutoff) {
                 if (polarisation >= 0.98f) {
                     num_iters_high_polarisation++;
                     if (num_iters_high_polarisation == 51) {

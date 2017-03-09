@@ -11,7 +11,7 @@ DATA_FILES=""
 TEMP_FILES=""
 
 # for CORR_LEN in 1 3 5 7 9 11 13; do
-for CORR_LEN in 3 13 23 33 43; do
+for CORR_LEN in 43; do
     AWK_COMMAND='{if ($1 == "'$CORR_LEN'") {print $2" "$1}}'
     awk "$AWK_COMMAND" "$IN_FILE" > tmp
     awk '{print NR "\t" $0}' tmp > "corr_length_"$CORR_LEN".tmp"
@@ -21,7 +21,7 @@ for CORR_LEN in 3 13 23 33 43; do
 done
 
 gnuplot -p <<EOF
-set xlabel "Iteration"; set ylabel "Length"; set zlabel "Correlation"; splot $DATA_FILES;
+set nokey; set xlabel "Iteration"; set ylabel "Length"; set zlabel "Correlation"; splot $DATA_FILES;
 EOF
 
 rm $TEMP_FILES

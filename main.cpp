@@ -570,7 +570,7 @@ int main(int argc, char **argv) {
                 if (polarisation >= 0.98f) {
                     num_iters_high_polarisation++;
                     if (num_iters_high_polarisation == 51) {
-                        std::cout << args.max_x << " " << args.max_y << " " << iterations_completed - 50 << std::endl; break;
+                        std::cout << "num_boids: " << args.num_boids << " max_x: " << args.max_x << " max_y: " << args.max_y << " iterations: " << iterations_completed - 50 << std::endl; break;
                     }
                 }
                 else {

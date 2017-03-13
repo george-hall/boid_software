@@ -324,6 +324,35 @@ void save_state(argument_struct args, Boid **boid_array) {
 }
 
 
+float calc_correlation_method_5(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
+
+    float numerator = 0.0f;
+    float number_points_summed = 0.0f;
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect f1 = fluctuations[i];
+        for (unsigned int j = 0; j < args.num_boids; j++) {
+            int smoothed_delta_val = smoothed_delta(dist_matrix[i][j] - distance, tolerance);
+            vect f2 = fluctuations[j];
+            numerator += (dot_product(f1, f2) * smoothed_delta_val);
+            number_points_summed += smoothed_delta_val;
+        }
+    }
+    if (number_points_summed == 0) {
+        return 5000.0f;
+    }
+    else {
+        numerator /= number_points_summed;
+        float denominator = 0.0f;
+        for (unsigned int i = 0; i < args.num_boids; i++) {
+            vect fluc = fluctuations[i];
+            denominator += dot_product(fluc, fluc);
+        }
+        denominator /= args.num_boids;
+        return (numerator / denominator);
+    }
+}
+
 float calc_correlation_method_4(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
 
     float normalising_factor = 0.0f;
@@ -461,7 +490,7 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
     for (int dist_count = 0; dist_count < number_of_distance_values; dist_count++) {
         float d = distance_values[dist_count];
         // float correlation = calc_correlation(args, fluctuations, dist_matrix, d, tolerance, mean_flock_velocity_magnitude);
-        float correlation = calc_correlation_method_4(args, fluctuations, dist_matrix, d, tolerance);
+        float correlation = calc_correlation_method_5(args, fluctuations, dist_matrix, d, tolerance);
         if (correlation == 5000) {
             std::cout << d << " #" << std::endl;
         }
@@ -475,7 +504,7 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
 float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_matrix, Boid **boid_array) {
     float tolerance = 10.0f;
     for (float length = 1.0f; length < args.max_x; length++) {
-        float correlation = calc_correlation_method_4(args, fluctuations, dist_matrix, length, tolerance);
+        float correlation = calc_correlation_method_5(args, fluctuations, dist_matrix, length, tolerance);
         if (correlation <= 0.0f || correlation == 5000.0f) {
             return length;
         }

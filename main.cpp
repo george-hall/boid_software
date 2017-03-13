@@ -509,7 +509,7 @@ float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_ma
             return length;
         }
     }
-    return 0.0f;
+    return args.max_x;
 }
 
 

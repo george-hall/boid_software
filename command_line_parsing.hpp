@@ -20,6 +20,7 @@ typedef struct {
     bool verbose;
     bool quiet;
     int mode;
+    int topological_distance;
     float vision_angle;
 } argument_struct;
 

@@ -23,6 +23,7 @@
 // Mode                    |      -m
 // Max X                   |      -x
 // Max Y                   |      -y
+// Topological distance    |      -t
 // Vision angle            |      -b
 
 argument_struct parse_args(int argc, char **argv) {
@@ -47,6 +48,7 @@ argument_struct parse_args(int argc, char **argv) {
     args.verbose = false;
     args.quiet = false;
     args.mode = 0;
+    args.topological_distance = 7;
     args.vision_angle = 45;
 
     for (int i = 1; i < argc; i++) {
@@ -287,6 +289,15 @@ argument_struct parse_args(int argc, char **argv) {
                 exit(EXIT_FAILURE);
             }
             args.mode = atoi(argv[++i]);
+        }
+
+        // Topological Distance
+        else if (!strcmp(argv[i], "--top-dist") || !strcmp(argv[i], "-t")) {
+            if (i == argc - 1) {
+                std::cout << "ERROR: No corresponding argument with " << argv[i] << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            args.topological_distance = atoi(argv[++i]);
         }
 
         // Vision Angle

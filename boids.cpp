@@ -159,7 +159,7 @@ bool Boid::boid_in_nhood_nearest_n(argument_struct args, Boid **boid_array, floa
     // In normal nhood and in closest n boids
 
     if (boid_in_nhood_classic(args, boid_array, dist_matrix, other_boid_ID)) {
-        if (boid_in_closest_n_boids(args, dist_matrix, other_boid_ID, 7)) {
+        if (boid_in_closest_n_boids(args, dist_matrix, other_boid_ID, args.topological_distance)) {
             return true;
         }
         else {

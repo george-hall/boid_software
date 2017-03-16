@@ -134,8 +134,8 @@ void display_all_boids(Boid **boid_array, unsigned int num_boids,
     sf::ConvexShape arrow;
     arrow.setPointCount(3);
     arrow.setPoint(0, sf::Vector2f(0, 0));
-    arrow.setPoint(1, sf::Vector2f(15, 5));
-    arrow.setPoint(2, sf::Vector2f(0, 10));
+    arrow.setPoint(1, sf::Vector2f(3, 1));
+    arrow.setPoint(2, sf::Vector2f(0, 2));
     for (unsigned int i = 0; i < num_boids; i++) {
         Boid *ptr_to_boid = boid_array[i];
         arrow.setPosition(ptr_to_boid->get_position());

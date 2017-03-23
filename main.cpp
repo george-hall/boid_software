@@ -469,7 +469,7 @@ float calc_correlation(argument_struct args, vect *fluctuations, float **dist_ma
 }
 
 
-void print_correlations(argument_struct args, vect *fluctuations, float **dist_matrix, Boid **boid_array) {
+void print_correlations(argument_struct args, vect *fluctuations, float **dist_matrix) {
     // int number_of_distance_values = 25;
     // float distance_values[25] = {10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f, 120.0f, 130.0f, 140.0f, 150.0f, 160.0f, 170.0f, 180.0f, 190.0f, 200.0f, 210.0f, 220.0f, 230.0f, 240.0f, 250.0f};
     // float tolerance = 10.0f;

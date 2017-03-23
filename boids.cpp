@@ -142,14 +142,9 @@ bool Boid::boid_in_nhood_normal_dist(argument_struct args, Boid **boid_array, fl
 
     float angle = angle_between_vects(dis_vect, get_velocity());
 
-    // Set up random number generators
-    std::random_device rd;  // Seed engine
-    std::mt19937 rng(rd());  // Use Mersenne Twister
-    std::uniform_real_distribution<float> rand_0_1(0, 1);
-
     if (dist_matrix[get_boid_ID()][other_boid_ID] < args.nhood_size) {
         float prob_of_seeing_neighbour = (1 - pow(angle / 180.0f, 2.0f));
-        if (rand_0_1(rng) <= prob_of_seeing_neighbour) {
+        if ((quick_random_num_generator() / pow(2, 64)) <= prob_of_seeing_neighbour) {
             return true;
         }
         else {

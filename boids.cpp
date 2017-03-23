@@ -118,7 +118,8 @@ bool Boid::boid_in_closest_n_boids(argument_struct args, float **dist_matrix, un
 }
 
 
-bool Boid::boid_in_nhood_classic(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
+bool Boid::boid_in_nhood_classic(argument_struct args, float **dist_matrix,
+                                 unsigned int other_boid_ID) {
     if (dist_matrix[get_boid_ID()][other_boid_ID] < args.nhood_size) {
         return true;
     }
@@ -192,7 +193,7 @@ bool Boid::boid_in_nhood_vision(argument_struct args, Boid **boid_array, float *
 bool Boid::boid_in_nhood_nearest_n(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
     // In normal nhood and in closest n boids
 
-    if (boid_in_nhood_classic(args, boid_array, dist_matrix, other_boid_ID)) {
+    if (boid_in_nhood_classic(args, dist_matrix, other_boid_ID)) {
         if (boid_in_closest_n_boids(args, dist_matrix, other_boid_ID, args.topological_distance)) {
             return true;
         }
@@ -208,7 +209,7 @@ bool Boid::boid_in_nhood_nearest_n(argument_struct args, Boid **boid_array, floa
 
 bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
     if (args.mode == 0) {
-        return boid_in_nhood_classic(args, boid_array, dist_matrix, other_boid_ID);
+        return boid_in_nhood_classic(args, dist_matrix, other_boid_ID);
     }
 
     else if (args.mode == 1) {

@@ -428,10 +428,8 @@ vect Boid::direct_away_from_wall(int wall_approach) {
 }
 
 
-vect Boid::compute_new_velocity_using_steers(argument_struct args,
-                                             float **dist_matrix,
-                                             Boid **boid_array, float max_x,
-                                             float max_y) {
+vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
+                                Boid **boid_array, float max_x, float max_y) {
 
     vect new_velocity;
     vect avoidance_vector, cohesion_vector, alignment_vector;
@@ -487,21 +485,6 @@ vect Boid::compute_new_velocity_using_steers(argument_struct args,
                        (weighting[3] * alignment_vector);
 
         return constrain_vector(new_velocity, 1);
-    }
-}
-
-
-vect Boid::compute_new_velocity(argument_struct args, float **dist_matrix,
-                                Boid **boid_array, float max_x, float max_y) {
-
-    if (args.mode == 0 || args.mode == 1 || args.mode == 2) {
-        return compute_new_velocity_using_steers(args, dist_matrix, boid_array,
-                                                 max_x, max_y);
-    }
-
-    else {
-        std::cerr << "ERROR: Unrecognised mode option: " << args.mode << std::endl;
-        exit(EXIT_FAILURE);
     }
 }
 

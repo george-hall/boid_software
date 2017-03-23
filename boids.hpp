@@ -49,11 +49,6 @@ class Boid {
 
         void print();
 
-        vect compute_new_velocity_using_steers(argument_struct args,
-                                                float **dist_matrix,
-                                                Boid **boid_array, float max_x,
-                                                float max_y);
-
         bool boid_in_nhood(argument_struct args, Boid **boid_array,
                            float **dist_matrix, unsigned int other_boid_ID);
 

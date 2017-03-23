@@ -425,7 +425,7 @@ float calc_correlation_method_3(argument_struct args, vect *fluctuations, float 
 }
 
 
-float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance, float mean_flock_velocity_magnitude) {
+float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
 
     // The correlations will in fact be calculated for different inter-boid
     // distances. That is, we will calculate a correlation for boids which are

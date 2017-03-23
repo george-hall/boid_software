@@ -502,11 +502,18 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
 
 
 float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_matrix, Boid **boid_array) {
-    float tolerance = 10.0f;
+    float tolerance = 5.0f;
+    int lengths_negative = 0;
     for (float length = 1.0f; length < args.max_x; length++) {
         float correlation = calc_correlation_method_5(args, fluctuations, dist_matrix, length, tolerance);
         if (correlation <= 0.0f || correlation == 5000.0f) {
-            return length;
+            lengths_negative += 1;
+            if (lengths_negative == 5) {
+                return length - 5;
+            }
+        }
+        else {
+            lengths_negative = 0;
         }
     }
     return args.max_x;

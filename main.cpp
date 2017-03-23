@@ -530,17 +530,14 @@ void display_stats(sf::RenderWindow *window, sf::Font font, int iterations_compl
     polarisation_str.setPosition(0, 25);
     window->draw(polarisation_str);
 
-    // Currently not used:
-    //
-    // // Display correlations
-    // sf::Text flock_corr_str;
-    // float flock_corr = calc_correlation(args, fluctuations_matrix, dist_matrix, 0, 10000.0f);
-    // flock_corr_str.setString("Flock Correlation: " + std::to_string(flock_corr));
-    // flock_corr_str.setFont(font);
-    // flock_corr_str.setCharacterSize(16);
-    // flock_corr_str.setColor(sf::Color::Red);
-    // flock_corr_str.setPosition(0, 25);
-    // window.draw(flock_corr_str);
+    // Display correlation length
+    sf::Text flock_corr_str;
+    flock_corr_str.setString("Correlation length: " + std::to_string(corr_len));
+    flock_corr_str.setFont(font);
+    flock_corr_str.setCharacterSize(16);
+    flock_corr_str.setColor(sf::Color::Red);
+    flock_corr_str.setPosition(0, 50);
+    window->draw(flock_corr_str);
 }
 
 
@@ -566,6 +563,7 @@ int main(int argc, char **argv) {
 
     int iterations_completed = 0;
     int num_iters_high_polarisation = 0;
+    float corr_len = 5000;
     while (true) {
         if (!args.quiet) {
             // Check for window being closed
@@ -621,7 +619,7 @@ int main(int argc, char **argv) {
 
         if (!args.quiet) {
             display_all_boids(boid_array, args.num_boids, &window);
-            display_stats(&window, font, iterations_completed, polarisation);
+            display_stats(&window, font, iterations_completed, polarisation, corr_len);
             window.display();
         }
     }

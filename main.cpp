@@ -520,7 +520,7 @@ float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_ma
 }
 
 
-void display_stats(sf::RenderWindow *window, sf::Font font, int iterations_completed, float polarisation) {
+void display_stats(sf::RenderWindow *window, sf::Font font, int iterations_completed, float polarisation, float corr_len) {
     sf::Text iterations_str;
     iterations_str.setString("Iteration: " + std::to_string(iterations_completed));
     iterations_str.setFont(font);

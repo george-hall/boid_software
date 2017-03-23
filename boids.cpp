@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 #include <SFML/Graphics.hpp>
 
@@ -128,6 +129,39 @@ bool Boid::boid_in_nhood_classic(argument_struct args, Boid **boid_array, float 
 }
 
 
+bool Boid::boid_in_nhood_normal_dist(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
+
+    Boid *ptr_to_other_boid = boid_array[other_boid_ID];
+    // Displacement vector from current boid to other boid
+    vect dis_vect = compute_displacement_vector(get_position(), ptr_to_other_boid->get_position(), args.max_x, args.max_y, args.use_periodic);
+
+    if (get_position() == boid_array[other_boid_ID]->get_position()) {
+        return true;
+    }
+
+    float angle = angle_between_vects(dis_vect, get_velocity());
+
+    // Set up random number generators
+    std::random_device rd;  // Seed engine
+    std::mt19937 rng(rd());  // Use Mersenne Twister
+    std::uniform_real_distribution<float> rand_0_1(0, 1);
+
+    if (dist_matrix[get_boid_ID()][other_boid_ID] < args.nhood_size) {
+        float prob_of_seeing_neighbour = (1 - pow(angle / 180.0f, 2.0f));
+        if (rand_0_1(rng) <= prob_of_seeing_neighbour) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    else {
+        return false;
+    }
+}
+
+
 bool Boid::boid_in_nhood_vision(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
     if (get_boid_ID() == other_boid_ID) {
         return true;
@@ -183,6 +217,10 @@ bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_m
 
     else if (args.mode == 2) {
         return boid_in_nhood_nearest_n(args, boid_array, dist_matrix, other_boid_ID);
+    }
+
+    else if (args.mode == 3) {
+        return boid_in_nhood_normal_dist(args, boid_array, dist_matrix, other_boid_ID);
     }
 
     else {

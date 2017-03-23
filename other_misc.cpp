@@ -73,3 +73,19 @@ sf::Color generate_random_colour() {
 
     return to_return;
 }
+
+
+float quick_random_num_generator() {
+    static unsigned long x = 123456789, y = 362436069, z = 521288629;
+    unsigned long t;
+    x ^= x << 16;
+    x ^= x >> 5;
+    x ^= x << 1;
+
+    t = x;
+    x = y;
+    y = z;
+    z = t ^ x ^ y;
+
+    return (float) z;
+}

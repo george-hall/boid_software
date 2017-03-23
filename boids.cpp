@@ -190,7 +190,8 @@ bool Boid::boid_in_nhood_vision(argument_struct args, Boid **boid_array, float *
 }
 
 
-bool Boid::boid_in_nhood_nearest_n(argument_struct args, Boid **boid_array, float **dist_matrix, unsigned int other_boid_ID) {
+bool Boid::boid_in_nhood_nearest_n(argument_struct args, float **dist_matrix,
+                                   unsigned int other_boid_ID) {
     // In normal nhood and in closest n boids
 
     if (boid_in_nhood_classic(args, dist_matrix, other_boid_ID)) {
@@ -217,7 +218,7 @@ bool Boid::boid_in_nhood(argument_struct args, Boid **boid_array, float **dist_m
     }
 
     else if (args.mode == 2) {
-        return boid_in_nhood_nearest_n(args, boid_array, dist_matrix, other_boid_ID);
+        return boid_in_nhood_nearest_n(args, dist_matrix, other_boid_ID);
     }
 
     else if (args.mode == 3) {

@@ -494,7 +494,7 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
 }
 
 
-float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_matrix, Boid **boid_array) {
+float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_matrix) {
     float tolerance = 5.0f;
     int lengths_negative = 0;
     for (float length = 1.0f; length < args.max_x; length++) {
@@ -588,7 +588,7 @@ int main(int argc, char **argv) {
         update_fluctuations(args, boid_array, fluctuations_matrix);
         if (args.print_corrs) {
             //print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
-            corr_len = calc_corr_length(args, fluctuations_matrix, dist_matrix, boid_array);
+            corr_len = calc_corr_length(args, fluctuations_matrix, dist_matrix);
             std::cout << iterations_completed << " " << corr_len << std::endl;
         }
 

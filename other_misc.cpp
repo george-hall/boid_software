@@ -7,6 +7,21 @@
 #include "command_line_parsing.hpp"
 #include "other_misc.hpp"
 
+
+float find_max_dist(float **dist_array, unsigned int num_boids) {
+    float max_dist = 0.0f;
+    for (unsigned int i = 0; i < num_boids; i++) {
+        for (unsigned int j = 0; j < num_boids; j++) {
+            if (dist_array[i][j] > max_dist) {
+                max_dist = dist_array[i][j];
+            }
+        }
+    }
+
+    return max_dist;
+}
+
+
 std::string create_window_title(argument_struct args) {
     std::string window_title = "Boids | ";
     window_title += "n: " + std::to_string(args.num_boids);

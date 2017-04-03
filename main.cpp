@@ -607,7 +607,7 @@ int main(int argc, char **argv) {
 
     int iterations_completed = 0;
     int num_iters_high_polarisation = 0;
-    int num_iters_sub_95 = 0;
+    int num_iters_sub_polar_thresh = 0;
     float curr_max_corr_len = 0.0f;
     float corr_len = 5000;
     float flock_size_with_max_cl = 0.0f;
@@ -637,8 +637,8 @@ int main(int argc, char **argv) {
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
         if (args.print_corrs) {
             //print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
-            if (polarisation <= 0.95f) {
-                num_iters_sub_95++;
+            if (polarisation <= 0.99f) {
+                num_iters_sub_polar_thresh++;
                 corr_len = calc_corr_length(args, fluctuations_matrix, dist_matrix);
                 if (corr_len > curr_max_corr_len) {
                     curr_max_corr_len = corr_len;
@@ -646,11 +646,11 @@ int main(int argc, char **argv) {
                 }
             }
             else {
-                if (curr_max_corr_len != 0.0f && num_iters_sub_95 >= 5) {
+                if (curr_max_corr_len != 0.0f && num_iters_sub_polar_thresh >= 5) {
                     std::cout << flock_size_with_max_cl << " " << curr_max_corr_len << std::endl;
                 }
                 curr_max_corr_len = 0.0f;
-                num_iters_sub_95 = 0;
+                num_iters_sub_polar_thresh = 0;
             }
             // std::cout << iterations_completed << " " << corr_len << std::endl;
         }

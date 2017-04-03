@@ -324,6 +324,49 @@ void save_state(argument_struct args, Boid **boid_array) {
 }
 
 
+float calc_correlation_method_6(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
+
+    float numerator = 0.0f;
+    float number_points_summed = 0.0f;
+
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect f1 = fluctuations[i];
+        for (unsigned int j = 0; j < args.num_boids; j++) {
+            if ((dist_matrix[i][j] <= distance + tolerance) && (dist_matrix[i][j] >= distance - tolerance)) {
+                vect f2 = fluctuations[j];
+                numerator += dot_product(f1, f2);
+                number_points_summed++;
+            }
+        }
+    }
+    if (number_points_summed == 0) {
+        return 5000.0f;
+    }
+    else {
+        numerator /= number_points_summed;
+    }
+
+    float denominator = 0.0f;
+    number_points_summed = 0;
+    for (unsigned int i = 0; i < args.num_boids; i++) {
+        vect f1 = fluctuations[i];
+        for (unsigned int j = 0; j < args.num_boids; j++) {
+            if ((dist_matrix[i][j] <= tolerance) && (dist_matrix[i][j] >= (-1.0f * tolerance))) {
+                vect f2 = fluctuations[j];
+                denominator += dot_product(f1, f2);
+                number_points_summed++;
+            }
+        }
+    }
+
+    if (number_points_summed == 0) {
+        return 5000.0f;
+    }
+    return (numerator / denominator);
+}
+
+
+
 float calc_correlation_method_5(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
 
     float numerator = 0.0f;

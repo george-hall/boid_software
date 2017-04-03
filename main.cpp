@@ -543,7 +543,7 @@ float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_ma
     int lengths_negative = 0;
     for (float length = 1.0f; length < args.max_x; length++) {
         float correlation = calc_correlation_method_5(args, fluctuations, dist_matrix, length, tolerance);
-        if (correlation <= 0.0f || correlation == 5000.0f) {
+        if (correlation <= 0.0f) {
             lengths_negative += 1;
             if (lengths_negative == 5) {
                 return length - 5;

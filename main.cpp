@@ -607,7 +607,10 @@ int main(int argc, char **argv) {
 
     int iterations_completed = 0;
     int num_iters_high_polarisation = 0;
+    int num_iters_sub_95 = 0;
+    float curr_max_corr_len = 0.0f;
     float corr_len = 5000;
+    float flock_size_with_max_cl = 0.0f;
     while (true) {
         if (!args.quiet) {
             // Check for window being closed
@@ -630,13 +633,28 @@ int main(int argc, char **argv) {
                               args.max_y);
         update_all_boids(args, boid_array, args.max_x, args.max_y, dist_matrix);
         update_fluctuations(args, boid_array, fluctuations_matrix);
-        if (args.print_corrs) {
-            //print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
-            corr_len = calc_corr_length(args, fluctuations_matrix, dist_matrix);
-            std::cout << iterations_completed << " " << corr_len << std::endl;
-        }
 
         float polarisation = calculate_polarisation(boid_array, args.num_boids);
+        if (args.print_corrs) {
+            //print_correlations(args, fluctuations_matrix, dist_matrix, boid_array);
+            if (polarisation <= 0.95f) {
+                num_iters_sub_95++;
+                corr_len = calc_corr_length(args, fluctuations_matrix, dist_matrix);
+                if (corr_len > curr_max_corr_len) {
+                    curr_max_corr_len = corr_len;
+                    flock_size_with_max_cl = find_max_dist(dist_matrix, args.num_boids);
+                }
+            }
+            else {
+                if (curr_max_corr_len != 0.0f && num_iters_sub_95 >= 5) {
+                    std::cout << flock_size_with_max_cl << " " << curr_max_corr_len << std::endl;
+                }
+                curr_max_corr_len = 0.0f;
+                num_iters_sub_95 = 0;
+            }
+            // std::cout << iterations_completed << " " << corr_len << std::endl;
+        }
+
         if (args.quiet) {
             int iterations_cutoff = 50000; // Number of iterations until we give up trying to produce a flock
             if (iterations_completed <= iterations_cutoff) {

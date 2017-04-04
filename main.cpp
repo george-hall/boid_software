@@ -324,7 +324,7 @@ void save_state(argument_struct args, Boid **boid_array) {
 }
 
 
-float calc_correlation_method_5(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
+float calc_correlation(argument_struct args, vect *fluctuations, float **dist_matrix, float distance, float tolerance) {
 
     float numerator = 0.0f;
     float number_points_summed = 0.0f;
@@ -369,7 +369,7 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
 
     for (int dist_count = 0; dist_count < number_of_distance_values; dist_count++) {
         float d = distance_values[dist_count];
-        float correlation = calc_correlation_method_5(args, fluctuations, dist_matrix, d, tolerance);
+        float correlation = calc_correlation(args, fluctuations, dist_matrix, d, tolerance);
         if (correlation == 5000) {
             std::cout << d << " #" << std::endl;
         }
@@ -381,10 +381,10 @@ void print_correlations(argument_struct args, vect *fluctuations, float **dist_m
 
 
 float calc_corr_length(argument_struct args, vect *fluctuations, float **dist_matrix) {
-    float tolerance = 5.0f;
+    float tolerance = 10.0f;
     int lengths_negative = 0;
     for (float length = 1.0f; length < args.max_x; length++) {
-        float correlation = calc_correlation_method_5(args, fluctuations, dist_matrix, length, tolerance);
+        float correlation = calc_correlation(args, fluctuations, dist_matrix, length, tolerance);
         if (correlation <= 0.0f) {
             lengths_negative += 1;
             if (lengths_negative == 5) {
